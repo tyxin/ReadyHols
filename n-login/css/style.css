@@ -1,0 +1,73 @@
+/* theme colors
+#F7F9F9
+#4B5358
+#BED8D4
+#6DBCBD
+#AFE8FF
+*/
+
+.col{padding-top: 1%}
+.btn{padding: 5px 30px 5px 30px; margin-right: 10px;}
+       
+.home-container{  
+    padding-top: 20%; 
+    padding-left: 10%; 
+    width: 100%; 
+}
+
+.tutorial-container{ margin: 2%;}
+
+.about-us-container{
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.contact-us-container{
+    text-align: center;
+    margin: 5%;
+}
+
+.login-container{
+    margin: 12% 5% 10% 5%;
+    padding:8% 5%;
+    background-color: aliceblue;
+    border-radius: 20px;
+    box-shadow: 100px;
+}
+
+
+.search-container{ margin:2%; }
+
+.sign-up-container-right{ margin: 5% 5% 10% 5%;}
+.sign-up-container-left{ margin: 5% 5% 10% 5%;}
+
+.btn:hover{
+    background-color: #55CFFD;
+}
+
+.upgrade-plan-container{
+    margin-top: 5%;
+    margin-left: 9.5%;
+    margin-right: 9.5%;
+    margin-bottom: 5%;
+    min-width: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.contact-us-info-container{
+    padding-top: 20%;
+    padding-right: 10%;
+    text-align:right;
+    color:white;
+    overflow-x: hidden;
+    background-image:url("/assets/contact-us-background.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+.table-container{
+    margin: 5% 10% 5% 10%
+}

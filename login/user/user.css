@@ -1,0 +1,16 @@
+.user-container{
+    margin-top: 20%;
+    margin-left: 4%;
+}
+
+
+.user-info-container{
+    padding-top: 30%;
+    text-align:center;
+    color:white;
+    overflow-x: hidden;
+    background-image:url("/assets/contact-us-background.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
