@@ -26,42 +26,29 @@
       <div class="container justify-content-center">
         <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="date-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#date" type="button" role="pill" aria-controls="date" aria-selected="true">Date</button>
+              <button class="nav-link active" id="duration-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#duration" type="button" role="pill" aria-controls="duration" aria-selected="true">Duration</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="budget-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#budget" type="button" role="pill" aria-controls="budget" aria-selected="false">Budget</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="country-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#country" type="button" role="pill" aria-controls="country" aria-selected="false">Country</button>
+              <button class="nav-link" id="expenditure-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#expenditure" type="button" role="pill" aria-controls="expenditure" aria-selected="false">Expenditure</button>
             </li>
           </ul>
           <div class="tab-content" id="pills-tabcontent" style="padding-top:1%; margin-bottom: 2%;">
-            <div class="tab-pane fade show active" id="date" role="tabpanel" aria-labelledby="date-tab">
+            <div class="tab-pane fade show active" id="duration" role="tabpanel" aria-labelledby="duration-tab">
   
-              <div class="tab-custom-container align-content-start overflow-scroll">
-                <div id="tab-container-vacation-summary-date">
+              <div class="tab-custom-container align-content-start">
+                <div id="tab-container-vacation-summary-duration">
                   <script>
-                      $(function(){$("#tab-container-vacation-summary-date").load("/login/vacations/summary/date-component.html");});
+                      $(function(){$("#tab-container-vacation-summary-duration").load("/login/vacations/summary/duration-component.html");});
                   </script>
                 </div>
               </div>
               
             </div>    
-            <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="budget-tab">
-              <div class="tab-custom-container align-content-start overflow-scroll">
-                <div id="tab-container-vacation-summary-budget">
+            <div class="tab-pane fade" id="expenditure" role="tabpanel" aria-labelledby="expenditure-tab">
+              <div class="tab-custom-container align-content-start">
+                <div id="tab-container-vacation-summary-expenditure">
                   <script>
-                      $(function(){$("#tab-container-vacation-summary-budget").load("/login/vacations/summary/budget-component.html");});
-                  </script>
-                </div>
-              </div>
-            </div>
-                
-            <div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
-              <div class="tab-custom-container align-content-start overflow-scroll">
-                <div id="tab-container-vacation-summary-country">
-                  <script>
-                      $(function(){ $("#tab-container-vacation-summary-country").load("/login/vacations/summary/country-component.html"); });
+                      $(function(){$("#tab-container-vacation-summary-expenditure").load("/login/vacations/summary/expenditure-component.html");});
                   </script>
                 </div>
               </div>

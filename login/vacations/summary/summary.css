@@ -13,13 +13,70 @@
 html, body {
 max-width: 100%;
 overflow-x: hidden;
-background-color: #e2f4f1;
+background:linear-gradient(#949fa1,#4e5354);
 }
 
 .tab-custom-container{
   background-color: #F7F9F9;
   height: 75%;
   padding: 2%;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 10px;
+}
+
+.nav-pills.nav-link {
+    border-radius:100px;
+}
+
+.nav-pills.nav-link.active,
+  .show > .nav-link {
+    color: #949fa1;
+    background-color: #4e5354;
+}
+
+.calendar-container{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background:#949fa1;
+}
+
+.wrapper{
+  background: white;
+  width: 60%;
+  border-radius: 10px;
+}
+
+.calendar ul{
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.wrapper header{
+  display:flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 2%;
+}
+
+header .current-date{
+  font-size:large;
+}
+
+.calendar ul li{
+  width: calc(100%/7);
+}
+
+.calendar .weeks li{
+  font-weight: bold;
+}
+
+.calendar{
+  padding: 5%;
+}
+
+.calendar .days li{
+  margin-top: 2%;
 }
