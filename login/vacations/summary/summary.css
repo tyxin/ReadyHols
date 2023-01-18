@@ -43,8 +43,12 @@ background:linear-gradient(#949fa1,#4e5354);
 
 .wrapper{
   background: white;
-  width: 60%;
+  width: 70%;
   border-radius: 10px;
+}
+
+ul{
+  padding:0;
 }
 
 .calendar ul{
@@ -57,12 +61,15 @@ background:linear-gradient(#949fa1,#4e5354);
 .wrapper header{
   display:flex;
   align-items: center;
+  align-items: baseline;
   justify-content: space-evenly;
+  margin-top: 5%;
   padding: 2%;
 }
 
 header .current-date{
   font-size:large;
+  font-weight: bolder;
 }
 
 .calendar ul li{
@@ -74,7 +81,7 @@ header .current-date{
 }
 
 .calendar{
-  padding: 5%;
+  padding: 0% 5% 5% 5%;
 }
 
 .calendar .days li{

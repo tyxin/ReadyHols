@@ -28,19 +28,7 @@
               <button class="nav-link active" id="timeline-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#timeline" type="button" role="pill" aria-controls="timeline" aria-selected="true">Timeline</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="details-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#details" type="button" role="pill" aria-controls="details" aria-selected="false">Details</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="location-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#location" type="button" role="pill" aria-controls="location" aria-selected="false">Location</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="remarks-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#remarks" type="button" role="pill" aria-controls="remarks" aria-selected="false">Remarks</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="attachments-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#attachments" type="button" role="pill" aria-controls="attachments" aria-selected="false">Attachments</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="people-tab" style="border-radius: 100px;" data-bs-toggle="tab" data-bs-target="#people" type="button" role="tab" aria-controls="people" aria-selected="false">People</button>
+              <button class="nav-link" id="maps-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#maps" type="button" role="pill" aria-controls="maps" aria-selected="false">Map</button>
             </li>
         </ul>
 
@@ -55,44 +43,12 @@
               </div>
             </div>   
 
-            <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+            <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
               <div class="tab-custom-container align-content-start overflow-scroll">
                 <script>
-                  $(function(){$("#tab-container-vacation-itinerary-details").load("/login/vacations/itinerary/details-component.html");});
+                  $(function(){$("#tab-container-vacation-itinerary-maps").load("/login/vacations/itinerary/maps-component.html");});
                 </script>
               </div>
-            </div>
-                    
-            <div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
-              <div class="tab-custom-container align-content-start overflow-scroll">
-                <script>
-                  $(function(){$("#tab-container-vacation-itinerary-location").load("/login/vacations/itinerary/location-component.html");});
-                </script>
-              </div>
-            </div>
-
-            <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
-                <div class="tab-custom-container align-content-start overflow-scroll">
-                  <script>
-                    $(function(){$("#tab-container-vacation-itinerary-remarks").load("/login/vacations/itinerary/remarks-component.html");});
-                  </script>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="attachments" role="tabpanel" aria-labelledby="attachments-tab">
-                <div class="tab-custom-container align-content-start overflow-scroll">
-                  <script>
-                    $(function(){$("#tab-container-vacation-itinerary-attachments").load("/login/vacations/itinerary/attachments-component.html");});
-                  </script>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="people" role="tabpanel" aria-labelledby="people-tab">
-                <div class="tab-custom-container align-content-start overflow-scroll">
-                  <script>
-                    $(function(){$("#tab-container-vacation-itinerary-people").load("/login/vacations/itinerary/people-component.html");});
-                  </script>
-                </div>
             </div>
           </div>
       </div>    
