@@ -17,7 +17,7 @@
 html, body {
 max-width: 100%;
 overflow-x: hidden;
-background-color: #e2f4f1;
+background:linear-gradient(#949fa1,#4e5354);
 }
 
 .tab-custom-container{
@@ -27,3 +27,31 @@ background-color: #e2f4f1;
   border-bottom-right-radius: 10px;
   padding: 2%;
 }
+
+.card{
+  display: grid;
+  grid-template-areas: "image" "text";
+  grid-template-rows: 45% 55%;
+  border-radius: 20px;
+  background: #1d1d1d;
+  color:white;
+  text-align: center;
+}
+
+.card-image{
+  grid-area: image;
+  background: url("/assets/background-learn-more.jpeg");
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-size: cover;
+}
+
+.card-text{
+  margin-top: 5%;
+  grid-area: text;
+}
+
+.card:hover{
+  transform: scale(1.05);
+}
+

@@ -1,4 +1,29 @@
-.planning-container{ 
-    padding-top: 8%; 
-    padding-left: 4%;
+.container{ 
+    padding-top: 5%; 
+    margin-left: 0%;
+}
+.col{padding-top: 1%}
+.btn{padding: 5px 30px 5px 30px; margin-right: 10px;}
+
+.image { position: relative; width: 100%; }
+     
+.custom-container{ 
+    position: absolute; 
+    top: 80%; 
+    left: 10%; 
+    width: 100%; 
+}
+
+html, body {
+max-width: 100%;
+overflow-x: hidden;
+background:linear-gradient(#949fa1,#4e5354);
+}
+
+.tab-custom-container{
+  background-color: #F7F9F9;
+  height: 75%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 2%;
 }

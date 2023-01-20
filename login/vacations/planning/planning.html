@@ -22,9 +22,40 @@
         </script>
     </div>
 
-    <div class="planning-container justify-content-center">
-        <h2>This page is only reserved for admins!</h2>
-    </div>
+    <div class="container justify-content-center">
+        <ul class="nav nav-pills" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="insurance-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#insurance" type="button" role="pill" aria-controls="insurance" aria-selected="true">Insurance</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="booking-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#booking" type="button" role="pill" aria-controls="booking" aria-selected="false">Booking</button>
+            </li>
+        </ul>
+
+          <div class="tab-content" id="myTabContent" style="padding-top: 1%;">
+            <div class="tab-pane fade show active" id="insurance" role="tabpanel" aria-labelledby="insurance-tab">
+              <div class="tab-custom-container align-content-start overflow-scroll">
+                <div id="tab-container-vacation-planning-insurance">
+                  <script>
+                    $(function(){$("#tab-container-vacation-planning-insurance").load("/login/vacations/planning/insurance-component.html");});
+                  </script>
+                </div>
+              </div>
+            </div>   
+
+            <div class="tab-pane fade" id="booking" role="tabpanel" aria-labelledby="booking-tab">
+                <div class="tab-custom-container align-content-start overflow-scroll">
+                  <div id="tab-container-vacation-planning-booking">
+                    <script>
+                        $(function(){ $("#tab-container-vacation-planning-booking").load("/login/vacations/planning/booking-component.html"); });
+                    </script>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+      </div>    
+      
       
 </body>
 

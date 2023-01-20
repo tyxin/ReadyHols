@@ -17,7 +17,7 @@
 html, body {
 max-width: 100%;
 overflow-x: hidden;
-background-color: #e2f4f1;
+background:linear-gradient(#949fa1,#4e5354);
 }
 
 .tab-custom-container{
