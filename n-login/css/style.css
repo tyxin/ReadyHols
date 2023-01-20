@@ -1,9 +1,26 @@
 /* theme colors
-#F7F9F9
-#4B5358
-#BED8D4
-#6DBCBD
-#AFE8FF
+Grayscale
+#18191A
+#242526
+#3A3B3C
+#E4E6EB
+#B0B3B8
+
+Orange
+#fdddb6
+#fff3e0
+Green
+#b5eadb
+#e3f6f0
+Purple
+#c8cef3
+#e9ebfa
+Blue
+#b3eced
+#e1f6f8
+Red
+#e1cfbb
+#fae9e5
 */
 
 .col{padding-top: 1%}
@@ -23,6 +40,24 @@
     margin-right: 2%;
 }
 
+/* .accordion-item{
+    background: #E4E6EB;
+} */
+
+.accordion-button{
+    background:#E4E6EB;
+}
+
+.accordion-button:visited, .accordion-button:visited, .accordion-button:hover, .accordion-button:active{
+    background-color: #B0B3B8;
+    color:black;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: #B0B3B8;
+    color: black;
+}
+
 .contact-us-container{
     text-align: center;
     margin: 5%;
@@ -31,7 +66,7 @@
 .login-container{
     margin: 12% 5% 10% 5%;
     padding:8% 5%;
-    background-color: aliceblue;
+    background-color: #E4E6EB;
     border-radius: 20px;
     box-shadow: 100px;
 }
@@ -43,11 +78,11 @@
 .sign-up-container-left{ margin: 5% 5% 10% 5%;}
 
 .btn:hover{
-    background-color: #55CFFD;
+    scale: 1.05;
 }
 
 .upgrade-plan-container{
-    margin-top: 5%;
+    margin-top: 10%;
     margin-left: 9.5%;
     margin-right: 9.5%;
     margin-bottom: 5%;

@@ -27,11 +27,25 @@ background:linear-gradient(#949fa1,#4e5354);
     border-radius:100px;
 }
 
-.nav-pills.nav-link.active,
-  .show > .nav-link {
-    color: #949fa1;
-    background-color: #4e5354;
+/* .nav-link{
+  color: black;
+} */
+
+.nav-link:hover{
+  scale:1.05;
 }
+
+
+.nav-pills>li.nav-item>button.nav-link:active,.nav-pills>li.nav-item>button.nav-link:visited,.nav-pills>li.nav-item>button.nav-link:focus,.nav-pills>li.nav-item>button.nav-link{
+  background-color: #fdddb6;
+  color:black;
+}
+
+.nav-pills>li.nav-item>button.nav-link:not(.active){
+  background-color:transparent;
+}
+
+
 
 .calendar-container{
   display:flex;

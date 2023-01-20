@@ -27,3 +27,31 @@ background:linear-gradient(#949fa1,#4e5354);
   border-bottom-right-radius: 10px;
   padding: 2%;
 }
+
+.accordion-button{
+  background:#E4E6EB;
+}
+
+.accordion-button:visited, .accordion-button:visited, .accordion-button:hover, .accordion-button:active{
+  background-color: #B0B3B8;
+  color:black;
+}
+
+.accordion-button:not(.collapsed){
+  background-color: #B0B3B8;
+  color: black;
+}
+
+.nav-link:hover{
+  scale:1.05;
+}
+
+
+.nav-pills>li.nav-item>button.nav-link:active,.nav-pills>li.nav-item>button.nav-link:visited,.nav-pills>li.nav-item>button.nav-link:focus,.nav-pills>li.nav-item>button.nav-link{
+  background-color: #fdddb6;
+  color:black;
+}
+
+.nav-pills>li.nav-item>button.nav-link:not(.active){
+  background-color:transparent;
+}

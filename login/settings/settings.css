@@ -5,3 +5,17 @@
 .vacation-group-container{
     margin: 0% 5% 2% 4%;
 }
+
+.accordion-button{
+    background:#E4E6EB;
+}
+
+.accordion-button:visited, .accordion-button:visited, .accordion-button:hover, .accordion-button:active{
+    background-color: #B0B3B8;
+    color:black;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: #B0B3B8;
+    color: black;
+}
