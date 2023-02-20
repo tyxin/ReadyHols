@@ -25,11 +25,11 @@ Red
 
 .col{padding-top: 1%}
 .btn{padding: 5px 30px 5px 30px; margin-right: 10px;}
-       
-.home-container{  
-    padding-top: 20%; 
-    padding-left: 10%; 
-    width: 100%; 
+
+.home-container{
+    padding-top: 17%;
+    padding-left: 10%;
+    width: 100%;
 }
 
 .tutorial-container{ margin: 2%;}
@@ -97,7 +97,7 @@ Red
     text-align:right;
     color:white;
     overflow-x: hidden;
-    background-image:url("/assets/contact-us-background.png");
+    background-image:url("/static/assets/contact-us-background.png");
     background-attachment: fixed;
     background-size: cover;
 }

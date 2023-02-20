@@ -1,18 +1,14 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <title>CS6131 Assignment 1</title>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-</head>
-<link rel="stylesheet" href="/n-login/css/style.css">
+{% extends "/n-login/nav-bar.html" %}
+{% block title %}Learn More{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/n-login-style.css">
 <style>
   html, body {
     max-width: 100%;
     overflow-x: hidden;
-    background-image:url("/assets/background-learn-more.jpeg");
+    background-image:url("/static/assets/background-learn-more.jpeg");
     background-repeat:no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -21,14 +17,6 @@
 </style>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-    <div id="nav-placeholder">
-        <script>
-            $(function(){
-              $("#nav-placeholder").load("/n-login/html/nav-bar.html");
-            });
-        </script>
-    </div>
 
     <!-- learn more page content -->
     <div class="row">
@@ -42,7 +30,7 @@
                 <div class="carousel-inner" style="width: 100%; height: 100%; align-items: center;">
                   <div class="carousel-item active">
 
-                    <img src="/assets/learn-more/picture1.jpg" class="d-block w-100" alt="...">
+                    <img src="/static/assets/learn-more/picture1.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                       <h5>An Upgraded Experience.</h5>
                       <p>Enjoy more functionalities beyond the basic plan!</p>
@@ -50,14 +38,14 @@
                     </div>
                   </div>
                   <div class="carousel-item">
-                    <img src="/assets/learn-more/picture2.jpg" class="d-block w-100" alt="...">
+                    <img src="/static/assets/learn-more/picture2.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                       <h5>Expanding your network.</h5>
                       <p>You get to add more vacations!</p>
                     </div>
                   </div>
                   <div class="carousel-item">
-                    <img src="/assets/learn-more/picture3.jpg" class="d-block w-100" alt="...">
+                    <img src="/static/assets/learn-more/picture3.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                       <h5>Hassle free transition.</h5>
                       <p>Simply opt for an upgrade starting from $0.99/mth!</p>
@@ -148,4 +136,4 @@
 
 </body>
 
-</html>
+{% endblock %}
