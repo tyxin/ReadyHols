@@ -17,7 +17,8 @@
 html, body {
 max-width: 100%;
 overflow-x: hidden;
-background:linear-gradient(#949fa1,#4e5354);
+background-image:url("/static/assets/background-plain.jpeg");
+background-size: cover;
 }
 
 
@@ -33,6 +34,8 @@ background:linear-gradient(#949fa1,#4e5354);
 
 .nav-pills>li.nav-item>button.nav-link:not(.active){
   background-color:transparent;
+  color:white;
+
 }
 
 
