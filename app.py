@@ -28,10 +28,6 @@ def learn_more():
 def login():
     return render_template('/n-login/login.html')
 
-@app.route('/search')
-def search():
-    return render_template('/n-login/search.html')
-
 @app.route('/sign-up')
 def sign_up():
     return render_template('/n-login/sign-up.html')

@@ -27,7 +27,7 @@
             <div class="login-container">
               <h2>Login</h2>
               <br>
-              <form action="/logged/home">
+              <form action="{{url_for('logged_home')}}">
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="border-top-right-radius: 0px;
@@ -53,13 +53,13 @@
                   <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
                 </div>
 
-                <p>Don't have an account? Sign up <a href="/sign-up">here</a>!</p>
+                <p>Don't have an account? Sign up <a href="{{url_for('sign_up')}}">here</a>!</p>
                 <br>
                 <div id="loginHelpBlock" class="form-text">
                   Login is clickable for Assignment purposes.
                 </div>
                 <p></p>
-                <button href="/logged/home" type="login-button" class="btn btn-secondary">Login</button>
+                <button type="login-button" class="btn btn-secondary">Login</button>
               </form>
             </div>
             

@@ -17,7 +17,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
         
-        <a type="button" href="/" class="btn btn-dark">Sign Out</a>
+        <a type="button" href="{{url_for('home')}}" class="btn btn-dark">Sign Out</a>
       
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
@@ -27,22 +27,22 @@
         <div class="offcanvas-body bg-dark">
             <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                 <li class="nav-item">
-                    <a href="/logged/home" class="btn btn-primary align-content-start"
+                    <a href="{{url_for('logged_home')}}" class="btn btn-primary align-content-start"
                     style="background-color:transparent; border-color:transparent;
                     padding:0%; margin-bottom:10px;
                     ">Back To Main Page</a>        
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logged/vacations/summary">Summary</a>
+                    <a class="nav-link" href="{{url_for('logged_vacations_summary')}}">Summary</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logged/vacations/itinerary">Itinerary</a>
+                    <a class="nav-link" href="{{url_for('logged_vacations_itinerary')}}">Itinerary</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logged/vacations/planning">Planning</a>
+                    <a class="nav-link" href="{{url_for('logged_vacations_planning')}}">Planning</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logged/vacations/sharing">Sharing</a>
+                    <a class="nav-link" href="{{url_for('logged_vacations_sharing')}}">Sharing</a>
                 </li>
             </ul>
         </div>

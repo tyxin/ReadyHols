@@ -17,7 +17,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6 col-sm-12">
         <div class="sign-up-container-left">
-          <form>
+          <form action="{{url_for('home')}}">
               <div class="mb-3">
                   <label for="inputUsername" class="form-label">Username</label>
                   <input type="username" class="form-control" id="inputUsername" aria-describedby="emailHelp">
@@ -33,7 +33,7 @@
                       Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                   </div>
               </div>
-              <p>Already have an account? Login <a href="/n-login/html/login.html">here</a> instead.</p>  
+              <p>Already have an account? Login <a href="{{url_for('login')}}">here</a> instead.</p>
               <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="checkEmail">
                 <label class="form-check-label" for="checkEmail">Please keep me in the loop via email</label>

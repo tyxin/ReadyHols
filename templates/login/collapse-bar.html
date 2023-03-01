@@ -23,8 +23,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
               </button>
-            <!-- <a class="navbar-brand" href="#">Ready!Hols</a> -->
-            <a type="button" href="/home" class="btn btn-dark">Sign Out</a>
+            <a type="button" href="{{url_for('home')}}" class="btn btn-dark">Sign Out</a>
           
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
@@ -34,19 +33,19 @@
             <div class="offcanvas-body bg-dark">
                 <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="/logged/vacations">
+                        <a class="nav-link" href="{{url_for('logged_vacations')}}">
                             <img src="/static/assets/vacation.svg" class="icon-img" style="margin-right:5px;">
                             Vacations
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logged/user">
+                        <a class="nav-link" href="{{url_for('logged_user')}}">
                             <img src="/static/assets/profile.png" class="icon-img" style="margin-right:5px;">
                             User
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logged/settings">
+                        <a class="nav-link" href="{{url_for('logged_settings')}}">
                             <img src="/static/assets/settings.svg" class="icon-img" style="margin-right:5px;">
                             Settings
                         </a>

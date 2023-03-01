@@ -8,7 +8,7 @@
 .html,body{
   color:white;
   overflow-x: hidden;
-  background-image:url("/static/assets/background-learn-more.jpeg");
+  background-image:url("/static/assets/background-plain.jpeg");
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,11 +26,11 @@ a{
   <!-- tutorial page content -->
   <div class="tutorial-container">
     <h6>Here's a guide on how to use this website!</h6>
-    Firstly, you can find out more about this website under About > <a href="/about-us">About Us</a>.
-    You can also contact us at About > <a href="/contact-us">Contact Us</a> if you have questions to ask!
+    Firstly, you can find out more about this website under About > <a href="{{url_for('about_us')}}">About Us</a>.
+    You can also contact us at About > <a href="{{url_for('contact-us')}}">Contact Us</a> if you have questions to ask!
 
-    Secondly, to really start utilising the functions, please click on <a href="/sign-up">Sign Up</a> on the Home Page.
-    If you already have an account, you can click <a href="/login">login</a> instead.
+    Secondly, to really start utilising the functions, please click on <a href="{{url_for('sign-up')}}">Sign Up</a> on the Home Page.
+    If you already have an account, you can click <a href="{{url_for('login')}}">login</a> instead.
 
     <br><br>
 
