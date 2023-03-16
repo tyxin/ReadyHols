@@ -4,57 +4,113 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 </head>
 <link rel="stylesheet" href="/static/css/n-login-style.css">
 
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container-xxl">
+    <div class="container" style="margin-left:1%; margin-right: 1%;">
         <a href="{{url_for('home')}}" class="navbar-brand">
-            <span class="fw-bold color:#F7F9F9">
-                Ready!Hols
+            <span class="display-5">
+                <!--  to insert logo -->
+                <i class="bi bi-book"></i>
+                    ReadyHols!
             </span>
-        </a>
-        <!-- toggle button for mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-        data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false"
-        aria-label="Toggle Navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- navbar links -->
-        <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('home')}}">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('tutorial')}}">Tutorial</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    About
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{url_for('about_us')}}">About Us</a></li>
-                    <li><a class="dropdown-item" href="{{url_for('contact_us')}}">Contact Us</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{url_for('learn_more')}}">Learn More</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('login')}}">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('sign_up')}}">Register</a>
-                </li>
-              </ul>
-
+            </a>
+            <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+                <ul class="navbar-nav flex-row justify-content-around pt-2">
+                  <li class="nav-item">
+                    <a class="nav-link {{'active' if request.path== url_for('home') }} text-center" href="{{ url_for('home') }}">
+                        <i class="bi bi-house-door"></i><br>
+                        Home
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link {{'active' if request.path== url_for('tutorial') }} text-center" href="{{ url_for('tutorial') }}">
+                        <i class="bi bi-journal-bookmark"></i><br>
+                        Tutorial
+                    </a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle text-center" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="bi bi-info-circle"></i><br>About
+                      </a>
+                      <ul class="dropdown-menu">
+                          <li><a class="dropdown-item {{'active' if request.path== url_for('about_us') }}" href="{{url_for('about_us')}}">About Us</a></li>
+                          <li><a class="dropdown-item {{'active' if request.path== url_for('contact_us') }}" href="{{url_for('contact_us')}}">Contact Us</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item {{'active' if request.path== url_for('learn_more') }}" href="{{url_for('learn_more')}}">Learn More</a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                        <a class="nav-link {{'active' if request.path== url_for('login') }} text-center" href=" {{ url_for('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i><br>Login
+                        </a>
+                  </li>
+                  <li class="nav-item">
+                        <a class="nav-link {{'active' if request.path== url_for('sign_up') }} text-center" href=" {{ url_for('sign_up') }}">
+                            <i class="bi bi-person-square"></i><br>Register
+                        </a>
+                  </li>
+                </ul>
+              </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
+
+<!--<nav class="navbar navbar-expand-md navbar-dark bg-dark">-->
+<!--    <div class="container-xxl">-->
+<!--        <a href="{{url_for('home')}}" class="navbar-brand">-->
+<!--            <span class="fw-bold color:#F7F9F9">-->
+<!--                Ready!Hols-->
+<!--            </span>-->
+<!--        </a>-->
+<!--        &lt;!&ndash; toggle button for mobile &ndash;&gt;-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
+<!--        data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false"-->
+<!--        aria-label="Toggle Navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+
+<!--        &lt;!&ndash; navbar links &ndash;&gt;-->
+<!--        <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">-->
+<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--                <li class="nav-item">-->
+<!--                  <a class="nav-link" href="{{url_for('home')}}">-->
+<!--                      Home</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                  <a class="nav-link" href="{{url_for('tutorial')}}">-->
+<!--                      <i class="bi bi-journal-bookmark"></i>Tutorial</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item dropdown">-->
+<!--                  <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    <i class="bi bi-info-circle"></i>About-->
+<!--                  </a>-->
+<!--                  <ul class="dropdown-menu">-->
+<!--                    <li><a class="dropdown-item" href="{{url_for('about_us')}}">About Us</a></li>-->
+<!--                    <li><a class="dropdown-item" href="{{url_for('contact_us')}}">Contact Us</a></li>-->
+<!--                    <li><hr class="dropdown-divider"></li>-->
+<!--                    <li><a class="dropdown-item" href="{{url_for('learn_more')}}">Learn More</a></li>-->
+<!--                  </ul>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                  <a class="nav-link" href="{{url_for('login')}}">-->
+<!--                      <i class="bi bi-box-arrow-in-right"></i>Login</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                  <a class="nav-link" href="{{url_for('sign_up')}}">-->
+<!--                      <i class="bi bi-person-fill-add"></i>Register</a>-->
+<!--                </li>-->
+<!--              </ul>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
 
 {% block content %}{% endblock %}
 

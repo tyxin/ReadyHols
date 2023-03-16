@@ -3,7 +3,6 @@ from flask import Flask, render_template
 
 app = flask.Flask(__name__)
 
-
 @app.route('/')
 def home():
     return render_template('/n-login/home.html')

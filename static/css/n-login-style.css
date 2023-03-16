@@ -71,6 +71,14 @@ Red
     box-shadow: 100px;
 }
 
+.sign-up-outer-container{
+    margin: 2%;
+    padding:1% 1%;
+    background-color: #E4E6EB;
+    border-radius: 20px;
+    box-shadow: 100px;
+}
+
 
 .search-container{ margin:2%; }
 
