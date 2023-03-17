@@ -113,8 +113,9 @@ def sign_up():
             flash('Username must contain only characters and numbers!', 'error')
         else:
             user_count = cursor.execute('SELECT * from user')
+            user_id = generate_user_id(user_count+1,cursor)
             cursor.execute('INSERT into user VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-                           ("000000008", username, generate_password_hash(password), email, planType,
+                           (user_id, username, generate_password_hash(password), email, planType,
                             int(subEmail), int(False), 0, 0))
             mysql.connection.commit()
             flash('Congratulations, you have successfully registered. Try logging in now!', 'success')
@@ -122,6 +123,17 @@ def sign_up():
 
     return render_template('/n-login/sign-up.html')
 
+def generate_user_id(user_count,cursor):
+    valid_user_id = "{:09d}".format(user_count)
+    account = None
+    while account==None:
+        cursor.execute('SELECT * from user where user_id=%s', (valid_user_id,))
+        account = cursor.fetchone()
+        if account==None:
+            break
+        user_count+=1
+    return valid_user_id    
+   
 
 def logout():
     session.clear()
