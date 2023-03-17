@@ -20,20 +20,24 @@
               <legend>User Profile</legend>
               <div class="mb-3">
                 <label for="disabledUsername" class="form-label">Username</label>
-                <input type="text" id="disabledUsername" class="form-control" placeholder="Username">
+                {% if session['username']%} 
+                <input type="text" id="disabledUsername" class="form-control" placeholder="{{session['username']}}">
+                {% endif %}
               </div>
               <div class="mb-3">
                 <label for="disabledEmailAddress" class="form-label">Email Address</label>
-                <input type="text" id="disabledEmailAddress" class="form-control" placeholder="someone123@example.com">
-              </div>
-              <div class="mb-3">
-                <label for="disabledPassword" class="form-label">Password</label>
-                <input type="text" id="disabledPassword" class="form-control" placeholder="123456">
+                {% if session['email']%} 
+                <input type="text" id="disabledEmailAddress" class="form-control" placeholder="{{session['email']}}">
+                {% endif %}
               </div>
               
               <div class="mb-3">
                 <div class="form-check">
+                  {%if session['sub_mail']%}
+                  <input class="form-check-input" type="checkbox" id="disabledEmailCheck" disabled checked>
+                  {% else %}
                   <input class="form-check-input" type="checkbox" id="disabledEmailCheck" disabled>
+                  {% endif %}
                   <label class="form-check-label" for="disabledEmailCheck">
                     Please keep me in the loop via email
                   </label>

@@ -63,6 +63,7 @@ def login():
                 session['share_drive'] = account['share_drive']
                 session['grp_count'] = account['grp_count']
                 session['upg_count'] = account['upg_count']
+                session['password'] = account['password']
                 return redirect(url_for('logged_home'))
             else:
                 flash('Incorrect password', 'error')
