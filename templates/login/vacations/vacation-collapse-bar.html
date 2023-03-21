@@ -35,22 +35,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_summary') }} " href="{{url_for('logged_vacations_summary')}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_summary',vac_id=vac_id) }} " href="{{url_for('logged_vacations_summary',vac_id=vac_id)}}">
                         <i class="bi bi-journal-check"></i>&nbsp;Summary
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_itinerary') }}" href="{{url_for('logged_vacations_itinerary')}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_itinerary',vac_id=vac_id) }}" href="{{url_for('logged_vacations_itinerary',vac_id=vac_id)}}">
                         <i class="bi bi-geo-alt"></i>&nbsp;Itinerary
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_planning') }}" href="{{url_for('logged_vacations_planning')}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_planning',vac_id=vac_id) }}" href="{{url_for('logged_vacations_planning',vac_id=vac_id)}}">
                         <i class="bi bi-ui-checks"></i>&nbsp;Planning
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_sharing') }}" href="{{url_for('logged_vacations_sharing')}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_sharing',vac_id=vac_id) }}" href="{{url_for('logged_vacations_sharing',vac_id=vac_id)}}">
                         <i class="bi bi-images"></i>&nbsp;Sharing
                     </a>
                 </li>

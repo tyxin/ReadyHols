@@ -16,6 +16,7 @@ mysql = MySQL(app)
 
 app.secret_key = 'rEaDyHoLs!'
 
+
 @app.route('/')
 def home():
     return render_template('/n-login/home.html')
@@ -57,8 +58,8 @@ def login():
                 session['loggedin'] = True
                 session['user_id'] = account['user_id']
                 session['username'] = account['username']
-                session['email'] = account['email']
                 session['plan_type'] = account['plan_type']
+                session['email'] = account['email']
                 session['sub_mail'] = account['sub_mail']
                 session['share_drive'] = account['share_drive']
                 session['grp_count'] = account['grp_count']
@@ -112,9 +113,12 @@ def sign_up():
             flash('Invalid Email Address', 'error')
         elif not re.match(r'[A-Za-z0-9]+', username):
             flash('Username must contain only characters and numbers!', 'error')
+        elif not (len(password) >= 8) and (len(password) <=20) and (re.match(r'[A-Za-z0-9]+')):
+            flash('Password must be 8-20 characters long, contain letters and numbers,'
+                  ' and must not contain spaces, special characters, or emoji.')
         else:
             user_count = cursor.execute('SELECT * from user')
-            user_id = generate_user_id(user_count+1,cursor)
+            user_id = generate_user_id(user_count + 1, cursor)
             cursor.execute('INSERT into user VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)',
                            (user_id, username, generate_password_hash(password), email, planType,
                             int(subEmail), int(False), 0, 0))
@@ -124,17 +128,18 @@ def sign_up():
 
     return render_template('/n-login/sign-up.html')
 
-def generate_user_id(user_count,cursor):
+
+def generate_user_id(user_count, cursor):
     valid_user_id = "{:09d}".format(user_count)
     account = None
-    while account==None:
+    while account == None:
         cursor.execute('SELECT * from user where user_id=%s', (valid_user_id,))
         account = cursor.fetchone()
-        if account==None:
+        if account == None:
             break
-        user_count+=1
-    return valid_user_id    
-   
+        user_count += 1
+    return valid_user_id
+
 
 def logout():
     session.clear()
@@ -144,42 +149,59 @@ def logout():
 # logged in
 
 
-@app.route('/logged/home')
+@app.route('/logged/home/')
 def logged_home():
-    return render_template('/login/vacations/vacations.html')
+    return redirect(url_for('logged_vacations'))
 
 
-@app.route('/logged/vacations')
+@app.route('/logged/vacations/')
 def logged_vacations():
-    return render_template('/login/vacations/vacations.html')
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT vacation.vac_id,description,start_date,end_date,budget_limit from vac_user_has,vacation'
+                   ' where vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s '
+                   'order by start_date desc', (session['user_id'],))
+    vacations_user = cursor.fetchall()
+    return render_template('/login/vacations/vacations.html',vacations_user=vacations_user,
+                           recent_vacations_user=vacations_user[:4])
 
 
-@app.route('/logged/user')
+@app.route('/logged/user/')
 def logged_user():
     return render_template('/login/user/user.html')
 
 
-@app.route('/logged/settings')
+@app.route('/logged/settings/')
 def logged_settings():
     return render_template('/login/settings/settings.html')
 
 
-@app.route('/logged/vacations/summary')
-def logged_vacations_summary():
-    return render_template('/login/vacations/summary/summary.html')
+@app.route('/logged/vacations/<string:vac_id>/')
+def logged_vacations_template(vac_id):
+    return redirect(url_for('logged_vacations_summary',vac_id=vac_id))
 
 
-@app.route('/logged/vacations/itinerary')
-def logged_vacations_itinerary():
-    return render_template('/login/vacations/itinerary/itinerary.html')
+@app.route('/logged/vacations/summary/<string:vac_id>/')
+def logged_vacations_summary(vac_id):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
+    vacation_summary = cursor.fetchone()
+    return render_template('/login/vacations/summary/summary.html',vacation_summary=vacation_summary)
 
 
-@app.route('/logged/vacations/planning')
+@app.route('/logged/vacations/itinerary/<string:vac_id>/')
+def logged_vacations_itinerary(vac_id):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * from vacation_itinerary where vac_id %s', (vac_id,))
+    vacation_itinerary = cursor.fetchall()
+    return render_template('/login/vacations/itinerary/itinerary.html',vacation_itinerary=vacation_itinerary)
+
+
+@app.route('/logged/vacations/planning/')
 def logged_vacations_planning():
-    return render_template('/login/vacations/planning/planning.html')
+    return render_template('/login/vacations/planning/planning.html', )
 
 
-@app.route('/logged/vacations/sharing')
+@app.route('/logged/vacations/sharing/')
 def logged_vacations_sharing():
     return render_template('/login/vacations/sharing/sharing.html')
 

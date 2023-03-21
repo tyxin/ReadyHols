@@ -17,17 +17,35 @@
                     <fieldset disabled>
                       <legend>Settings</legend>
                       <div class="mb-3">
-                        <label for="planInput" class="form-label">Plan Type</label>
-                        <select class="form-select" aria-label="Default select example">
-                          <option value="1" selected>Basic</option>
-                          <option value="2">Plus</option>
-                          <option value="3">Premium</option>
+                        <label class="form-label">Plan Type</label>
+                        <select class="form-select" aria-label="plan_select_example">
+                            {% if session['plan_type'] == 'Basic' %}
+                                <option value="Basic" selected >Basic</option>
+                                <option value="Plus">Plus</option>
+                                <option value="Premium">Premium</option>
+                            {% endif %}
+
+                             {% if session['plan_type'] == 'Plus' %}
+                                <option value="Basic">Basic</option>
+                                <option value="Plus" selected>Plus</option>
+                                <option value="Premium">Premium</option>
+                            {% endif %}
+
+                            {% if session['plan_type'] == 'Premium' %}
+                                <option value="Basic">Basic</option>
+                                <option value="Plus">Plus</option>
+                                <option value="Premium" selected>Premium</option>
+                            {% endif %}
                         </select>
                       </div>
                       <div class="mb-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="photoDrivePrivateCheck">
-                            <label class="form-check-label" for="photoDrivePrivateCheck">Allow Sharing of Photo Drive</label>
+                            {% if session['share_drive'] %}
+                                <input class="form-check-input" type="checkbox" role="switch" checked id="photoDriveChecked">
+                            {% else %}
+                                <input class="form-check-input" type="checkbox" role="switch" id="photoDriveUnchecked">
+                            {% endif %}
+                            <label class="form-check-label">Allow Sharing of Photo Drive</label>
                         </div>
                       </div>
                       

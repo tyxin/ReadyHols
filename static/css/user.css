@@ -6,6 +6,9 @@
 
 .user-info-container{
     padding-top: 30%;
+    width: 100%;
+    height: 100%;
+    margin: 0%;
     text-align:center;
     color:white;
     background-image:url("/static/assets/contact-us-background.png");

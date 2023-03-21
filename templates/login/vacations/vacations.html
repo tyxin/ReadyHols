@@ -39,78 +39,25 @@
         <h2>{% if session['username']%} Welcome Back, {{session['username']}}! {% endif %}</h2>
         <h4>Upcoming Vacations</h4>
         <div class="row">
-            <div class="col" style="max-width: 25%;">
-                <div class="vacation-card" style="height: 100%; max-width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">VACATION TITLE</h5>
-                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                            <Lorem class="card-text">Essential Vacation Details <br>
-                                Vacation Description</p>
-                            <a href="{{url_for('logged_vacations_summary')}}">
-                                Explore
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
-                            </a>
-                            </Lorem>
-                        </span>
+            {%for i in recent_vacations_user%}
+                <div class="col" style="max-width: 25%;">
+                    <div class="vacation-card" style="height: 100%; max-width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{i['description']}}</h5>
+                            <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                                <Lorem class="card-text">
+                                    Start Date: {{i['start_date']}}<br>
+                                    End Date: {{i['end_date']}}
+                                <a href="{{url_for('logged_vacations_summary',vac_id=i['vac_id'])}}">
+                                    Explore
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                                </Lorem>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col" style="max-width: 25%;">
-                <div class="vacation-card" style="height: 100%; max-width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">VACATION TITLE</h5>
-                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                            <Lorem class="card-text">Essential Vacation Details <br>
-                                Vacation Description</p>
-                            <a href="{{url_for('logged_vacations_summary')}}">
-                                Explore
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
-                            </a>
-                            </Lorem>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="col" style="max-width: 25%;">
-                <div class="vacation-card" style="height: 100%; max-width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">VACATION TITLE</h5>
-                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                            <Lorem class="card-text">Essential Vacation Details <br>
-                                Vacation Description</p>
-                            <a href="{{url_for('logged_vacations_summary')}}">
-                                Explore
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
-                            </a>
-                            </Lorem>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="col" style="max-width: 25%;">
-                <div class="vacation-card" style="height: 100%; max-width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">VACATION TITLE</h5>
-                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                            <Lorem class="card-text">Essential Vacation Details <br>
-                                Vacation Description</p>
-                            <a href="{{url_for('logged_vacations_summary')}}">
-                                Explore
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
-                            </a>
-                            </Lorem>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
 
             <div class="bottom-container justify-content-center">
                 <h4>All my vacations</h4>
@@ -133,27 +80,23 @@
                     <thead class="bg-dark text-white">
                       <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">Vacation Name</th>
+                        <th scope="col">Vacation Description</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Budget Limit</th>
                       </tr>
                     </thead>
                     <tbody>
+                    {% for j in vacations_user%}
                       <tr>
-                        <th scope="row">1</th>
-                        <td><a href="{{url_for('logged_vacations_summary')}}">OSAP</a></td>
-                        <td>2-1-2023</td>
-                        <td>16-1-2023</td>
-                        <td>Trip around Europe</td>
+                        <th scope="row">{{loop.index}}</th>
+                        <td><a href="{{url_for('logged_vacations_template',vac_id=j['vac_id'])}}">{{j['description']}}</a></td>
+                        <td>{{j['start_date']}}</td>
+                        <td>{{j['end_date']}}</td>
+                        <td>{{j['budget_limit']}}</td>
                       </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td><a href="{{url_for('logged_vacations_summary')}}">Family Vacation</a></td>
-                        <td>9-1-2023</td>
-                        <td>21-1-2023</td>
-                        <td>Family Trip to Japan!</td>
-                      </tr>
+                    {% endfor %}
+
                     </tbody>
                   </table>
               </div>
