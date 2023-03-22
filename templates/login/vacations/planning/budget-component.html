@@ -1,0 +1,20 @@
+<table class="table table-hover">
+    <thead class="bg-dark text-white">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Category</th>
+        <th scope="col">Expenditure</th>
+        <th scope="col">Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in vacation_budget%}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{i['category']}}</td>
+        <td>{{i['expenditure']}}</td>
+        <td>{{i['remarks']}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>

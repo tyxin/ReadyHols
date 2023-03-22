@@ -159,7 +159,7 @@ def logged_vacations():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT vacation.vac_id,description,start_date,end_date,budget_limit from vac_user_has,vacation'
                    ' where vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s '
-                   'order by start_date desc', (session['user_id'],))
+                   'order by start_date,end_date', (session['user_id'],))
     vacations_user = cursor.fetchall()
     return render_template('/login/vacations/vacations.html',vacations_user=vacations_user,
                            recent_vacations_user=vacations_user[:4])
@@ -175,9 +175,20 @@ def logged_settings():
     return render_template('/login/settings/settings.html')
 
 
-@app.route('/logged/vacations/<string:vac_id>/')
-def logged_vacations_template(vac_id):
-    return redirect(url_for('logged_vacations_summary',vac_id=vac_id))
+@app.route('/logged/vacations/home/<string:page>/<string:vac_id>/')
+def logged_vacations_template(vac_id,page):
+    render_template('/login/vacations/vacation-collapse-bar.html',vac_id=vac_id,page=page)
+
+    if page == 'summary':
+        return redirect(url_for('logged_vacations_summary',vac_id=vac_id))
+    elif page == 'itinerary':
+        return redirect(url_for('logged_vacations_itinerary',vac_id=vac_id))
+    elif page == 'planning':
+        return redirect(url_for('logged_vacations_planning',vac_id=vac_id))
+    elif page == 'sharing':
+        return redirect(url_for('logged_vacations_sharing',vac_id=vac_id))
+    else:
+        return redirect(url_for('logged_vacations'))
 
 
 @app.route('/logged/vacations/summary/<string:vac_id>/')
@@ -185,25 +196,38 @@ def logged_vacations_summary(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
     vacation_summary = cursor.fetchone()
-    return render_template('/login/vacations/summary/summary.html',vacation_summary=vacation_summary)
+    return render_template('/login/vacations/summary/summary.html',vacation_summary=vacation_summary,vac_id=vac_id)
 
 
 @app.route('/logged/vacations/itinerary/<string:vac_id>/')
 def logged_vacations_itinerary(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * from vacation_itinerary where vac_id %s', (vac_id,))
+    cursor.execute('SELECT * from vacation_itinerary where vac_id=%s', (vac_id,))
     vacation_itinerary = cursor.fetchall()
-    return render_template('/login/vacations/itinerary/itinerary.html',vacation_itinerary=vacation_itinerary)
+    return render_template('/login/vacations/itinerary/itinerary.html',vacation_itinerary=vacation_itinerary,vac_id=vac_id)
 
 
-@app.route('/logged/vacations/planning/')
-def logged_vacations_planning():
-    return render_template('/login/vacations/planning/planning.html', )
+@app.route('/logged/vacations/planning/<string:vac_id>/')
+def logged_vacations_planning(vac_id):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * from budget where vac_id=%s', (vac_id,))
+    vacation_budget = cursor.fetchall()
+    cursor.execute('SELECT * from booking where vac_id=%s', (vac_id,))
+    vacation_booking = cursor.fetchall()
+    print(vacation_booking)
+    # maps related to each itinerary
+    vacation_itin_map = None
+    return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
+                           vacation_booking=vacation_booking,vacation_itin_map=vacation_itin_map,vac_id=vac_id)
 
 
-@app.route('/logged/vacations/sharing/')
-def logged_vacations_sharing():
-    return render_template('/login/vacations/sharing/sharing.html')
+@app.route('/logged/vacations/sharing/<string:vac_id>/')
+def logged_vacations_sharing(vac_id):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    vacation_photo_drive = None
+    vacation_albums = None
+    return render_template('/login/vacations/sharing/sharing.html', vacation_photo_drive=vacation_photo_drive,
+                           vacation_albums=vacation_albums,vac_id=vac_id)
 
 
 if __name__ == '__main__':

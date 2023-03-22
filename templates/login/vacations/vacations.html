@@ -47,8 +47,8 @@
                             <span class="d-inline-block text-truncate" style="max-width: 100%;">
                                 <Lorem class="card-text">
                                     Start Date: {{i['start_date']}}<br>
-                                    End Date: {{i['end_date']}}
-                                <a href="{{url_for('logged_vacations_summary',vac_id=i['vac_id'])}}">
+                                    End Date: {{i['end_date']}}<br>
+                                <a href="{{url_for('logged_vacations_template',vac_id=i['vac_id'],page='summary')}}">
                                     Explore
                                     <i class="bi bi-arrow-right"></i>
                                 </a>
@@ -90,7 +90,7 @@
                     {% for j in vacations_user%}
                       <tr>
                         <th scope="row">{{loop.index}}</th>
-                        <td><a href="{{url_for('logged_vacations_template',vac_id=j['vac_id'])}}">{{j['description']}}</a></td>
+                        <td><a href="{{url_for('logged_vacations_template',vac_id=j['vac_id'],page='summary')}}">{{j['description']}}</a></td>
                         <td>{{j['start_date']}}</td>
                         <td>{{j['end_date']}}</td>
                         <td>{{j['budget_limit']}}</td>

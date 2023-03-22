@@ -1,17 +1,17 @@
-<div row="container overflow-scroll">
-    <div class="row justify-content-center">
-        <div class="col-md-5 col-sm-12">
+<script src="/static/javascript/calendar.js" defer></script>
+<div row="container overflow-scroll" style="height:100%;">
+    <div class="row justify-content-center" style="height:100%;">
+        <div class="col-md-5 col-sm-12" style="height:100%;">
             <h4>Date</h4>
             <div class="calendar-container">
                 <div class="wrapper">
                   <header>
-                      <p class="current-date">January 2023</p>
+                      <p class="current-date" style="width:60%;">January 2023</p>
                       <div class="icons">
-                        <spin class="toggle-symbol"><img src="/static/assets/chevron-left.svg"></spin>
-                        <spin class="toggle-symbol"><img src="/static/assets/chevron-right.svg"></spin>
+                        <span id="month_prev"><i class="bi bi-chevron-left" style="color:white;"></i></span>
+                        <span id="month_next"><i class="bi bi-chevron-right" style="color:white;"></i></span>
                       </div>
                   </header>
-
                   <div class="calendar">
                     <ul class="weeks">
                       <li>Sun</li>
@@ -22,50 +22,19 @@
                       <li>Fri</li>
                       <li>Sat</li>
                     </ul>
-                    <ul class="days">
-                      <li>01</li>
-                      <li>02</li>
-                      <li>03</li>
-                      <li>04</li>
-                      <li>05</li>
-                      <li>06</li>
-                      <li>07</li>
-                      <li>08</li>
-                      <li>09</li>
-                      <li>10</li>
-                      <li>11</li>
-                      <li>12</li>
-                      <li>13</li>
-                      <li>14</li>
-                      <li>15</li>
-                      <li>16</li>
-                      <li>17</li>
-                      <li>18</li>
-                      <li>19</li>
-                      <li>20</li>
-                      <li>21</li>
-                      <li>22</li>
-                      <li>23</li>
-                      <li>24</li>
-                      <li>25</li>
-                      <li>26</li>
-                      <li>27</li>
-                      <li>28</li>
-                      <li>29</li>
-                      <li>30</li>
-                      <li>31</li>
-                    </ul>
+                    <ul class="days"></ul>
                   </div> 
                 </div>  
             </div>
         </div>
     
         <div class="col-md-7 col-sm-12">
-            <h4>15 Days 14 Nights</h4>
+            <h5>15 Days 14 Nights</h5>
             <br>
-            <h5>Start Country: Frankfurt, Germany</h5>
-            <h5>End Country: Paris, France</h5>
-            <br>
+            <h6 class="start_date" id="start_date">Start Date: {{vacation_summary['start_date']}}</h6>
+            <h6 class="end_date" id="end_date">End Date: {{vacation_summary['end_date']}}</h6>
+            <h6>Start Country: Frankfurt, Germany</h6>
+            <h6>End Country: Paris, France</h6>
             <table class="table table-striped table-hover">
                 <thead>
                   <tr>

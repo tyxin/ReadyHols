@@ -40,17 +40,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_itinerary',vac_id=vac_id) }}" href="{{url_for('logged_vacations_itinerary',vac_id=vac_id)}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='itinerary') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='itinerary')}}">
                         <i class="bi bi-geo-alt"></i>&nbsp;Itinerary
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_planning',vac_id=vac_id) }}" href="{{url_for('logged_vacations_planning',vac_id=vac_id)}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='planning') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='planning')}}">
                         <i class="bi bi-ui-checks"></i>&nbsp;Planning
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_sharing',vac_id=vac_id) }}" href="{{url_for('logged_vacations_sharing',vac_id=vac_id)}}">
+                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='sharing') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='sharing')}}">
                         <i class="bi bi-images"></i>&nbsp;Sharing
                     </a>
                 </li>
