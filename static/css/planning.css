@@ -21,14 +21,18 @@ background-image:url("/static/assets/background-plain.jpeg");
 background-size: cover;
 }
 
-.tab-custom-container{
-  background-color: #F7F9F9;
-  height: 75%;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding: 2%;
+.nav-pills{
+    margin-left:2%;
 }
 
+.tab-custom-container{
+  background-color: #F7F9F9;
+  height: 80%;
+  width: 100%;
+  padding: 2%;
+  margin: 0% 2%;
+  border-radius: 10px;
+}
 .nav-link:hover{
   scale:1.05;
 }

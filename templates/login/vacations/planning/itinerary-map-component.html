@@ -1,27 +1,47 @@
-<table class="table table-hover">
-    <thead class="bg-dark text-white">
-      <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Type</th>
-        <th scope="col">Plan Name</th>
-        <th scope="col">Coverage Description</th>
-        <th scope="col">Document</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Flight</td>
-        <td>NTUC Flight Insurance</td>
-        <td>Covers flight delays/cancels</td>
-        <td>#attachmentlink</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Health</td>
-        <td>Medical Coverage Basic Plan</td>
-        <td>Covers hospital bills in destination country</td>
-        <td>#attachmentlink</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="maps-container">
+    <form class="d-flex" role="search" style="margin-top:auto; margin-bottom: auto;">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <div class="dropdown" style="margin-right:0.5%;">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">General</a></li>
+                <li><a class="dropdown-item" href="#">Transport</a></li>
+                <li><a class="dropdown-item" href="#">Attraction</a></li>
+                <li><a class="dropdown-item" href="#">Others</a></li>
+            </ul>
+        </div>
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+        <button class="btn btn-outline-secondary" type="submit">Add&nbspMap</button>
+    </form>
+    <p></p>
+    <table class="table table-hover table-scroll">
+        <thead class="bg-dark text-white">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Time</th>
+            <th scope="col">Day No.</th>
+            <th scope="col">Description</th>
+            <th scope="col">Map Name</th>
+            <th scope="col">Map Category</th>
+            <th scope="col">Attachment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in vacation_itin_map %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{i['itin_time']}}</td>
+            <td>{{i['day_no']}}</td>
+            <td>{{i['description']}}</td>
+            <td>{{i['name']}}</td>
+            <td>{{i['category']}}</td>
+            <td>{{i['attachment']}}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+

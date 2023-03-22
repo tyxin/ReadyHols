@@ -9,30 +9,10 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
-      <!-- tab content -->
-      <div class="container justify-content-center">
-        <ul class="nav nav-pills" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="duration-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#duration" type="button" role="pill" aria-controls="duration" aria-selected="true">Duration</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="expenditure-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#expenditure" type="button" role="pill" aria-controls="expenditure" aria-selected="false">Expenditure</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="pills-tabcontent" style="padding-top:1%; margin-bottom: 2%;">
-            <div class="tab-pane fade show active" id="duration" role="tabpanel" aria-labelledby="duration-tab">
-              <div class="tab-custom-container align-content-start">
-                  {% include '/login/vacations/summary/duration-component.html' %}
-              </div>
-              
-            </div>    
-            <div class="tab-pane fade" id="expenditure" role="tabpanel" aria-labelledby="expenditure-tab">
-              <div class="tab-custom-container align-content-start">
-                  {% include '/login/vacations/summary/expenditure-component.html' %}
-              </div>
-            </div>
-          </div>
-      </div>
+    <div class="summary-container align-content-start">
+    {% include '/login/vacations/summary/duration-component.html' %}
+    </div>
+
 </body>
 
 {% endblock %}

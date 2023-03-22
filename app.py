@@ -125,6 +125,7 @@ def sign_up():
             mysql.connection.commit()
             flash('Congratulations, you have successfully registered. Try logging in now!', 'success')
             return redirect(url_for('login'))
+        cursor.close()
 
     return render_template('/n-login/sign-up.html')
 
@@ -138,6 +139,7 @@ def generate_user_id(user_count, cursor):
         if account == None:
             break
         user_count += 1
+        cursor.close()
     return valid_user_id
 
 
@@ -161,6 +163,7 @@ def logged_vacations():
                    ' where vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s '
                    'order by start_date,end_date', (session['user_id'],))
     vacations_user = cursor.fetchall()
+    cursor.close()
     return render_template('/login/vacations/vacations.html',vacations_user=vacations_user,
                            recent_vacations_user=vacations_user[:4])
 
@@ -196,29 +199,42 @@ def logged_vacations_summary(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
     vacation_summary = cursor.fetchone()
-    return render_template('/login/vacations/summary/summary.html',vacation_summary=vacation_summary,vac_id=vac_id)
+    cursor.execute('SELECT vac_id, destination.dest_id, no_days, dstart_date, country, state  from (has_destination join destination on has_destination.dest_id = destination.dest_id)'
+                   'where vac_id =%s', (vac_id,))
+    vacation_destinations = cursor.fetchall()
+    cursor.close()
+    return render_template('/login/vacations/summary/summary.html',vacation_summary=vacation_summary,vac_id=vac_id,
+                           vacation_destinations=vacation_destinations)
 
 
 @app.route('/logged/vacations/itinerary/<string:vac_id>/')
 def logged_vacations_itinerary(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_itinerary where vac_id=%s', (vac_id,))
-    vacation_itinerary = cursor.fetchall()
-    return render_template('/login/vacations/itinerary/itinerary.html',vacation_itinerary=vacation_itinerary,vac_id=vac_id)
+    vacation_timeline = cursor.fetchall()
+    cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s', (vac_id,))
+    vacation_maps_itinerary = cursor.fetchall()
+    cursor.close()
+    return render_template('/login/vacations/itinerary/itinerary.html',vacation_timeline=vacation_timeline,
+                           vac_id=vac_id,vacation_maps_itinerary=vacation_maps_itinerary)
 
 
 @app.route('/logged/vacations/planning/<string:vac_id>/')
 def logged_vacations_planning(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT vac_id, budget_limit, total_spend, remaining_budget from vacation_summary where vac_id=%s', (vac_id,))
+    vacation_summary = cursor.fetchone()
     cursor.execute('SELECT * from budget where vac_id=%s', (vac_id,))
     vacation_budget = cursor.fetchall()
     cursor.execute('SELECT * from booking where vac_id=%s', (vac_id,))
     vacation_booking = cursor.fetchall()
-    print(vacation_booking)
     # maps related to each itinerary
-    vacation_itin_map = None
+    cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s', (vac_id,))
+    vacation_itin_map = cursor.fetchall()
+    cursor.close()
     return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
-                           vacation_booking=vacation_booking,vacation_itin_map=vacation_itin_map,vac_id=vac_id)
+                           vacation_booking=vacation_booking,vacation_itin_map=vacation_itin_map,vac_id=vac_id,
+                           vacation_summary=vacation_summary)
 
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/')
@@ -226,6 +242,7 @@ def logged_vacations_sharing(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     vacation_photo_drive = None
     vacation_albums = None
+    cursor.close()
     return render_template('/login/vacations/sharing/sharing.html', vacation_photo_drive=vacation_photo_drive,
                            vacation_albums=vacation_albums,vac_id=vac_id)
 

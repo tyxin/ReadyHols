@@ -19,8 +19,10 @@ background-size: cover;
 
 .tab-custom-container{
   background-color: #F7F9F9;
-  height: 75%;
+  height: 80%;
+  width: 100%;
   padding: 2%;
+  margin: 0% 2%;
   border-radius: 10px;
 }
 
@@ -32,6 +34,9 @@ background-size: cover;
   scale:1.05;
 }
 
+.nav-pills{
+    margin-left:2%;
+}
 
 .nav-pills>li.nav-item>button.nav-link:active,.nav-pills>li.nav-item>button.nav-link:visited,.nav-pills>li.nav-item>button.nav-link:focus,.nav-pills>li.nav-item>button.nav-link{
   background-color: #fdddb6;
@@ -127,7 +132,13 @@ header .current-date{
   color:black;
 }
 
-
 .days li.inactive{
     color: #9c9c9c;
+}
+
+.summary-container{
+  background-color: #F7F9F9;
+  padding: 2%;
+  margin: 6% 2% 5% 2%;
+  border-radius: 10px;
 }

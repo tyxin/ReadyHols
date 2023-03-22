@@ -38,14 +38,17 @@ background-size: cover;
 
 }
 
-
+.nav-pills{
+    margin-left:2%;
+}
 
 .tab-custom-container{
   background-color: #F7F9F9;
-  height: 75%;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  height: 80%;
+  width: 100%;
   padding: 2%;
+  margin: 0% 2%;
+  border-radius: 10px;
 }
 
 .card{
