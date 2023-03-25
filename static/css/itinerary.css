@@ -69,3 +69,16 @@ background-size: cover;
   border-radius: 10px;
 }
 
+.circle {
+  height: 15px;
+  width: 15px;
+  background-color: #b0b0b0;
+  border-radius: 50%;
+  position: relative;
+  translate: -210% 140%;
+}
+
+
+.timeline-object{
+  padding: 0% 2%;
+}

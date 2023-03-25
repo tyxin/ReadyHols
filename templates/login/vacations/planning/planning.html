@@ -12,31 +12,31 @@
     <div class="container justify-content-center">
         <ul class="nav nav-pills" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="budget-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#budget" type="button" role="pill" aria-controls="budget" aria-selected="true">Budget</button>
+              <button class="nav-link {{'active' if curr_tab=='budget'}}" id="budget-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#budget" type="button" role="pill" aria-controls="budget" aria-selected="true">Budget</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="booking-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#booking" type="button" role="pill" aria-controls="booking" aria-selected="false">Booking</button>
+              <button class="nav-link {{'active' if curr_tab=='booking'}}" id="booking-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#booking" type="button" role="pill" aria-controls="booking" aria-selected="false">Booking</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="itinerary-map-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#itinerary-map" type="button" role="pill" aria-controls="itinerary-map" aria-selected="false">Itinerary & Maps</button>
+              <button class="nav-link {{'active' if curr_tab=='maps_itin'}}" id="itinerary-map-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#itinerary-map" type="button" role="pill" aria-controls="itinerary-map" aria-selected="false">Itinerary & Maps</button>
             </li>
         </ul>
 
           <div class="tab-content" id="myTabContent" style="padding-top: 1%;">
-            <div class="tab-pane fade show active" id="budget" role="tabpanel" aria-labelledby="budget-tab">
-              <div class="tab-custom-container align-content-start overflow-scroll">
+            <div class="tab-pane fade {{'show active' if curr_tab=='budget'}}" id="budget" role="tabpanel" aria-labelledby="budget-tab">
+              <div class="tab-custom-container align-content-start overflow:auto">
                   {% include '/login/vacations/planning/budget-component.html' %}
               </div>
             </div>   
 
-            <div class="tab-pane fade" id="booking" role="tabpanel" aria-labelledby="booking-tab">
-                <div class="tab-custom-container align-content-start overflow-scroll">
+            <div class="tab-pane fade {{'show active' if curr_tab=='booking'}}" id="booking" role="tabpanel" aria-labelledby="booking-tab">
+                <div class="tab-custom-container align-content-start overflow:auto">
                     {% include '/login/vacations/planning/booking-component.html' %}
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="itinerary-map" role="tabpanel" aria-labelledby="itinerary-map-tab">
-                <div class="tab-custom-container align-content-start overflow-scroll">
+            <div class="tab-pane fade {{'show active' if curr_tab=='maps_itin'}}" id="itinerary-map" role="tabpanel" aria-labelledby="itinerary-map-tab">
+                <div class="tab-custom-container align-content-start overflow:auto">
                     {% include '/login/vacations/planning/itinerary-map-component.html' %}
                 </div>
             </div>

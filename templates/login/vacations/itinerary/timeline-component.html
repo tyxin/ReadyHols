@@ -1,3 +1,24 @@
-<div class="container">
-    <p>hello</p>
+<div class="container" style="margin:0%; padding: 0%;">
+    {% for i in vacation_timeline %}
+    <div class="timeline-object" style="border-left: 3px solid #b0b0b0; height: auto; padding-bottom: 1%;">
+        <div class="circle"></div>
+        <h5 style="color: #b0b0b0;">{{i['itin_date']}} {{i['itin_time']}}</h5>
+        <h4><b>{{i['description']}} ({{i['itin_type']}})</b></h4>
+        <span>
+            <a>
+                <i class="bi bi-geo-alt-fill"></i>
+                Location: {{i['location']}} ({{i['state']}}, {{i['country']}})
+            </a>
+        </span>
+        <div class="maps-container">
+            {% for j in vacation_maps_itinerary %}
+                {% if (j['itin_time'] == i['itin_time']) and (j['day_no'] == i['day_no']) %}
+                    <span>
+                        <button style="border-radius: 10px; margin-top: 1%;">View Map</button>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
 </div>

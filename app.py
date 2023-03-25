@@ -113,7 +113,7 @@ def sign_up():
             flash('Invalid Email Address', 'error')
         elif not re.match(r'[A-Za-z0-9]+', username):
             flash('Username must contain only characters and numbers!', 'error')
-        elif not (len(password) >= 8) and (len(password) <=20) and (re.match(r'[A-Za-z0-9]+')):
+        elif not (len(password) >= 8) and (len(password) <= 20) and (re.match(r'[A-Za-z0-9]+')):
             flash('Password must be 8-20 characters long, contain letters and numbers,'
                   ' and must not contain spaces, special characters, or emoji.')
         else:
@@ -156,16 +156,34 @@ def logged_home():
     return redirect(url_for('logged_vacations'))
 
 
-@app.route('/logged/vacations/')
+@app.route('/logged/vacations/', methods=['GET', 'POST'])
 def logged_vacations():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT vacation.vac_id,description,start_date,end_date,budget_limit from vac_user_has,vacation'
                    ' where vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s '
                    'order by start_date,end_date', (session['user_id'],))
-    vacations_user = cursor.fetchall()
+    fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
+    true_all_vacations_user = cursor.fetchall()
+    vacations_user = true_all_vacations_user
+
+    if request.method == 'POST':
+        category = request.form.get('category')
+        if category in fields:
+            search = '%' + request.form['search'] + '%'
+            query = 'SELECT vacation.vac_id,description,start_date,end_date,budget_limit from vac_user_has,vacation where ' + \
+                    category.replace(" ", "_") + \
+                    ' like %s and vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s order by start_date,end_date'
+            print(query)
+            cursor.execute(query, (search, session['user_id'],))
+            vacations_user = cursor.fetchall()  # fetch all records
+            cursor.close()
+            return render_template('/login/vacations/vacations.html', vacations_user=vacations_user,
+                                   recent_vacations_user=true_all_vacations_user[:4],
+                                   fields=fields)  # pass books data to search.html
+
     cursor.close()
-    return render_template('/login/vacations/vacations.html',vacations_user=vacations_user,
-                           recent_vacations_user=vacations_user[:4])
+    return render_template('/login/vacations/vacations.html', vacations_user=vacations_user,
+                           recent_vacations_user=vacations_user[:4], fields=fields)
 
 
 @app.route('/logged/user/')
@@ -179,17 +197,17 @@ def logged_settings():
 
 
 @app.route('/logged/vacations/home/<string:page>/<string:vac_id>/')
-def logged_vacations_template(vac_id,page):
-    render_template('/login/vacations/vacation-collapse-bar.html',vac_id=vac_id,page=page)
+def logged_vacations_template(vac_id, page):
+    render_template('/login/vacations/vacation-collapse-bar.html', vac_id=vac_id, page=page)
 
     if page == 'summary':
-        return redirect(url_for('logged_vacations_summary',vac_id=vac_id))
+        return redirect(url_for('logged_vacations_summary', vac_id=vac_id))
     elif page == 'itinerary':
-        return redirect(url_for('logged_vacations_itinerary',vac_id=vac_id))
+        return redirect(url_for('logged_vacations_itinerary', vac_id=vac_id))
     elif page == 'planning':
-        return redirect(url_for('logged_vacations_planning',vac_id=vac_id))
+        return redirect(url_for('logged_vacations_planning', vac_id=vac_id))
     elif page == 'sharing':
-        return redirect(url_for('logged_vacations_sharing',vac_id=vac_id))
+        return redirect(url_for('logged_vacations_sharing', vac_id=vac_id))
     else:
         return redirect(url_for('logged_vacations'))
 
@@ -199,42 +217,72 @@ def logged_vacations_summary(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
     vacation_summary = cursor.fetchone()
-    cursor.execute('SELECT vac_id, destination.dest_id, no_days, dstart_date, country, state  from (has_destination join destination on has_destination.dest_id = destination.dest_id)'
-                   'where vac_id =%s', (vac_id,))
+    cursor.execute(
+        'SELECT vac_id, destination.dest_id, no_days, dstart_date, country, state  from (has_destination join destination on has_destination.dest_id = destination.dest_id)'
+        'where vac_id =%s', (vac_id,))
     vacation_destinations = cursor.fetchall()
     cursor.close()
-    return render_template('/login/vacations/summary/summary.html',vacation_summary=vacation_summary,vac_id=vac_id,
+    return render_template('/login/vacations/summary/summary.html', vacation_summary=vacation_summary, vac_id=vac_id,
                            vacation_destinations=vacation_destinations)
 
 
 @app.route('/logged/vacations/itinerary/<string:vac_id>/')
 def logged_vacations_itinerary(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * from vacation_itinerary where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT * from vacation_itinerary where vac_id=%s order by itin_date, itin_time', (vac_id,))
     vacation_timeline = cursor.fetchall()
-    cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
     vacation_maps_itinerary = cursor.fetchall()
+
     cursor.close()
-    return render_template('/login/vacations/itinerary/itinerary.html',vacation_timeline=vacation_timeline,
-                           vac_id=vac_id,vacation_maps_itinerary=vacation_maps_itinerary)
+    return render_template('/login/vacations/itinerary/itinerary.html', vacation_timeline=vacation_timeline,
+                           vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary)
 
 
-@app.route('/logged/vacations/planning/<string:vac_id>/')
+@app.route('/logged/vacations/planning/<string:vac_id>/',methods=['GET','POST'])
 def logged_vacations_planning(vac_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT vac_id, budget_limit, total_spend, remaining_budget from vacation_summary where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT vac_id, budget_limit, total_spend, remaining_budget from vacation_summary where vac_id=%s',
+                   (vac_id,))
     vacation_summary = cursor.fetchone()
     cursor.execute('SELECT * from budget where vac_id=%s', (vac_id,))
+    # budget_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
+    # print(budget_fields)
     vacation_budget = cursor.fetchall()
     cursor.execute('SELECT * from booking where vac_id=%s', (vac_id,))
+    # booking_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
+    # print(booking_fields)
     vacation_booking = cursor.fetchall()
     # maps related to each itinerary
-    cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT vac_id, itin_time, day_no, map_link, description, name, category'
+                   ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
+    maps_itin_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
+    print(maps_itin_fields)
     vacation_itin_map = cursor.fetchall()
+    curr_tab="budget"
+
+    if request.method == 'POST':
+        if request.form['maps_itin_search']!= None:
+            curr_tab="maps_itin"
+            category = request.form.get('maps_itin_category')
+            if category in maps_itin_fields:
+                search = '%' + request.form['maps_itin_search'] + '%'
+                query = 'SELECT vac_id, itin_time, day_no, map_link, description, name, category from maps_itinerary_tbl where ' + \
+                        category.replace(" ", "_") + \
+                        ' like %s and vac_id =%s order by day_no, itin_time'
+                print(query)
+                cursor.execute(query, (search, vac_id,))
+                vacation_itin_map = cursor.fetchall()  # fetch all records
+                print(curr_tab)
+                return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
+                                       vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map,
+                                       vac_id=vac_id,vacation_summary=vacation_summary, maps_itin_fields=maps_itin_fields,
+                                       curr_tab=curr_tab)
+
     cursor.close()
     return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
-                           vacation_booking=vacation_booking,vacation_itin_map=vacation_itin_map,vac_id=vac_id,
-                           vacation_summary=vacation_summary)
+                           vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map, vac_id=vac_id,
+                           vacation_summary=vacation_summary,maps_itin_fields=maps_itin_fields,curr_tab=curr_tab)
 
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/')
@@ -244,7 +292,7 @@ def logged_vacations_sharing(vac_id):
     vacation_albums = None
     cursor.close()
     return render_template('/login/vacations/sharing/sharing.html', vacation_photo_drive=vacation_photo_drive,
-                           vacation_albums=vacation_albums,vac_id=vac_id)
+                           vacation_albums=vacation_albums, vac_id=vac_id)
 
 
 if __name__ == '__main__':
