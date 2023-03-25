@@ -1,5 +1,5 @@
 <div class="maps-container">
-    <form method="POST" class="row" action="{{url_for('logged_vacations_planning',vac_id=vac_id)}}" role="search" style="margin-top:auto; margin-bottom: auto;">
+    <form method="POST" class="row" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search" style="margin-top:auto; margin-bottom: auto;">
         <div class="col-6 col-md-8">
             <input class="form-control me-2" name="maps_itin_search" type="search" placeholder="Search by pressing enter" aria-label="Search">
         </div>

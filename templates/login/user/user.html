@@ -11,42 +11,58 @@
 </style>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
     <div class="row justify-content-center" style="height:100%;">
       <div class="col-md-6 col-sm-12">
         <div class="user-container">
-          <form>
-            <fieldset disabled>
-              <legend>User Profile</legend>
-              <div class="mb-3">
-                <label for="disabledUsername" class="form-label">Username</label>
-                {% if session['username']%} 
-                <input type="text" id="disabledUsername" class="form-control" placeholder="{{session['username']}}">
-                {% endif %}
+              {% with errors = get_flashed_messages(category_filter=["error"]) %}
+              {% if errors %}
+              <div class="alert alert-danger" role="alert">
+              {% for message in errors %}
+                {{ message }}
+              {% endfor %}
               </div>
-              <div class="mb-3">
-                <label for="disabledEmailAddress" class="form-label">Email Address</label>
-                {% if session['email']%} 
-                <input type="text" id="disabledEmailAddress" class="form-control" placeholder="{{session['email']}}">
-                {% endif %}
+              {% endif %}
+              {% endwith %}
+
+              {% with successes = get_flashed_messages(category_filter=["success"]) %}
+              {% if successes %}
+              <div class="alert alert-success" role="alert">
+              {% for message in successes %}
+                {{ message }}
+              {% endfor %}
               </div>
-              
-              <div class="mb-3">
+              {% endif %}
+              {% endwith %}
+
+            {% if session['username']%}
+            <h5 class="diplay-5 fw-bold">User Profile</h5>
+            <p></p>
+            <h6>Username: {{session['username']}}</h6>
+            <p></p>
+            <form action="{{ url_for('logged_user') }}" method="post">
+
+                <input type="email" id="email" name="user_email" class="form-control" value="{{session['email']}}">
+                <br>
+                <input type="text" id="password" name="user_password" class="form-control" placeholder="Enter new password to update">
+                <br>
+                <div class="mb-3">
                 <div class="form-check">
                   {%if session['sub_mail']%}
-                  <input class="form-check-input" type="checkbox" id="disabledEmailCheck" disabled checked>
-                  {% else %}
-                  <input class="form-check-input" type="checkbox" id="EmailCheck" disabled>
-                  {% endif %}
+                  <input class="form-check-input" type="checkbox" name="checkEmail" id="disabledEmailCheck" checked>
                   <label class="form-check-label" for="disabledEmailCheck">
                     Please keep me in the loop via email
                   </label>
+                  {% else %}
+                  <input class="form-check-input" type="checkbox" name="checkEmail" id="EmailCheck">
+                  <label class="form-check-label" for="EmailCheck">
+                    Please keep me in the loop via email
+                  </label>
+                  {% endif %}
                 </div>
               </div>
-            </fieldset>
-            <button type="submit" class="btn btn-secondary">Edit</button>
-    
-          </form>
+                <button type="submit" class="btn btn-secondary">Update</button>
+            {% endif %}
+            </form>
         </div>
       </div>
       <div class="col-md-6 col-sm-12">
@@ -56,7 +72,7 @@
             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
           </svg>
           <br><br>
-          <h1>Username</h1>
+          <h1>{{session['username']}}</h1>
         </div>
       </div>
     </div>    
