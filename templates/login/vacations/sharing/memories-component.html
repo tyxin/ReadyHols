@@ -1,44 +1,48 @@
 <div class="row" style="height:100%; ">
-    <div class="col-md-3 col-sm-8">
+    {% for i in vacation_albums %}
+    <div class="col-md-3 col-sm-6">
         <div class="card text-center" style="height:100%;">
-            <div class="card-image"></div>
+            <div class="card-image">
+                {% if loop.index%4== 1%}
+                <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
+                    class="w-100 shadow-1-strong"
+                    style="border-top-left-radius: 20px; border-top-right-radius: 20px;"
+                    alt="Boat on Calm Water"
+                />
+                {% endif %}
+                {% if loop.index%4== 2%}
+                <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(18).webp"
+                    class="w-100 shadow-1-strong"
+                    style="border-top-left-radius: 20px; border-top-right-radius: 20px;"
+                    alt="Waves at Sea"
+                />
+                {% endif %}
+                {% if loop.index%4== 3%}
+                <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
+                    class="w-100 shadow-1-strong"
+                    style="border-top-left-radius: 20px; border-top-right-radius: 20px;"
+                    alt="Wintry Mountain Landscape"
+                />
+                {% endif %}
+                {% if loop.index%4== 0%}
+                <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain3.webp"
+                    class="w-100 shadow-1-strong"
+                    style="border-top-left-radius: 20px; border-top-right-radius: 20px;"
+                    alt="Yosemite National Park"
+                />
+                {% endif %}
+            </div>
             <div class="card-text">
-                <span class="date">18 - 20 Jan</span>
-                <h3>Memories Title</h3>
+                <span class="date">{{i['alb_date']}}</span>
+                <h3>{{i['alb_name']}}</h3>
                 <p>Some Short description</p>
             </div>
           </div>
     </div>
-    <div class="col-md-3 col-sm-8">
-        <div class="card text-center" style="height:100%;">
-            <div class="card-image"></div>
-            <div class="card-text">
-                <span class="date">18 - 20 Jan</span>
-                <h3>Memories Title</h3>
-                <p>Some Short description</p>
-            </div>
-          </div>
-    </div>
-    <div class="col-md-3 col-sm-8">
-        <div class="card text-center" style="height:100%;">
-            <div class="card-image"></div>
-            <div class="card-text">
-                <span class="date">18 - 20 Jan</span>
-                <h3>Memories Title</h3>
-                <p>Some Short description</p>
-            </div>
-          </div>
-    </div>
-    <div class="col-md-3 col-sm-8">
-        <div class="card text-center" style="height:100%;">
-            <div class="card-image"></div>
-            <div class="card-text">
-                <span class="date">18 - 20 Jan</span>
-                <h3>Memories Title</h3>
-                <p>Some Short description</p>
-            </div>
-          </div>
-    </div>
-
+    {% endfor %}
 
 </div>

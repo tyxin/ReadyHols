@@ -20,24 +20,42 @@
             <li class="nav-item" role="presentation">
               <button class="nav-link {{'active' if curr_tab=='maps_itin'}}" id="itinerary-map-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#itinerary-map" type="button" role="pill" aria-controls="itinerary-map" aria-selected="false">Itinerary & Maps</button>
             </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link {{'active' if curr_tab=='itinerary'}}" id="itinerary-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#itinerary" type="button" role="pill" aria-controls="itinerary" aria-selected="false">Itinerary</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link {{'active' if curr_tab=='public_maps'}}" id="public-maps-tab" style="border-radius: 100px;" data-bs-toggle="pill" data-bs-target="#public-maps" type="button" role="pill" aria-controls="public-maps" aria-selected="false">Public Maps</button>
+            </li>
         </ul>
 
           <div class="tab-content" id="myTabContent" style="padding-top: 1%;">
             <div class="tab-pane fade {{'show active' if curr_tab=='budget'}}" id="budget" role="tabpanel" aria-labelledby="budget-tab">
-              <div class="tab-custom-container align-content-start overflow:auto">
+              <div class="tab-custom-container align-content-start overflow-auto">
                   {% include '/login/vacations/planning/budget-component.html' %}
               </div>
             </div>   
 
             <div class="tab-pane fade {{'show active' if curr_tab=='booking'}}" id="booking" role="tabpanel" aria-labelledby="booking-tab">
-                <div class="tab-custom-container align-content-start overflow:auto">
+                <div class="tab-custom-container align-content-start overflow-auto">
                     {% include '/login/vacations/planning/booking-component.html' %}
                 </div>
             </div>
 
             <div class="tab-pane fade {{'show active' if curr_tab=='maps_itin'}}" id="itinerary-map" role="tabpanel" aria-labelledby="itinerary-map-tab">
-                <div class="tab-custom-container align-content-start overflow:auto">
+                <div class="tab-custom-container align-content-start overflow-auto">
                     {% include '/login/vacations/planning/itinerary-map-component.html' %}
+                </div>
+            </div>
+
+            <div class="tab-pane fade {{'show active' if curr_tab=='itinerary'}}" id="itinerary" role="tabpanel" aria-labelledby="itinerary-tab">
+                <div class="tab-custom-container align-content-start overflow-auto">
+                    {% include '/login/vacations/planning/itinerary-component.html' %}
+                </div>
+            </div>
+
+            <div class="tab-pane fade {{'show active' if curr_tab=='public_maps'}}" id="public-maps" role="tabpanel" aria-labelledby="public-maps-tab">
+                <div class="tab-custom-container align-content-start overflow-auto">
+                    {% include '/login/vacations/planning/map-component.html' %}
                 </div>
             </div>
           </div>

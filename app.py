@@ -211,7 +211,22 @@ def logged_user():
 
 @app.route('/logged/settings/')
 def logged_settings():
-    return render_template('/login/settings/settings.html')
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT vac_grp_tbl.vac_grp_id, grp_name, vac_grp_pin from '
+                   '(SELECT vu2.vac_grp_id from vac_user_in vu2 where user_id=%s) as vac_user_tbl join'
+                   ' (SELECT * from vacation_grp) as vac_grp_tbl'
+                   ' on vac_grp_tbl.vac_grp_id = vac_user_tbl.vac_grp_id'
+                   ' order by vac_grp_tbl.vac_grp_id',
+                   (session['user_id'],))
+    user_vacgrp_details = cursor.fetchall()
+    print(user_vacgrp_details)
+    cursor.execute('SELECT vac_grp_id, user.user_id, username from vac_user_in, user '
+                   'where user.user_id = vac_user_in.user_id and '
+                   '(vac_grp_id in (select vu2.vac_grp_id from vac_user_in vu2 where user_id=%s))'
+                   'and user.user_id<>%s',(session['user_id'],session['user_id'],))
+    same_vacgrp_users = cursor.fetchall()
+    return render_template('/login/settings/settings.html',user_vacgrp_details=user_vacgrp_details,
+                           same_vacgrp_users=same_vacgrp_users)
 
 
 @app.route('/logged/vacations/home/<string:page>/<string:vac_id>/')
@@ -275,6 +290,11 @@ def logged_vacations_planning(vac_id,vacation_name):
     # print(booking_fields)
     vacation_booking = cursor.fetchall()
     # maps related to each itinerary
+    cursor.execute('SELECT * from itinerary where vac_id=%s', (vac_id,))
+    vacation_itinerary = cursor.fetchall()
+    print(vacation_itinerary)
+    cursor.execute('SELECT * from vac_map')
+    public_maps = cursor.fetchall()
     cursor.execute('SELECT vac_id, itin_time, day_no, map_link, description, name, category'
                    ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
     maps_itin_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
@@ -298,23 +318,27 @@ def logged_vacations_planning(vac_id,vacation_name):
                 return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
                                        vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map,
                                        vac_id=vac_id,vacation_summary=vacation_summary, maps_itin_fields=maps_itin_fields,
-                                       curr_tab=curr_tab,vacation_name=vacation_name)
+                                       curr_tab=curr_tab,vacation_name=vacation_name,vacation_itinerary=vacation_itinerary,
+                                       public_maps=public_maps)
 
     cursor.close()
     return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
                            vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map, vac_id=vac_id,
                            vacation_summary=vacation_summary,maps_itin_fields=maps_itin_fields,curr_tab=curr_tab,
-                           vacation_name=vacation_name)
+                           vacation_name=vacation_name,vacation_itinerary=vacation_itinerary,public_maps=public_maps)
 
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/')
 def logged_vacations_sharing(vac_id,vacation_name):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * from album where vac_id=%s',(vac_id,))
+    vacation_albums = cursor.fetchall()
     vacation_photo_drive = None
-    vacation_albums = None
+    vacation_photo_in_album = None
     cursor.close()
     return render_template('/login/vacations/sharing/sharing.html', vacation_photo_drive=vacation_photo_drive,
-                           vacation_albums=vacation_albums, vac_id=vac_id,vacation_name=vacation_name)
+                           vacation_albums=vacation_albums, vac_id=vac_id,vacation_name=vacation_name,
+                           vacation_photo_in_album=vacation_photo_in_album)
 
 
 if __name__ == '__main__':

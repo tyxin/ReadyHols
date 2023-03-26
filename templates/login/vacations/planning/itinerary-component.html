@@ -1,0 +1,24 @@
+<table class="table table-hover">
+    <thead class="bg-dark text-white">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Day No.</th>
+        <th scope="col">Time</th>
+        <th scope="col">Type</th>
+        <th scope="col">Description</th>
+        <th scope="col">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in vacation_itinerary %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{i['day_no']}}</td>
+        <td>{{i['itin_time']}}</td>
+        <td>{{i['itin_type']}}</td>
+        <td>{{i['description']}}</td>
+        <td>{{i['location']}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>

@@ -5,7 +5,7 @@
 .col{padding-top: 1%}
 .btn{padding: 5px 30px 5px 30px; margin-right: 10px;}
 
-.image { position: relative; width: 100%; }
+.image { position: relative; width: 100%;}
      
 .custom-container{ 
     position: absolute; 
@@ -63,7 +63,6 @@ background-size: cover;
 
 .card-image{
   grid-area: image;
-  background: url("/assets/background-learn-more.jpeg");
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background-size: cover;

@@ -1,5 +1,5 @@
 .container{ 
-    padding-top: 5%; 
+    padding-top: 5%;
     margin-left: 0%;
 }
 .col{padding-top: 1%}
@@ -74,11 +74,10 @@ background-size: cover;
   width: 15px;
   background-color: #b0b0b0;
   border-radius: 50%;
-  position: relative;
-  translate: -210% 140%;
+  transform: translate(-60%,140%);
 }
 
 
 .timeline-object{
-  padding: 0% 2%;
+  padding: 0% 0%;
 }
