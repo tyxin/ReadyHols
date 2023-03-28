@@ -45,4 +45,10 @@
     </div>
     {% endfor %}
 
+    {% if vacation_albums|count == 0 %}
+    <div class="container" style="text-align: center;">
+         <h2> No Data Yet! </h2>
+         <img src="/static/assets/no_data_3.svg" style="width: 30%;">
+    </div>
+    {% endif %}
 </div>

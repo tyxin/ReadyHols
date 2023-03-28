@@ -23,4 +23,11 @@
         {% endfor %}
       </tbody>
     </table>
+
+    {% if vacation_budget|count == 0 %}
+    <div class="container" style="text-align: center;">
+        <h5> No Data Yet! </h5>
+        <img src="/static/assets/no_data_2.svg" style="width: 30%;">
+    </div>
+    {% endif %}
 </div>

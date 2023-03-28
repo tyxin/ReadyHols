@@ -56,7 +56,14 @@
                 {% endfor %}
                   
                 </tbody>
-              </table>
+            </table>
+            {% if vacation_destinations|count == 0 %}
+            <div class="container" style="text-align: center;">
+               <img src="/static/assets/no_data_2.svg" style="width: 50%;">
+                <h5> No Data Yet! </h5>
+            </div>
+
+            {% endif %}
         </div>
     </div>        
 </div>

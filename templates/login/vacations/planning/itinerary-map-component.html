@@ -13,9 +13,10 @@
 
         <div class="col-6 col-md-2">
             <button class="btn btn-outline-secondary" type="submit">Add&nbspMap</button>
-
         </div>
-
+        <div class="col col-md-2">
+            <button class="btn btn-outline-secondary" type="submit">Delete</button>
+        </div>
     </form>
     <p></p>
     <table class="table table-hover table-scroll">
@@ -45,5 +46,13 @@
 
         </tbody>
     </table>
+
+    {% if vacation_itin_map|count == 0 %}
+    <div class="container" style="text-align: center;">
+        <h5> No Data Yet! </h5>
+        <img src="/static/assets/no_data_1.svg" style="width: 30%;">
+    </div>
+
+    {% endif %}
 </div>
 

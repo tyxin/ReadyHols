@@ -22,4 +22,11 @@
         </div>
     </div>
     {% endfor %}
+
+    {% if vacation_timeline|count == 0 %}
+    <div class="container" style="text-align: center;">
+        <h2> No Data Yet! </h2>
+        <img src="/static/assets/no_data_1.svg" style="width: 30%;">
+    </div>
+    {% endif %}
 </div>
