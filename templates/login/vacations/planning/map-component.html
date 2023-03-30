@@ -1,34 +1,35 @@
-    <form method="POST" class="row" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
-          style="margin-top:auto; margin-bottom: 2%; margin-left: 0%;">
-        <div class="row gx-2">
-            <div class="col col-md-2">
-                <input class="form-control me-2" name="add_maps_map_name" placeholder="Map Name" aria-label="Map Name">
-            </div>
-            <div class="col col-md-2">
-                <select class="form-select" name="maps_itin_category">
-                    <option value="ATTRACTION">ATTRACTION</option>
-                    <option value="FOOD">FOOD</option>
-                    <option value="TOUR">TOUR</option>
-                    <option value="SIGHTSEEING">SIGHTSEEING</option>
-                    <option value="OTHERS">OTHERS</option>
-                </select>
-            </div>
-            <div class="col col-md-2">
-                <input disabled class="form-control me-2" name="add_maps_map_attachment" placeholder="Map Link" aria-label="Map Link">
-            </div>
-            <div class="col col-md-2">
-              <button class="btn btn-outline-secondary" type="submit">Upload Map</button>
-            </div>
-            <div class="col col-md-2">
-              <button class="btn btn-outline-secondary" type="submit">Add</button>
-            </div>
-            <div class="col col-md-2">
-              <button class="btn btn-outline-secondary" type="submit">Delete</button>
-            </div>
-        </div>
-    </form>
+<span>
+    <button class="btn btn-outline-secondary" href="#" onclick="show('mapPopUp')">Add Map</button>
+</span>
 
-<table class="table table-hover">
+<div class="popup" id="mapPopUp">
+    <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
+          style="margin-top:auto; padding: 2%;">
+
+        <h3>New Map</h3>
+        <br>
+        <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_map_name" placeholder="Map Name" aria-label="Map Name">
+
+        <select class="form-select" name="maps_itin_category">
+            <option value="ATTRACTION">ATTRACTION</option>
+            <option value="FOOD">FOOD</option>
+            <option value="TOUR">TOUR</option>
+            <option value="SIGHTSEEING">SIGHTSEEING</option>
+            <option value="OTHERS">OTHERS</option>
+        </select>
+
+        <input style="margin-top: 1%; margin-bottom: 1%;" disabled class="form-control me-2" name="add_maps_map_attachment" placeholder="Map Link" aria-label="Map Link">
+
+        <span>
+            <button class="btn btn-outline-secondary" type="button">Upload Map</button>
+            <button class="btn btn-outline-secondary">Add</button>
+            <button class="btn btn-outline-secondary" type="button" onclick="hide('mapPopUp')">Cancel</button>
+        </span>
+    </form>
+</div>
+
+
+<table class="table table-hover" style="margin-top: 1%;">
     <thead class="bg-dark text-white">
       <tr>
         <th scope="col">No.</th>

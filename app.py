@@ -292,7 +292,6 @@ def logged_vacations_planning(vac_id,vacation_name):
     # maps related to each itinerary
     cursor.execute('SELECT * from itinerary where vac_id=%s', (vac_id,))
     vacation_itinerary = cursor.fetchall()
-    print(vacation_itinerary)
     cursor.execute('SELECT * from vac_map')
     public_maps = cursor.fetchall()
     cursor.execute('SELECT vac_id, itin_time, day_no, map_link, description, name, category'

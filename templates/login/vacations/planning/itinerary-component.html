@@ -1,39 +1,37 @@
-    <form method="POST" class="row" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
-          style="margin-top:auto; margin-bottom: 2%; margin-left: 0%;">
-        <div class="row gx-2">
-            <div class="col col-md-2">
-                <input class="form-control me-2" name="add_maps_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
-            </div>
-            <div class="col col-md-2">
-                <input class="form-control me-2" name="add_maps_itin_day_no" placeholder="Day No" aria-label="Day No">
-            </div>
-            <div class="col col-md-2">
-                <select class="form-select" name="maps_itin_category">
-                    <option value="ATTRACTION">ATTRACTION</option>
-                    <option value="FOOD">FOOD</option>
-                    <option value="TOUR">TOUR</option>
-                    <option value="SIGHTSEEING">SIGHTSEEING</option>
-                    <option value="OTHERS">OTHERS</option>
-                </select>
-            </div>
-            <div class="col col-md-2">
-                <input class="form-control me-2" name="add_maps_itin_description" placeholder="Description" aria-label="Description">
-            </div>
-            <div class="col col-md-2">
-                <input class="form-control me-2" name="add_maps_itin_location" placeholder="Enter Location" aria-label="Location">
-            </div>
+<span>
+    <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Add Itinerary</button>
+    <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Update Itinerary</button>
+    <button class="btn btn-outline-secondary" href="#">Delete Itinerary</button>
+</span>
+<div class="popup" id="itineraryPopUp">
+    <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
+              style="padding: 2%; overflow: auto;">
+        <h3>New Itinerary</h3>
+        <br>
+        <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_day_no" placeholder="Day No" aria-label="Day No">
 
-            <div class="col col-md-2">
-              <button class="btn btn-outline-secondary" type="submit">Add</button>
-            </div>
-            <div class="col col-md-2">
-              <button class="btn btn-outline-secondary" type="submit">Delete</button>
-            </div>
-        </div>
+        <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
 
+        <select class="form-select" name="maps_itin_category">
+            <option value="ATTRACTION">ATTRACTION</option>
+            <option value="FOOD">FOOD</option><option value="TOUR">TOUR</option>
+            <option value="SIGHTSEEING">SIGHTSEEING</option>
+            <option value="OTHERS">OTHERS</option>
+        </select>
+
+        <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_description" placeholder="Description" aria-label="Description">
+
+        <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_location" placeholder="Enter Location" aria-label="Location">
+
+        <span>
+            <button class="btn btn-outline-secondary">Add</button>
+            <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryPopUp')">Cancel</button>
+        </span>
     </form>
+</div>
 
-<table class="table table-hover">
+
+<table class="table table-hover" style="margin-top: 1%;">
     <thead class="bg-dark text-white">
       <tr>
         <th scope="col">No.</th>
