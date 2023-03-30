@@ -1,4 +1,5 @@
 <script src="/static/javascript/calendar.js" defer></script>
+<script src="/static/javascript/popup.js" defer></script>
 <div row="container" style="height:100%;">
     <div class="row justify-content-center" style="height:100%;">
         <div class="col-md-5 col-sm-12" style="height:100%;">
@@ -36,6 +37,30 @@
             <p></p>
             <h5>Start Country: {{vacation_summary['first_state']}}, {{vacation_summary['first_country']}}</h5>
             <h5>End Country: {{vacation_summary['last_state']}}, {{vacation_summary['last_country']}}</h5>
+            <span>
+                <button class="btn btn-outline-secondary" href="#" onclick="show('destinationPopUp')">Add Destination</button>
+                <button class="btn btn-outline-secondary" href="#" onclick="show('destinationPopUp')">Update Destination</button>
+                <button class="btn btn-outline-secondary" href="#">Delete Destination</button>
+            </span>
+            <div class="popup" id="destinationPopUp">
+                <form method="POST" action="{{url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name)}}" role="search" style="padding:2%;">
+                    <h3>New Destination</h3>
+                    <br>
+                    <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
+
+                    <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_state" placeholder="State" aria-label="State">
+
+                    <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_country" placeholder="Country" aria-label="Country">
+
+                    <input style="margin-top: 1%; margin-bottom: 1%;" disabled class="form-control me-2" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
+
+                    <span>
+                        <button class="btn btn-outline-secondary">Add</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="hide('destinationPopUp')">Cancel</button>
+                    </span>
+
+                </form>
+            </div>
             <table class="table table-striped table-hover overflow-scroll">
                 <thead>
                   <tr>
