@@ -46,13 +46,13 @@
                 <form method="POST" action="{{url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name)}}" role="search" style="padding:2%;">
                     <h3>New Destination</h3>
                     <br>
-                    <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
+                    <input type="date" style="margin-top: 1%;" class="form-control me-2" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
 
                     <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_state" placeholder="State" aria-label="State">
 
                     <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_country" placeholder="Country" aria-label="Country">
 
-                    <input style="margin-top: 1%; margin-bottom: 1%;" disabled class="form-control me-2" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
+                    <input type="number" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
 
                     <span>
                         <button class="btn btn-outline-secondary">Add</button>
@@ -84,7 +84,7 @@
             </table>
             {% if vacation_destinations|count == 0 %}
             <div class="container" style="text-align: center;">
-               <img src="/static/assets/no_data_2.svg" style="width: 50%;">
+               <img src="/static/assets/no_data_2.svg" style="height: 40%;">
                 <h5> No Data Yet! </h5>
             </div>
 

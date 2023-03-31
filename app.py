@@ -113,12 +113,12 @@ def sign_up():
             flash('Invalid Email Address', 'error')
         elif not re.match(r'[A-Za-z0-9]+', username):
             flash('Username must contain only characters and numbers!', 'error')
-        elif not ((len(password) >= 8) and (len(password) <= 20) and (re.match(r'[A-Za-z0-9]+',password))):
+        elif not ((len(password) >= 8) and (len(password) <= 20) and (re.match(r'[A-Za-z0-9]+', password))):
             flash('Password must be 8-20 characters long, contain letters and numbers,'
                   ' and must not contain spaces, special characters, or emoji.')
         else:
             user_count = cursor.execute('SELECT * from user')
-            user_id = generate_user_id(user_count + 1, cursor)
+            user_id = generate_id(user_count + 1, cursor, "user", "user_id")
             cursor.execute('INSERT into user VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)',
                            (user_id, username, generate_password_hash(password), email, planType,
                             int(subEmail), int(False), 0, 0))
@@ -130,17 +130,17 @@ def sign_up():
     return render_template('/n-login/sign-up.html')
 
 
-def generate_user_id(user_count, cursor):
-    valid_user_id = "{:09d}".format(user_count)
-    account = None
-    while account == None:
-        cursor.execute('SELECT * from user where user_id=%s', (valid_user_id,))
-        account = cursor.fetchone()
-        if account == None:
+def generate_id(type_count, cursor, table_name, id_name):
+    valid_id = "{:09d}".format(type_count)
+    exist_entry = None
+    while exist_entry == None:
+        cursor.execute('SELECT * from '+table_name+' where '+' '+id_name+'=%s', (valid_id,))
+        exist_entry = cursor.fetchone()
+        if exist_entry == None:
             break
-        user_count += 1
-        cursor.close()
-    return valid_user_id
+        type_count += 1
+        valid_id = "{:09d}".format(type_count)
+    return valid_id
 
 
 def logout():
@@ -186,7 +186,7 @@ def logged_vacations():
                            recent_vacations_user=vacations_user[:4], fields=fields)
 
 
-@app.route('/logged/user/',methods=['GET','POST'])
+@app.route('/logged/user/', methods=['GET', 'POST'])
 def logged_user():
     if request.method == 'POST' and ('user_email' in request.form) and ('user_password' in request.form):
         user_email = request.form['user_email']
@@ -198,9 +198,10 @@ def logged_user():
 
         if not re.match(r'[^@]+@[^@]+\.[^@]+', user_email):
             flash('Invalid email address! Updates not done.', 'error')
-        elif not ((len(user_password) >= 8) and (len(user_password) <= 20) and (re.match(r'[A-Za-z0-9]+',user_password))):
+        elif not ((len(user_password) >= 8) and (len(user_password) <= 20) and (
+        re.match(r'[A-Za-z0-9]+', user_password))):
             flash('Password must be 8-20 characters long, contain letters and numbers,'
-                  ' and must not contain spaces, special characters, or emoji.','error')
+                  ' and must not contain spaces, special characters, or emoji.', 'error')
         else:
             cursor.execute('UPDATE user set email=%s, password=%s, sub_mail=%s WHERE user_id = %s ',
                            (user_email, generate_password_hash(user_password), subEmail, session['user_id'],))
@@ -223,33 +224,34 @@ def logged_settings():
     cursor.execute('SELECT vac_grp_id, user.user_id, username from vac_user_in, user '
                    'where user.user_id = vac_user_in.user_id and '
                    '(vac_grp_id in (select vu2.vac_grp_id from vac_user_in vu2 where user_id=%s))'
-                   'and user.user_id<>%s',(session['user_id'],session['user_id'],))
+                   'and user.user_id<>%s', (session['user_id'], session['user_id'],))
     same_vacgrp_users = cursor.fetchall()
-    return render_template('/login/settings/settings.html',user_vacgrp_details=user_vacgrp_details,
+    return render_template('/login/settings/settings.html', user_vacgrp_details=user_vacgrp_details,
                            same_vacgrp_users=same_vacgrp_users)
 
 
 @app.route('/logged/vacations/home/<string:page>/<string:vac_id>/')
 def logged_vacations_template(vac_id, page):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT description from vacation where vac_id=%s',(vac_id,))
+    cursor.execute('SELECT description from vacation where vac_id=%s', (vac_id,))
     vacation_name = cursor.fetchone()
     # render_template('/login/vacations/vacation-collapse-bar.html', vac_id=vac_id, page=page,vacation_name=vacation_name['description'])
 
     if page == 'summary':
-        return redirect(url_for('logged_vacations_summary', vac_id=vac_id,vacation_name=vacation_name['description']))
+        return redirect(url_for('logged_vacations_summary', vac_id=vac_id, vacation_name=vacation_name['description']))
     elif page == 'itinerary':
-        return redirect(url_for('logged_vacations_itinerary', vac_id=vac_id,vacation_name=vacation_name['description']))
+        return redirect(
+            url_for('logged_vacations_itinerary', vac_id=vac_id, vacation_name=vacation_name['description']))
     elif page == 'planning':
-        return redirect(url_for('logged_vacations_planning', vac_id=vac_id,vacation_name=vacation_name['description']))
+        return redirect(url_for('logged_vacations_planning', vac_id=vac_id, vacation_name=vacation_name['description']))
     elif page == 'sharing':
-        return redirect(url_for('logged_vacations_sharing', vac_id=vac_id,vacation_name=vacation_name['description']))
+        return redirect(url_for('logged_vacations_sharing', vac_id=vac_id, vacation_name=vacation_name['description']))
     else:
         return redirect(url_for('logged_vacations'))
 
 
 @app.route('/logged/vacations/summary/<string:vac_id>/<string:vacation_name>/')
-def logged_vacations_summary(vac_id,vacation_name):
+def logged_vacations_summary(vac_id, vacation_name):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
     vacation_summary = cursor.fetchone()
@@ -259,11 +261,11 @@ def logged_vacations_summary(vac_id,vacation_name):
     vacation_destinations = cursor.fetchall()
     cursor.close()
     return render_template('/login/vacations/summary/summary.html', vacation_summary=vacation_summary, vac_id=vac_id,
-                           vacation_destinations=vacation_destinations,vacation_name=vacation_name)
+                           vacation_destinations=vacation_destinations, vacation_name=vacation_name)
 
 
 @app.route('/logged/vacations/itinerary/<string:vac_id>/<string:vacation_name>/')
-def logged_vacations_itinerary(vac_id,vacation_name):
+def logged_vacations_itinerary(vac_id, vacation_name):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_itinerary where vac_id=%s order by itin_date, itin_time', (vac_id,))
     vacation_timeline = cursor.fetchall()
@@ -272,11 +274,11 @@ def logged_vacations_itinerary(vac_id,vacation_name):
 
     cursor.close()
     return render_template('/login/vacations/itinerary/itinerary.html', vacation_timeline=vacation_timeline,
-                           vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary,vacation_name=vacation_name)
+                           vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary, vacation_name=vacation_name)
 
 
-@app.route('/logged/vacations/planning/<string:vac_id>/<string:vacation_name>/',methods=['GET','POST'])
-def logged_vacations_planning(vac_id,vacation_name):
+@app.route('/logged/vacations/planning/<string:vac_id>/<string:vacation_name>/', methods=['GET', 'POST'])
+def logged_vacations_planning(vac_id, vacation_name):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT vac_id, budget_limit, total_spend, remaining_budget from vacation_summary where vac_id=%s',
                    (vac_id,))
@@ -299,11 +301,11 @@ def logged_vacations_planning(vac_id,vacation_name):
     maps_itin_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
     print(maps_itin_fields)
     vacation_itin_map = cursor.fetchall()
-    curr_tab="budget"
+    curr_tab = "budget"
 
     if request.method == 'POST':
-        if request.form['maps_itin_search']!= None:
-            curr_tab="maps_itin"
+        if request.form['maps_itin_search'] != None:
+            curr_tab = "maps_itin"
             category = request.form.get('maps_itin_category')
             if category in maps_itin_fields:
                 search = '%' + request.form['maps_itin_search'] + '%'
@@ -316,28 +318,80 @@ def logged_vacations_planning(vac_id,vacation_name):
                 print(curr_tab)
                 return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
                                        vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map,
-                                       vac_id=vac_id,vacation_summary=vacation_summary, maps_itin_fields=maps_itin_fields,
-                                       curr_tab=curr_tab,vacation_name=vacation_name,vacation_itinerary=vacation_itinerary,
+                                       vac_id=vac_id, vacation_summary=vacation_summary,
+                                       maps_itin_fields=maps_itin_fields,
+                                       curr_tab=curr_tab, vacation_name=vacation_name,
+                                       vacation_itinerary=vacation_itinerary,
                                        public_maps=public_maps)
 
     cursor.close()
     return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
                            vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map, vac_id=vac_id,
-                           vacation_summary=vacation_summary,maps_itin_fields=maps_itin_fields,curr_tab=curr_tab,
-                           vacation_name=vacation_name,vacation_itinerary=vacation_itinerary,public_maps=public_maps)
+                           vacation_summary=vacation_summary, maps_itin_fields=maps_itin_fields, curr_tab=curr_tab,
+                           vacation_name=vacation_name, vacation_itinerary=vacation_itinerary, public_maps=public_maps)
 
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/')
-def logged_vacations_sharing(vac_id,vacation_name):
+def logged_vacations_sharing(vac_id, vacation_name):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * from album where vac_id=%s',(vac_id,))
+    cursor.execute('SELECT * from album where vac_id=%s', (vac_id,))
     vacation_albums = cursor.fetchall()
     vacation_photo_drive = None
     vacation_photo_in_album = None
     cursor.close()
     return render_template('/login/vacations/sharing/sharing.html', vacation_photo_drive=vacation_photo_drive,
-                           vacation_albums=vacation_albums, vac_id=vac_id,vacation_name=vacation_name,
+                           vacation_albums=vacation_albums, vac_id=vac_id, vacation_name=vacation_name,
                            vacation_photo_in_album=vacation_photo_in_album)
+
+
+@app.route('/logged/vacations/<string:type_of_update>', methods=['GET', 'POST'])
+def add_update_vacation(type_of_update):
+    print(type_of_update)
+    print("hello")
+    if request.method == 'POST' and ('add_vacation_description' in request.form) and ('add_vacation_grp' in request.form)\
+            and ('add_vacation_grp_pin' in request.form) and ('add_vacation_start_date' in request.form) and \
+            ('add_vacation_end_date' in request.form) and ('add_vacation_budget_limit' in request.form):
+        vacation_description = request.form['add_vacation_description']
+        vacation_grp = request.form['add_vacation_grp']
+        vacation_grp_pin = request.form['add_vacation_grp_pin']
+        vacation_start_date = request.form['add_vacation_start_date']
+        vacation_end_state = request.form['add_vacation_end_date']
+        vacation_budget_limit = request.form['add_vacation_budget_limit']
+        upgradeVacation = False
+        upg_user_id = None
+
+        print(vacation_description)
+        if 'vacationUpgrade' in request.form:
+            upgradeVacation = True
+            upg_user_id = session['user_id']
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT vacation_grp.vac_grp_id,vac_grp_pin from vacation_grp,vac_user_in'
+                       ' where (vac_user_in.vac_grp_id = vacation_grp.vac_grp_id) and vacation_grp.vac_grp_id=%s and user_id=%s',(vacation_grp,session['user_id']))
+        vacation_grp_details = cursor.fetchone()
+        print(vacation_grp_details)
+        if vacation_grp_details['vac_grp_id'] is None:
+            flash('You can only create vacations for groups you are in!', 'error')
+        else:
+            if check_password_hash(vacation_grp_details['vac_grp_pin'],vacation_grp_pin):
+                vacation_count = cursor.execute('SELECT * from vacation')
+
+                if not re.match(r'[A-Za-z0-9]+', vacation_description):
+                    flash('Description must contain only characters and numbers!', 'error')
+                else:
+                    vacation_id = generate_id(vacation_count + 1, cursor, "vacation", "vac_id")
+                    cursor.execute('INSERT INTO vacation VALUES(%s,%s,%s,%s,%s,%s,%s)',
+                                   (vacation_id, vacation_description, vacation_grp, upg_user_id, vacation_start_date,
+                                    vacation_end_state, vacation_budget_limit,))
+                    mysql.connection.commit()
+                    flash('Congratulations, you have successfully added a new vacation!', 'success')
+                    return redirect(url_for('logged_vacations'))
+                cursor.close()
+
+            else:
+                flash('Incorrect Vacation Group PIN!', 'error')
+
+    return redirect(url_for('logged_vacations'))
 
 
 if __name__ == '__main__':

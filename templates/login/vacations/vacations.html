@@ -4,6 +4,7 @@
 
 {% block content %}
 <script src="/static/javascript/popup.js" defer></script>
+<script src="/static/javascript/table_select.js" defer></script>
 
 <style>
     .top-container{ margin: 5% 2% 5% 2%; }
@@ -31,10 +32,17 @@
 
     a:hover{
         color:#3A3B3C;
-    }  
+    } 
+
+    .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+    
 
 </style>
 <body>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
     <div class="top-container align-items-start">
@@ -65,27 +73,25 @@
                 <h4>All my vacations</h4>
                 <span>
                     <button class="btn btn-outline-secondary" href="#" onclick="show('vacationPopUp')">Add Vacation</button>
-                    <button class="btn btn-outline-secondary" href="#" onclick="show('vacationPopUp')">Update Vacation</button>
+                    <button class="btn btn-outline-secondary" href="#" onclick="update_row('vacation_tbl','{{vacation_user}}','add_vacation_description')">Update Vacation</button>
                     <button class="btn btn-outline-secondary" href="#">Delete Vacation</button>
                 </span>
                 <div class="popup" id="vacationPopUp">
-                    <form method="POST" action="{{url_for('logged_vacations')}}" role="search" style="padding:2%; overflow:auto; height: 100%;">
+                    <form method="POST" action="{{url_for('add_update_vacation',type_of_update='UPDATE')}}" role="search" style="padding:2%; overflow:auto; height: 100%; overflow-x:hidden;">
 
                         <h3>New Vacation</h3>
                         <br>
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_description" placeholder="Description" aria-label="Description">
+                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_description" id="add_vacation_description" placeholder="Description" aria-label="Description">
 
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_grp" placeholder="Vacation Group ID" aria-label="Vacation Group ID">
+                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_grp" id="add_vacation_grp" placeholder="Vacation Group ID" aria-label="Vacation Group ID">
 
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_grp_pin" placeholder="Vacation Group PIN" aria-label="Vacation Group PIN">
+                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_grp_pin" id="add_vacation_grp_pin" placeholder="Vacation Group PIN" aria-label="Vacation Group PIN">
 
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_grp_pin" placeholder="Vacation Group PIN" aria-label="Vacation Group PIN">
+                        <input type="date" style="margin-top: 1%;" class="form-control me-2" name="add_vacation_start_date" id="add_vacation_start_date" placeholder="Vacation Start Date" aria-label="Vacation Start Date" type="date">
 
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_start_date" placeholder="Vacation Start Date" aria-label="Vacation Start Date" type="date">
+                        <input type="date" style="margin-top: 1%;" class="form-control me-2" name="add_vacation_end_date" id="add_vacation_end_date" placeholder="Vacation End Date" aria-label="Vacation End Date" type="date">
 
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_end_date" placeholder="Vacation End Date" aria-label="Vacation End Date" type="date">
-
-                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_budget_limit" placeholder="Vacation Budget Limit" aria-label="Vacation Budget Limit" type="number">
+                        <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_budget_limit" id="add_vacation_budget_limit" placeholder="Vacation Budget Limit" aria-label="Vacation Budget Limit" type="number">
 
                         <div class="form-check" style="margin-top: 1%; margin-bottom: 1%;">
                           <input class="form-check-input" type="checkbox" name="vacationUpgrade" id="vacationUpgradeCheck">
@@ -93,8 +99,19 @@
                             Upgrade Vacation
                           </label>
                         </div>
+
+                        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                            {% if errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for message in errors %}
+                                {{ message }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+
                         <span>
-                            <button class="btn btn-outline-secondary">Add</button>
+                            <button class="btn btn-outline-secondary" type="submit">Add</button>
                             <button class="btn btn-outline-secondary" type="button" onclick="hide('vacationPopUp')">Cancel</button>
                         </span>
 
@@ -115,9 +132,9 @@
                 </form>
                 <p></p>
                 <!-- to figure out and continue from here -->
-                <table class="table table-hover" aria-selected="true" aria-multiselectable="false">
+                <table class="table table-hover" aria-selected="true" aria-multiselectable="false" id="vacation_tbl">
                     <thead class="bg-dark text-white">
-                      <tr>
+                      <tr style="pointer-events: none;">
                         <th scope="col">No.</th>
                         <th scope="col">Vacation Description</th>
                         <th scope="col">Start Date</th>
@@ -132,7 +149,7 @@
                         <td><a href="{{url_for('logged_vacations_template',vac_id=j['vac_id'],page='summary')}}">{{j['description']}}</a></td>
                         <td>{{j['start_date']}}</td>
                         <td>{{j['end_date']}}</td>
-                        <td>{{j['budget_limit']}}</td>
+                        <td>${{j['budget_limit']}}</td>
                       </tr>
                     {% endfor %}
 
@@ -142,6 +159,8 @@
 
         </div>
     </div>
+
+    
       
 </body>
 

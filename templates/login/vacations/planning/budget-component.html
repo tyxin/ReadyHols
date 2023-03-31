@@ -1,4 +1,4 @@
-<div row="container overflow-scroll">
+<div class="container overflow-auto" style="margin: 0%; padding: 0%;">
     <h4>Budget Limit: ${{vacation_summary['budget_limit']}}</h4>
     <h4>Total Spent: ${{vacation_summary['total_spend']}}</h4>
     <br>
@@ -10,7 +10,7 @@
     </span>
     <div class="popup" id="budgetPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
-                  style="padding: 2%; overflow: auto;">
+                  style="padding: 2%; overflow: auto; overflow-x: hidden;">
 
             <h3>New Budget Breakdown</h3>
             <p></p>
@@ -21,7 +21,7 @@
                 <option value="OTHERS">OTHERS</option>
             </select>
 
-            <input style="margin-top: 1%;" class="form-control me-2" name="add_budget_expenditure" placeholder="Expenditure" aria-label="Expenditure">
+            <input type="number" style="margin-top: 1%;" class="form-control me-2" name="add_budget_expenditure" placeholder="Expenditure in $" aria-label="Expenditure">
 
             <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_budget_remarks" placeholder="Remarks" aria-label="Remarks">
 
@@ -53,9 +53,9 @@
     </table>
 
     {% if vacation_budget|count == 0 %}
-    <div class="container" style="text-align: center;">
+    <div class="container" style="text-align: center; margin: 0%; padding: 0%;">
         <h5> No Data Yet! </h5>
-        <img src="/static/assets/no_data_2.svg" style="width: 30%;">
+        <img src="/static/assets/no_data_2.svg" style="height: 35%;">
     </div>
     {% endif %}
 </div>

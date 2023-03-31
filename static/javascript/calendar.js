@@ -34,8 +34,9 @@ const renderCalendar = () => {
     for (let i = 1; i<= lastDateOfMonth; i++){
         let isToday = "";
 
-        if ((i >= startDate.getDate() && currMonth==startDate.getMonth() && currYear==startDate.getFullYear()) 
-            && (i <= endDate.getDate() && currMonth==endDate.getMonth() && currYear==endDate.getFullYear())){
+        todayDate = new Date(currYear,currMonth,i)
+
+        if (todayDate >= startDate && todayDate <= endDate){
             console.log("selected")
             isToday = "selected";
         }

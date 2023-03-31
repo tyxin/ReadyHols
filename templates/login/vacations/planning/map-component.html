@@ -1,60 +1,62 @@
-<span>
-    <button class="btn btn-outline-secondary" href="#" onclick="show('mapPopUp')">Add Map</button>
-</span>
+<div class="container overflow-auto" style="margin: 0%; padding: 0%; height: 100%;">
+    <span>
+        <button class="btn btn-outline-secondary" href="#" onclick="show('mapPopUp')">Add Map</button>
+    </span>
 
-<div class="popup" id="mapPopUp">
-    <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
-          style="margin-top:auto; padding: 2%;">
+    <div class="popup" id="mapPopUp">
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
+              style="margin-top:auto; padding: 2%;">
 
-        <h3>New Map</h3>
-        <br>
-        <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_map_name" placeholder="Map Name" aria-label="Map Name">
+            <h3>New Map</h3>
+            <br>
+            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_map_name" placeholder="Map Name" aria-label="Map Name">
 
-        <select class="form-select" name="maps_itin_category">
-            <option value="ATTRACTION">ATTRACTION</option>
-            <option value="FOOD">FOOD</option>
-            <option value="TOUR">TOUR</option>
-            <option value="SIGHTSEEING">SIGHTSEEING</option>
-            <option value="OTHERS">OTHERS</option>
-        </select>
+            <select class="form-select" name="maps_itin_category">
+                <option value="ATTRACTION">ATTRACTION</option>
+                <option value="FOOD">FOOD</option>
+                <option value="TOUR">TOUR</option>
+                <option value="SIGHTSEEING">SIGHTSEEING</option>
+                <option value="OTHERS">OTHERS</option>
+            </select>
 
-        <input style="margin-top: 1%; margin-bottom: 1%;" disabled class="form-control me-2" name="add_maps_map_attachment" placeholder="Map Link" aria-label="Map Link">
+            <input type="file" accept="application/msword, application/pdf" style="margin-top: 1%; margin-bottom: 1%;"
+                   class="form-control me-2" id="mapAttachment" name="add_maps_map_attachment" placeholder="Map File" aria-label="Map File">
 
-        <span>
-            <button class="btn btn-outline-secondary" type="button">Upload Map</button>
-            <button class="btn btn-outline-secondary">Add</button>
-            <button class="btn btn-outline-secondary" type="button" onclick="hide('mapPopUp')">Cancel</button>
-        </span>
-    </form>
+            <span>
+                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="hide('mapPopUp')">Cancel</button>
+            </span>
+        </form>
+    </div>
+
+
+    <table class="table table-hover" style="margin-top: 1%;m">
+        <thead class="bg-dark text-white">
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Map</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in public_maps%}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{i['name']}}</td>
+            <td>{{i['category']}}</td>
+            <td>{{i['map_link']}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    {% if public_maps|count == 0 %}
+    <div class="container" style="text-align: center;">
+        <h2> No Data Yet! </h2>
+        <img src="/static/assets/no_data_2.svg" style="height: 30%;">
+
+    </div>
+
+    {% endif %}
 </div>
-
-
-<table class="table table-hover" style="margin-top: 1%;">
-    <thead class="bg-dark text-white">
-      <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Name</th>
-        <th scope="col">Category</th>
-        <th scope="col">Map</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for i in public_maps%}
-      <tr>
-        <th scope="row">{{loop.index}}</th>
-        <td>{{i['name']}}</td>
-        <td>{{i['category']}}</td>
-        <td>{{i['map_link']}}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
-{% if public_maps|count == 0 %}
-<div class="container" style="text-align: center;">
-    <h2> No Data Yet! </h2>
-    <img src="/static/assets/no_data_2.svg" style="width: 30%;">
-
-</div>
-
-{% endif %}

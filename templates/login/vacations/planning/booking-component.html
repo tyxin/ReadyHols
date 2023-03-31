@@ -1,61 +1,63 @@
-<span>
-    <button class="btn btn-outline-secondary" href="#" onclick="show('bookingPopUp')">Add Booking</button>
-    <button class="btn btn-outline-secondary" href="#" onclick="show('bookingPopUp')">Update Booking</button>
-    <button class="btn btn-outline-secondary" href="#">Delete Booking</button>
-</span>
-<div class="popup" id="bookingPopUp">
-    <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search" style="padding:2%; overflow: auto;">
-        <h3>New Booking</h3>
-        <br>
-        <select class="form-select" name="maps_itin_category">
-            <option value="ATTRACTION">ATTRACTION</option>
-            <option value="FOOD">FOOD</option>
-            <option value="TOUR">TOUR</option>
-            <option value="SIGHTSEEING">SIGHTSEEING</option>
-            <option value="OTHERS">OTHERS</option>
-        </select>
-        <input style="margin-top: 1%;" class="form-control me-2" name="add_booking_ref_no" placeholder="Ref No." aria-label="Ref No.">
-
-        <input style="margin-top: 1%;" class="form-control me-2" name="add_booking_description" placeholder="Description" aria-label="Description">
-
-        <input style="margin-top: 1%; margin-bottom: 1%;" disabled class="form-control me-2" name="add_booking_attachment_link" placeholder="Attachment" aria-label="Attachment">
-
+<div class="container overflow-auto" style="overflow: auto; margin: 0%; padding: 0%;">
         <span>
-            <button class="btn btn-outline-secondary" type="button">Upload File</button>
-            <button class="btn btn-outline-secondary">Add</button>
-            <button class="btn btn-outline-secondary" type="button" onclick="hide('bookingPopUp')">Cancel</button>
-        </span>
+        <button class="btn btn-outline-secondary" href="#" onclick="show('bookingPopUp')">Add Booking</button>
+        <button class="btn btn-outline-secondary" href="#" onclick="show('bookingPopUp')">Update Booking</button>
+        <button class="btn btn-outline-secondary" href="#">Delete Booking</button>
+    </span>
+    <div class="popup" id="bookingPopUp">
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search" style="padding:2%; overflow: auto;">
+            <h3>New Booking</h3>
+            <br>
+            <select class="form-select" name="maps_itin_category">
+                <option value="ATTRACTION">ATTRACTION</option>
+                <option value="FOOD">FOOD</option>
+                <option value="TOUR">TOUR</option>
+                <option value="SIGHTSEEING">SIGHTSEEING</option>
+                <option value="OTHERS">OTHERS</option>
+            </select>
+            <input style="margin-top: 1%;" class="form-control me-2" name="add_booking_ref_no" placeholder="Ref No." aria-label="Ref No.">
 
-    </form>
+            <input style="margin-top: 1%;" class="form-control me-2" name="add_booking_description" placeholder="Description" aria-label="Description">
+
+            <input type="file" accept="application/msword, application/pdf" style="margin-top: 1%; margin-bottom: 1%;"
+                   class="form-control me-2" id="bookingAttachment" name="add_booking_attachment" placeholder="Booking File" aria-label="Booking File">
+
+            <span>
+                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="hide('bookingPopUp')">Cancel</button>
+            </span>
+
+        </form>
+    </div>
+
+
+    <table class="table table-hover" style="margin-top: 1%;">
+        <thead class="bg-dark text-white">
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Type</th>
+            <th scope="col">Booking Ref No.</th>
+            <th scope="col">Booking Description</th>
+            <th scope="col">Attachment</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in vacation_booking%}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{i['booking_type']}}</td>
+            <td>{{i['ref_no']}}</td>
+            <td>{{i['description']}}</td>
+            <td><a href=""></a>{{i['attachment']}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    {% if vacation_booking|count == 0 %}
+    <div class="container" style="text-align: center; margin: 0%; padding: 0%;">
+        <h2> No Data Yet! </h2>
+        <img src="/static/assets/no_data_2.svg" style="height: 40%;">
+    </div>
+    {% endif %}
 </div>
-
-
-<table class="table table-hover" style="margin-top: 1%;">
-    <thead class="bg-dark text-white">
-      <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Type</th>
-        <th scope="col">Booking Ref No.</th>
-        <th scope="col">Booking Description</th>
-        <th scope="col">Attachment</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for i in vacation_booking%}
-      <tr>
-        <th scope="row">{{loop.index}}</th>
-        <td>{{i['booking_type']}}</td>
-        <td>{{i['ref_no']}}</td>
-        <td>{{i['description']}}</td>
-        <td><a href=""></a>{{i['attachment']}}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
-{% if vacation_booking|count == 0 %}
-<div class="container" style="text-align: center;">
-    <h2> No Data Yet! </h2>
-    <img src="/static/assets/no_data_2.svg" style="width: 40%;">
-</div>
-{% endif %}

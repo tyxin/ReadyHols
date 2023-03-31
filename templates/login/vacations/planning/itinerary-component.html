@@ -1,64 +1,66 @@
-<span>
-    <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Add Itinerary</button>
-    <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Update Itinerary</button>
-    <button class="btn btn-outline-secondary" href="#">Delete Itinerary</button>
-</span>
-<div class="popup" id="itineraryPopUp">
-    <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
-              style="padding: 2%; overflow: auto;">
-        <h3>New Itinerary</h3>
-        <br>
-        <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_day_no" placeholder="Day No" aria-label="Day No">
+<div class="container overflow-auto" style="overflow-x:hidden; padding: 0%; margin: 0%;">
+    <span>
+        <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Add Itinerary</button>
+        <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Update Itinerary</button>
+        <button class="btn btn-outline-secondary" href="#">Delete Itinerary</button>
+    </span>
+    <div class="popup" id="itineraryPopUp">
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
+                  style="padding: 2%; overflow: auto;">
+            <h3>New Itinerary</h3>
+            <br>
+            <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_day_no" placeholder="Day No" aria-label="Day No">
 
-        <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
+            <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
 
-        <select class="form-select" name="maps_itin_category">
-            <option value="ATTRACTION">ATTRACTION</option>
-            <option value="FOOD">FOOD</option><option value="TOUR">TOUR</option>
-            <option value="SIGHTSEEING">SIGHTSEEING</option>
-            <option value="OTHERS">OTHERS</option>
-        </select>
+            <select class="form-select" name="maps_itin_category">
+                <option value="ATTRACTION">ATTRACTION</option>
+                <option value="FOOD">FOOD</option><option value="TOUR">TOUR</option>
+                <option value="SIGHTSEEING">SIGHTSEEING</option>
+                <option value="OTHERS">OTHERS</option>
+            </select>
 
-        <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_description" placeholder="Description" aria-label="Description">
+            <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_description" placeholder="Description" aria-label="Description">
 
-        <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_location" placeholder="Enter Location" aria-label="Location">
+            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_location" placeholder="Enter Location" aria-label="Location">
 
-        <span>
-            <button class="btn btn-outline-secondary">Add</button>
-            <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryPopUp')">Cancel</button>
-        </span>
-    </form>
-</div>
-
-
-<table class="table table-hover" style="margin-top: 1%;">
-    <thead class="bg-dark text-white">
-      <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Day No.</th>
-        <th scope="col">Time</th>
-        <th scope="col">Type</th>
-        <th scope="col">Description</th>
-        <th scope="col">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for i in vacation_itinerary %}
-      <tr>
-        <th scope="row">{{loop.index}}</th>
-        <td>{{i['day_no']}}</td>
-        <td>{{i['itin_time']}}</td>
-        <td>{{i['itin_type']}}</td>
-        <td>{{i['description']}}</td>
-        <td>{{i['location']}}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
- {% if vacation_itinerary|count == 0 %}
-    <div class="container" style="text-align: center;">
-         <h2> No Data Yet! </h2>
-        <img src="/static/assets/no_data_3.svg" style="width: 30%;">
+            <span>
+                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryPopUp')">Cancel</button>
+            </span>
+        </form>
     </div>
-    {% endif %}
+
+
+    <table class="table table-hover" style="margin-top: 1%;">
+        <thead class="bg-dark text-white">
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Day No.</th>
+            <th scope="col">Time</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">Location</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in vacation_itinerary %}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{i['day_no']}}</td>
+            <td>{{i['itin_time']}}</td>
+            <td>{{i['itin_type']}}</td>
+            <td>{{i['description']}}</td>
+            <td>{{i['location']}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+     {% if vacation_itinerary|count == 0 %}
+        <div class="container" style="text-align: center;">
+             <h2> No Data Yet! </h2>
+            <img src="/static/assets/no_data_3.svg" style="height: 30%;">
+        </div>
+        {% endif %}
+</div>
