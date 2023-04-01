@@ -8,21 +8,19 @@ $ = function(id) {
   return document.getElementById(id);
 }
 
-var show = function(id) {
+var show = function(id,id_button,type_show) {
 	$(id).style.display ='block';
+    $(id_button).innerHTML = type_show;
 }
 
-var show_with_data = function(id, indexSelected, data, ...display_ids) {
-	$(id).style.display ='block';
-
-}
 
 var hide = function(id) {
 	$(id).style.display ='none';
 }
 
-console.log("run")
-
+var show_dialog = function(id){
+    $(id).style.display = "block"
+};
   
 var highlight_row = function(id) {
     var index = -1;
@@ -42,16 +40,16 @@ var highlight_row = function(id) {
 
 highlight_row('vacation_tbl');
 
-var update_row = function(id, data, ...display_ids){
-    var indexSelected = -1;
-	console.log(data[0])
-    for (var i = 0; i < $(id).rows.length;i++){
-        if ($(id).rows[i].classList.length>0){
-            indexSelected = i;
-        };       
-    };
-    // show_with_data(id, indexSelected, data, display_ids);
-};
+//var update_row = function(id, data, ...display_ids){
+//    var indexSelected = -1;
+//	console.log(data[0])
+//    for (var i = 0; i < $(id).rows.length;i++){
+//        if ($(id).rows[i].classList.length>0){
+//            indexSelected = i;
+//        };
+//    };
+//    // show_with_data(id, indexSelected, data, display_ids);
+//};
 
 
 

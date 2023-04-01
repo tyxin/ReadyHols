@@ -4,12 +4,12 @@
 
 {% block content %}
 <script src="/static/javascript/popup.js" defer></script>
-<script src="/static/javascript/table_select.js" defer></script>
+
 
 <style>
     .top-container{ margin: 5% 2% 5% 2%; }
     .bottom-container{margin-top: 2%;}
-    .col{padding-top: 1%}
+    .col{padding-top: 1%;}
 
     .image { position: relative; width: 100%; }
          
@@ -45,6 +45,114 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
+    <script>
+        var update_row = function(){
+        var target_table = document.getElementById("vacation_tbl");
+        var indexSelected = -1;
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+            };
+        };
+        var vacations_user = {{ vacations_user | tojson}};
+        var selectedData = vacations_user[indexSelected - 1];
+
+        if (indexSelected==-1){
+            console.log("not selected")
+        }else{
+        //filling in data
+        var vacation_description = document.getElementById('add_vacation_description');
+        var vacation_grp_id = document.getElementById("add_vacation_grp");
+        var vacation_grp_pin = document.getElementById("add_vacation_grp_pin");
+        var vacation_start_date = document.getElementById("add_vacation_start_date");
+        var vacation_end_date = document.getElementById("add_vacation_end_date");
+        var vacation_budget_limit = document.getElementById("add_vacation_budget_limit");
+        var vacation_upgraded = document.getElementById("vacationUpgradeCheck");
+        var vacation_header = document.getElementById("vacation_header");
+
+        if(selectedData['upg_user_id']==null){
+            vacation_upgraded.checked = false;
+        }else{
+            vacation_upgraded.checked = true;};
+        
+        vacation_description.value = selectedData['description'];
+        vacation_grp_id.value = selectedData['vac_grp_id'];
+        vacation_grp_id.disabled = true;
+        vacation_grp_pin.disabled = true;
+        vacation_start_date.value = new Date(selectedData['start_date']).toISOString().split('T')[0];
+        vacation_end_date.value = new Date(selectedData['end_date']).toISOString().split('T')[0];
+        vacation_budget_limit.value = selectedData['budget_limit'];
+        vacation_header.innerText = "Update Vacation";
+
+        var vacation_form = document.getElementById('vacationFormID');
+
+        vacation_form.action = "/logged/vacations/Update/"+selectedData['vac_id'];
+        
+        show('vacationPopUp','type_button','Update');
+        };
+        
+        };
+
+        var add_vacation = function(){
+
+        //filling in data
+        var vacation_description = document.getElementById('add_vacation_description');
+        var vacation_grp_id = document.getElementById("add_vacation_grp");
+        var vacation_grp_pin = document.getElementById("add_vacation_grp_pin");
+        var vacation_start_date = document.getElementById("add_vacation_start_date");
+        var vacation_end_date = document.getElementById("add_vacation_end_date");
+        var vacation_budget_limit = document.getElementById("add_vacation_budget_limit");
+        var vacation_upgraded = document.getElementById("vacationUpgradeCheck");
+        var vacation_header = document.getElementById("vacation_header");
+
+
+        vacation_upgraded.checked = false;
+        
+        vacation_description.value = "";
+        vacation_grp_id.value = "";
+        vacation_start_date.value = "";
+        vacation_grp_id.disabled = false;
+        vacation_grp_pin.disabled = false;
+        vacation_end_date.value = "";
+        vacation_budget_limit.value = "";
+        vacation_header.innerHTML = "New Vacation";
+
+        var vacation_form = document.getElementById('vacationFormID');
+        vacation_form.action = "/logged/vacations/Add//";
+        
+        show('vacationPopUp','type_button','Add');
+        };
+
+        var delete_vacation = function(){
+        var target_table = document.getElementById("vacation_tbl");
+        var indexSelected = -1;
+
+        
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+             };
+        };
+
+        if (indexSelected==-1){
+            console.log("not selected")
+        }else{
+
+        console.log("deleting")
+
+        var vacations_user = {{ vacations_user | tojson}};
+        var selectedData = vacations_user[indexSelected - 1];
+
+        var vacation_form = document.getElementById('deleteVacation');
+        vacation_form.action = "/logged/vacations/Delete/"+selectedData['vac_id'];
+        
+        };
+
+        };
+
+        
+    </script>
+
     <div class="top-container align-items-start">
         <h2>{% if session['username']%} Welcome Back, {{session['username']}}! {% endif %}</h2>
         <h4>Upcoming Vacations</h4>
@@ -55,14 +163,14 @@
                         <div class="card-body">
                             <h5 class="card-title">{{i['description']}}</h5>
                             <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                                <Lorem class="card-text">
+                                <div class="card-text">
                                     Start Date: {{i['start_date']}}<br>
                                     End Date: {{i['end_date']}}<br>
                                 <a href="{{url_for('logged_vacations_template',vac_id=i['vac_id'],page='summary')}}">
                                     Explore
                                     <i class="bi bi-arrow-right"></i>
                                 </a>
-                                </Lorem>
+                                </div>
                             </span>
                         </div>
                     </div>
@@ -72,14 +180,16 @@
             <div class="bottom-container justify-content-center">
                 <h4>All my vacations</h4>
                 <span>
-                    <button class="btn btn-outline-secondary" href="#" onclick="show('vacationPopUp')">Add Vacation</button>
-                    <button class="btn btn-outline-secondary" href="#" onclick="update_row('vacation_tbl','{{vacation_user}}','add_vacation_description')">Update Vacation</button>
-                    <button class="btn btn-outline-secondary" href="#">Delete Vacation</button>
+                    <form id="deleteVacation" method="POST" style="padding:0%; margin:0%;">
+                        <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_vacation()">Add Vacation</button>
+                        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Vacation</button>
+                        <button class="btn btn-outline-secondary" href="#" onclick="delete_vacation()">Delete Vacation</button>
+                    </form>
                 </span>
                 <div class="popup" id="vacationPopUp">
-                    <form method="POST" action="{{url_for('add_update_vacation',type_of_update='UPDATE')}}" role="search" style="padding:2%; overflow:auto; height: 100%; overflow-x:hidden;">
+                    <form id="vacationFormID" method="POST" action="" role="search" style="padding:2%; overflow:auto; height: 100%; overflow-x:hidden;">
 
-                        <h3>New Vacation</h3>
+                        <h3 id="vacation_header">New Vacation</h3>
                         <br>
                         <input style="margin-top: 1%;" class="form-control me-2" name="add_vacation_description" id="add_vacation_description" placeholder="Description" aria-label="Description">
 
@@ -111,7 +221,7 @@
                             {% endwith %}
 
                         <span>
-                            <button class="btn btn-outline-secondary" type="submit">Add</button>
+                            <button class="btn btn-outline-secondary" type="submit" id="type_button">Add</button>
                             <button class="btn btn-outline-secondary" type="button" onclick="hide('vacationPopUp')">Cancel</button>
                         </span>
 
