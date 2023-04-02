@@ -1,3 +1,38 @@
-<div class="album-container">
-<!--    add bar and table below     -->
-</div>
+{% extends "/login/vacations/vacation-collapse-bar.html" %}
+{% block title %}Ready!Hols{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/sharing.css">
+<style>
+</style>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <div class="album-container align-content-start overflow-auto">
+        <h3>{{album_details['alb_name']}}</h3>
+        <h5>Date Created: {{album_details['alb_date']}} </h5>
+        <div class="row">
+        {%for j in range(1,4)%}
+            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+            {% for i in vacation_photo_in_album %}
+                {% if loop.index%3==j %}
+                    <img
+                        src="/static/server-storage/{{i['photolink']}}"
+                        class="w-100 shadow-1-strong rounded mb-4"
+                        alt="{{i['photo_id']}}"
+                    />
+                {% endif %}
+
+            {% endfor %}
+            </div>
+        {% endfor %}
+           
+    </div>
+     
+</body>
+
+{% endblock %}
+
+
+

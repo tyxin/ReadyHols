@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='sharing') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='sharing')}}">
+                    <a class="nav-link {{'disabled' if vacation_upgraded=='False'}} {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='sharing') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='sharing')}}">
                         <i class="bi bi-images"></i>&nbsp;Sharing
                     </a>
                 </li>

@@ -5,7 +5,7 @@
         <button class="btn btn-outline-secondary" href="#">Delete Itinerary</button>
     </span>
     <div class="popup" id="itineraryPopUp">
-        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name)}}" role="search"
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
                   style="padding: 2%; overflow: auto;">
             <h3>New Itinerary</h3>
             <br>

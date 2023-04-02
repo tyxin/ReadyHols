@@ -18,7 +18,7 @@ var hide = function(id) {
 	$(id).style.display ='none';
 }
 
-var show_dialog = function(id){
+var show_error = function(id){
     $(id).style.display = "block"
 };
   

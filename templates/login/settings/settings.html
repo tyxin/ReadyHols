@@ -50,7 +50,7 @@
                       </div>
                       
                     </fieldset>
-                    <button type="submit" class="btn btn-secondary">Update</button>
+                    <button type="submit" class="btn btn-secondary" disabled>Update</button>
             
                 </form>
             </div>
@@ -59,11 +59,32 @@
         <div class="col-md-6 col-sm-12">
             <div class="vacation-group-container">
                 <legend>My Vacation Groups</legend>
-                <form class="d-flex" role="search" style="margin-top:auto; margin-bottom: 2%;">
-                  <input type="number" id="vacation-id" class="form-control" placeholder="Input Vacation Group ID" style="margin-right:2%">
-                  <input type="number" id="vacation-id-pin" class="form-control" placeholder="Input Vacation Group ID Pin" style="margin-right:2%">
+                <form class="d-flex" method="POST" id="add_vacation_grp" action="{{url_for('logged_settings')}}" role="search" style="margin-top:auto; margin-bottom: 2%;">
+                  <input type="number" id="vacation_grp_id" name="vacation_grp_id" class="form-control" placeholder="Input Vacation Group ID" style="margin-right:2%">
+                  <input type="number" id="vacation_id_pin" name="vacation_id_pin" class="form-control" placeholder="Input Vacation Group ID Pin" style="margin-right:2%">
                   <button class="btn btn-outline-secondary" type="submit">Add</button>
                 </form>
+
+                {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                  {% if errors %}
+                  <div class="alert alert-danger" role="alert">
+                  {% for message in errors %}
+                    {{ message }}
+                  {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% endwith %}
+
+                {% with successes = get_flashed_messages(category_filter=["success"]) %}
+                {% if successes %}
+                <div class="alert alert-success" role="alert">
+                    {% for message in successes %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+  
                 
                 <div class="accordion overflow-y:auto" id="accordionVacationGroup">
                     {% for i in user_vacgrp_details %}

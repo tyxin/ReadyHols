@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:ReadyHols" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="945a6a18-68af-463d-ae5c-d8d018367232" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/data_scripting-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/data_scripting-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_scripting.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/data_scripting.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/javascript/popup.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascript/popup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login/settings/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/settings/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login/vacations/sharing/photo-drive-component.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/vacations/sharing/photo-drive-component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login/vacations/vacations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/vacations/vacations.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2NpTRzKdYgx6msasA4Pyjs7Dhbt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/server-storage/pictures" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Yxin\Documents\NUSH\Year 6\Computing Studies\Visual Studio Code\CS6131_ReadyHols\static\server-storage\pictures" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CS6131_ReadyHols" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.app" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="945a6a18-68af-463d-ae5c-d8d018367232" name="Default Changelist" comment="" />
+      <created>1680360020186</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680360020186</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1259" height="2" key="GridCell.Tab.0.bottom" timestamp="1680364114244">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="2" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1680364114244" />
+    <state width="1259" height="2" key="GridCell.Tab.0.center" timestamp="1680364114244">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="2" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1680364114244" />
+    <state width="1259" height="2" key="GridCell.Tab.0.left" timestamp="1680364114244">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="2" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1680364114244" />
+    <state width="1259" height="2" key="GridCell.Tab.0.right" timestamp="1680364114244">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="2" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1680364114244" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1680360072237">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1680360072237" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1680360204836">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1680360204836" />
+  </component>
+</project>
