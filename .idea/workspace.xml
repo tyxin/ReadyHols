@@ -20,20 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="945a6a18-68af-463d-ae5c-d8d018367232" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/server-storage/pictures/picture6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/data_scripting-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/data_scripting-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_scripting.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/data_scripting.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/javascript/popup.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/javascript/popup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login/settings/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/settings/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login/vacations/planning/map-component.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/vacations/planning/map-component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/login/vacations/sharing/photo-drive-component.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/vacations/sharing/photo-drive-component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login/vacations/vacations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login/vacations/vacations.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,9 +121,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1680360072237" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1680360204836">
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1680438199152">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1680360204836" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1680438199152" />
   </component>
 </project>

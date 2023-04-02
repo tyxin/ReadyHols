@@ -1,4 +1,11 @@
+<script src="/static/javascript/photo_process.js" defer></script>
+
 <div class="container overflow-auto" style="height:100%; margin: 0%; padding: 0%;">
+  <form action="" method="POST">
+    <input type="file" accept="image/*" style="margin-top: 1%; margin-bottom: 1%;"
+                   class="form-control me-2" id="add_photo" name="add_photo" placeholder="Image File" aria-label="Image File">
+    <button type="button" class="btn btn-outline-secondary">Add</button>
+  </form>
     <div class="row">
       {%for j in range(3)%}
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
