@@ -1,11 +1,31 @@
 <script src="/static/javascript/photo_process.js" defer></script>
 
 <div class="container overflow-auto" style="height:100%; margin: 0%; padding: 0%;">
-  <form action="" method="POST">
-    <input type="file" accept="image/*" style="margin-top: 1%; margin-bottom: 1%;"
-                   class="form-control me-2" id="add_photo" name="add_photo" placeholder="Image File" aria-label="Image File">
-    <button type="button" class="btn btn-outline-secondary">Add</button>
+  <form action="{{url_for('logged_vacations_sharing',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" method="POST" id="photo_upload_form" enctype="multipart/form-data" >
+    <input type="file" name="image_file" accept="image/*" style="margin-top: 1%; margin-bottom: 1%;"
+                   class="form-control me-2" id="add_photo" name="add_photo" placeholder="Image File" aria-label="Image File" value="None">
+    <button type="submit" class="btn btn-outline-secondary">Add</button>
   </form>
+
+  {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+           {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+      <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
     <div class="row">
       {%for j in range(3)%}
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">

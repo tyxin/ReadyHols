@@ -8,13 +8,18 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfile
 import os
+from werkzeug.utils import secure_filename
 
 app = flask.Flask(__name__)
+
+UPLOAD_FOLDER = os.getcwd().replace("\\","/")+'/static/server-storage/pictures/'
+print(UPLOAD_FOLDER)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'admin'
 app.config['MYSQL_DB'] = 'readyhols'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mysql = MySQL(app)
 
@@ -367,34 +372,48 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/', methods=['GET','POST'])
 def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
-    # if request.method=="POST":
-    #     file = filedialog.asksaveasfilename(filetypes=[('image files','*png'),('image files', '*jpg')],
-    #                                         defaultextension='.png',)
-    #     photo_filename = os.path.basename(file)
-    #     dirname = os.path.dirname(__file__)
-    #     print(dirname)
-    #     filename_to_save = os.path.join(dirname, '/static/server-storage/pictures/')
-    #     print(filename_to_save)
-
     if vacation_upgraded=="False":
         return render_template('/login/vacations/sharing/not-upgraded-component.html')
     else:
+        curr_tab = "memories"
+        if request.method=="POST":
+            if 'image_file' not in request.files:
+                flash('No File Selected!','error')
+                return redirect(request.url)
+            uploaded_photo = request.files['image_file']
+            if uploaded_photo.filename!='':
+                photo_filename = secure_filename(uploaded_photo.filename)
+                final_file_path = os.path.join(app.config['UPLOAD_FOLDER'],photo_filename)
+                print("final")
+                print(final_file_path)
+                uploaded_photo.save(final_file_path)
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                photo_count = cursor.execute('SELECT * from photo')
+                photo_id = generate_id(photo_count + 1, cursor, "photo", "photo_id")
+                cursor.execute('INSERT into photo VALUES (%s,%s,%s)',(photo_id,"/pictures/"+photo_filename,None,))
+                mysql.connection.commit()
+                flash('Photo Uploaded Successfully!','success')
+                curr_tab = "photo_drive"
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * from album where vac_id=%s', (vac_id,))
         vacation_albums = cursor.fetchall()
         cursor.execute('SELECT * from photo')
         vacation_photo_drive = cursor.fetchall()
-        cursor.close()
+        # to process blob into strings first before parsing 
+        cursor.close()       
         return render_template('/login/vacations/sharing/sharing.html', vacation_photo_drive=vacation_photo_drive,
-                            vacation_albums=vacation_albums, vac_id=vac_id, vacation_name=vacation_name, vacation_upgraded=vacation_upgraded)
+                            vacation_albums=vacation_albums, vac_id=vac_id, vacation_name=vacation_name, vacation_upgraded=vacation_upgraded,curr_tab=curr_tab)
 
-@app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/<string:album_id>/')
-def logged_vacations_album(vac_id, vacation_name, album_id):
+
+@app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:album_id>/')
+def logged_vacations_album(vac_id, vacation_name, vacation_upgraded, album_id):
+    print("enter")
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT alb_name,alb_date from album where alb_id=%s',(album_id,))
     album_details = cursor.fetchone()
     cursor.execute('SELECT distinct alb_id, photo.photo_id, photolink from (user_photos join photo on photo.photo_id = user_photos.photo_id) where vac_id=%s and alb_id=%s',(vac_id,album_id,))
     vacation_photo_in_album = cursor.fetchall()
+    print(vacation_photo_in_album)
     cursor.close()
     return render_template('/login/vacations/sharing/album-component.html', vac_id=vac_id, vacation_name=vacation_name,
                            vacation_photo_in_album=vacation_photo_in_album,album_details=album_details)
