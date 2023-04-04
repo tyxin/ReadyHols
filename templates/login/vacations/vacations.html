@@ -153,8 +153,8 @@
         var selectedData = vacations_user[indexSelected - 1];
         var vacation_delete_button = document.getElementById('deleteVacationButton');
         vacation_delete_button.disabled = false;
-        var vacation_form = document.getElementById('delete_modal_body');
-        vacation_form.innerHTML = "Are you sure you want to delete this vacation? This cannot be undone!";
+        var vacation_form_body = document.getElementById('delete_modal_body');
+        vacation_form_body.innerHTML = "Are you sure you want to delete this vacation? This cannot be undone!";
 
         var vacation_form = document.getElementById('deleteVacation');
         vacation_form.action = "/logged/vacations/Delete/"+selectedData['vac_id'];

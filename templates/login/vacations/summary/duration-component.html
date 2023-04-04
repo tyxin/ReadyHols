@@ -1,6 +1,130 @@
 <script src="/static/javascript/calendar.js" defer></script>
 <script src="/static/javascript/popup.js" defer></script>
 <div row="container" style="height:100%;">
+
+  <script>
+    var update_row = function(){
+        var target_table = document.getElementById("destination_tbl");
+        var indexSelected = -1;
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+            };
+        };
+        var vacation_destinations = {{ vacation_destinations | tojson}};
+        var selectedData = vacation_destinations[indexSelected - 1];
+
+        console.log("selectedData")
+        console.log(selectedData)
+
+        if (indexSelected==-1){
+            console.log("not selected")
+        }else{
+        //filling in data
+        var destination_start_date = document.getElementById('add_destination_start_date');
+        var destination_state = document.getElementById("add_destination_state");
+        var destination_country = document.getElementById("add_destination_country");
+        var destination_duration = document.getElementById("add_destination_duration");
+        var destination_header = document.getElementById("destination_header");
+        
+        //will automatically add to destination if no such instance created
+        destination_start_date.value = new Date(selectedData['dstart_date']).toISOString().split('T')[0];
+        destination_duration.value = selectedData['no_days'];
+        destination_state.value = selectedData['state'];
+        destination_country.value = selectedData['country']
+        destination_header.innerText = "Update Destination";
+
+        var destination_form = document.getElementById('destinationFormID');
+
+        var vacation_name = {{vacation_name | tojson}};
+        var vacation_upgraded = {{vacation_upgraded | tojson}};
+
+        destination_form.action = "/logged/vacations/summary/"+selectedData['vac_id']+"/"+vacation_name+vacation_upgraded+"/Update/"+"None"+"/";
+        
+        show('destinationPopUp','destinationTypeButton','Update');
+        };
+        
+        };
+
+        var add_destination = function(){
+
+        //filling in data
+        var destination_start_date = document.getElementById('add_destination_start_date');
+        var destination_state = document.getElementById("add_destination_state");
+        var destination_country = document.getElementById("add_destination_country");
+        var destination_duration = document.getElementById("add_destination_duration");
+        var destination_header = document.getElementById("destination_header");
+
+        
+        destination_start_date.value = "";
+        destination_state.value = "";
+        destination_country.value = "";
+        destination_duration.value = "";
+        destination_header.innerHTML = "New Vacation";
+
+        var vacation_id = {{ vac_id | tojson}};
+        console.log("matching?")
+        console.log(vacation_id)
+
+        var destination_form = document.getElementById('destinationFormID');
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+
+        show('destinationPopUp','destinationTypeButton','Add');
+
+        destination_form.action = "/logged/vacations/summary/"+vacation_id+"/"+vacation_name+vacation_upgraded+"/Add/"+"None"+"/";
+        
+
+        };
+
+        var delete_destination = function(){
+
+        console.log("deleting!");
+        var target_table = document.getElementById("destination_tbl");
+        var indexSelected = -1;
+
+        
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+             };
+        };
+
+
+        if (indexSelected==-1){
+             console.log("why not working");
+             var destination_form = document.getElementById('delete_modal_body');
+             var destination_delete_button = document.getElementById('deleteDestinationButton');
+             destination_form.innerHTML = "No Destination Selected";
+             destination_delete_button.disabled = true;
+
+        }else{
+
+          
+        var vacation_id = {{ vac_id | tojson}};
+        console.log("matching?")
+        console.log(vacation_id)
+        console.log(selectedData['vac_id'])
+
+        var vacation_destinations = {{ vacation_destinations | tojson}};
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+        var selectedData = vacation_destinations[indexSelected - 1];
+        var destination_delete_button = document.getElementById('deleteDestinationButton');
+        destination_delete_button.disabled = false;
+        var destination_form_body = document.getElementById('delete_modal_body');
+        destination_form_body.innerHTML = "Are you sure you want to delete this destination? This cannot be undone!";
+
+        var destination_form = document.getElementById('deleteDestination');
+        destination_form.action = "/logged/vacations/summary/"+selectedData['vac_id']+"/"+vacation_name+vacation_upgraded+"/Delete/"+selectedData['dest_id']+"/";
+        
+        };
+
+        };
+      
+  
+  </script>
+
     <div class="row justify-content-center" style="height:100%;">
         <div class="col-md-5 col-sm-12" style="height:100%;">
             <h4>Date</h4>
@@ -30,6 +154,25 @@
         </div>
     
         <div class="col-md-7 col-sm-12">
+        
+              <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Confirmation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" id="delete_modal_body">
+                              Are you sure you want to delete this destination? This cannot be undone!
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="deleteDestinationButton" class="btn btn-secondary" form="deleteDestination">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
             <h4>{{vacation_summary['days']}} Days {{vacation_summary['days']-1}} Nights</h4>
             <p></p>
             <h5 class="start_date" id="start_date">Start Date: {{vacation_summary['start_date']}}</h5>
@@ -38,30 +181,53 @@
             <h5>Start Country: {{vacation_summary['first_state']}}, {{vacation_summary['first_country']}}</h5>
             <h5>End Country: {{vacation_summary['last_state']}}, {{vacation_summary['last_country']}}</h5>
             <span>
-                <button class="btn btn-outline-secondary" href="#" onclick="show('destinationPopUp')">Add Destination</button>
-                <button class="btn btn-outline-secondary" href="#" onclick="show('destinationPopUp')">Update Destination</button>
-                <button class="btn btn-outline-secondary" href="#">Delete Destination</button>
+              <form id="deleteDestination" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
+                <button class="btn btn-outline-secondary" href="#" onclick="add_destination()" type="button">Add Destination</button>
+                <button class="btn btn-outline-secondary" href="#" onclick="update_row()" type="button">Update Destination</button>
+                <button class="btn btn-outline-secondary" href="#" onclick="delete_destination()" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">Delete Destination</button>
+              </form>
             </span>
             <div class="popup" id="destinationPopUp">
-                <form method="POST" action="{{url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" style="padding:2%;">
-                    <h3>New Destination</h3>
-                    <br>
-                    <input type="date" style="margin-top: 1%;" class="form-control me-2" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
+                <form method="POST" id="destinationFormID" action="{{url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" style="padding:2%;">
+                    <h3 id="destination_header">New Destination</h3>
+                    
+                    <input type="text" style="margin-top: 1%;" class="form-control me-2" id="add_destination_country" name="add_destination_country" placeholder="Country" aria-label="Country">
 
-                    <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_state" placeholder="State" aria-label="State">
+                    <input type="text" style="margin-top: 1%;" class="form-control me-2" id="add_destination_state" name="add_destination_state" placeholder="State" aria-label="State">
 
-                    <input style="margin-top: 1%;" class="form-control me-2" name="add_destination_country" placeholder="Country" aria-label="Country">
+                    <input type="date" style="margin-top: 1%;" class="form-control me-2" id="add_destination_start_date" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
 
-                    <input type="number" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
+                    <input type="number" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_destination_duration" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
 
                     <span>
-                        <button class="btn btn-outline-secondary">Add</button>
+                        <button class="btn btn-outline-secondary" id="destinationTypeButton">Add</button>
                         <button class="btn btn-outline-secondary" type="button" onclick="hide('destinationPopUp')">Cancel</button>
                     </span>
 
                 </form>
             </div>
-            <table class="table table-striped table-hover overflow-scroll">
+
+               {% with successes = get_flashed_messages(category_filter=["success"]) %}
+                {% if successes %}
+                <div class="alert alert-success" role="alert">
+                    {% for message in successes %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                {% if errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+            <table id="destination_tbl" class="table table-striped table-hover overflow-scroll">
                 <thead>
                   <tr>
                     <th scope="col">Start Date</th>
