@@ -21,8 +21,9 @@ var hide = function(id) {
 var show_error = function(id){
     $(id).style.display = "block"
 };
-  
+
 var highlight_row = function(id) {
+    console.log($(id))
     var index = -1;
     for (var i = 0; i < $(id).rows.length;i++){
         $(id).rows[i].onclick = function(){
@@ -38,18 +39,6 @@ var highlight_row = function(id) {
     };
 };
 
-highlight_row('vacation_tbl');
-
-//var update_row = function(id, data, ...display_ids){
-//    var indexSelected = -1;
-//	console.log(data[0])
-//    for (var i = 0; i < $(id).rows.length;i++){
-//        if ($(id).rows[i].classList.length>0){
-//            indexSelected = i;
-//        };
-//    };
-//    // show_with_data(id, indexSelected, data, display_ids);
-//};
 
 
 

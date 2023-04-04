@@ -3,7 +3,7 @@
 {% block head %} {{ super() }} {% endblock %}
 
 {% block content %}
-<script src="/static/javascript/popup.js" defer></script>
+<script src="/static/javascript/popup.js"></script>
 
 
 <style>
@@ -312,8 +312,10 @@
         </div>
     </div>
 
+    <script>
+        highlight_row('vacation_tbl');
+    </script>
     
-      
 </body>
 
 {% endblock %}

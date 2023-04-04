@@ -1,5 +1,13 @@
 <script src="/static/javascript/calendar.js" defer></script>
-<script src="/static/javascript/popup.js" defer></script>
+<script src="/static/javascript/popup.js"></script>
+
+<style>
+    .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+
+</style>
 <div row="container" style="height:100%;">
 
   <script>
@@ -28,7 +36,8 @@
         var destination_header = document.getElementById("destination_header");
         
         //will automatically add to destination if no such instance created
-        destination_start_date.value = new Date(selectedData['dstart_date']).toISOString().split('T')[0];
+        var dstart_date_string = new Date(selectedData['dstart_date']).toISOString().split('T')[0];
+        destination_start_date.value = dstart_date_string;
         destination_duration.value = selectedData['no_days'];
         destination_state.value = selectedData['state'];
         destination_country.value = selectedData['country']
@@ -39,7 +48,7 @@
         var vacation_name = {{vacation_name | tojson}};
         var vacation_upgraded = {{vacation_upgraded | tojson}};
 
-        destination_form.action = "/logged/vacations/summary/"+selectedData['vac_id']+"/"+vacation_name+vacation_upgraded+"/Update/"+"None"+"/";
+        destination_form.action = "/logged/vacations/summary/"+selectedData['vac_id']+"/"+vacation_name+"/"+vacation_upgraded+"/Update/"+selectedData['dest_id']+"/"+dstart_date_string+"/"+selectedData['no_days']+"/";
         
         show('destinationPopUp','destinationTypeButton','Update');
         };
@@ -72,7 +81,7 @@
 
         show('destinationPopUp','destinationTypeButton','Add');
 
-        destination_form.action = "/logged/vacations/summary/"+vacation_id+"/"+vacation_name+vacation_upgraded+"/Add/"+"None"+"/";
+        destination_form.action = "/logged/vacations/summary/"+vacation_id+"/"+vacation_name+"/"+vacation_upgraded+"/Add/"+"None"+"/None/None/";
         
 
         };
@@ -104,19 +113,21 @@
         var vacation_id = {{ vac_id | tojson}};
         console.log("matching?")
         console.log(vacation_id)
-        console.log(selectedData['vac_id'])
 
         var vacation_destinations = {{ vacation_destinations | tojson}};
         var vacation_name = {{ vacation_name | tojson}};
         var vacation_upgraded = {{ vacation_upgraded | tojson}};
         var selectedData = vacation_destinations[indexSelected - 1];
+        
         var destination_delete_button = document.getElementById('deleteDestinationButton');
         destination_delete_button.disabled = false;
         var destination_form_body = document.getElementById('delete_modal_body');
         destination_form_body.innerHTML = "Are you sure you want to delete this destination? This cannot be undone!";
-
+        var dstart_date_string = new Date(selectedData['dstart_date']).toISOString().split('T')[0];
         var destination_form = document.getElementById('deleteDestination');
-        destination_form.action = "/logged/vacations/summary/"+selectedData['vac_id']+"/"+vacation_name+vacation_upgraded+"/Delete/"+selectedData['dest_id']+"/";
+        console.log("yes?")
+        destination_form.action = "/logged/vacations/summary/"+selectedData['vac_id']+"/"+vacation_name+
+        "/"+vacation_upgraded+"/Delete/"+selectedData['dest_id']+"/"+dstart_date_string+"/"+selectedData['no_days']+"/";
         
         };
 
@@ -227,7 +238,7 @@
                 {% endif %}
                 {% endwith %}
 
-            <table id="destination_tbl" class="table table-striped table-hover overflow-scroll">
+            <table aria-selected="true" aria-multiselectable="false" id="destination_tbl" class="table table-hover overflow-scroll">
                 <thead>
                   <tr>
                     <th scope="col">Start Date</th>
@@ -258,3 +269,8 @@
         </div>
     </div>        
 </div>
+
+
+<script>
+  highlight_row('destination_tbl');
+</script>
