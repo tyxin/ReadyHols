@@ -1,28 +1,181 @@
-<div class="container overflow-auto" style="overflow-x:hidden; padding: 0%; margin: 0%;">
+<script src="/static/javascript/popup.js"></script>
+
+<style>
+    .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+
+</style>
+
+<script>
+      var update_row = function(){
+        var target_table = document.getElementById("itinerary_tbl");
+        var indexSelected = -1;
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+            };
+        };
+        var vacation_itinerary = {{ vacation_itinerary | tojson}};
+        var selectedData = vacation_itinerary[indexSelected - 1];
+
+        if (indexSelected==-1){
+            console.log("not selected")
+        }else{
+        //filling in data
+        var itinerary_category = document.getElementsByClassName('form-select')['itin_category'];
+        var itin_day_no = document.getElementById("add_itin_day_no");
+        var itin_time = document.getElementById("add_itin_time");
+        var itin_description = document.getElementById('add_itin_description');
+        var itin_location = document.getElementById('add_itin_location');
+        var itin_header = document.getElementById("itinerary_header");
+
+        itinerary_category.value = selectedData['itin_type'];
+        itin_day_no.value = selectedData['day_no'];
+        itin_day_no.disabled = true;
+        //TODO check if this timing value assigning works
+        itin_time.value = selectedData['itin_time'];
+        itin_time.disabled = true;
+        itin_description.value = selectedData['description'];
+        itin_location.value = selectedData['location'];
+        itinerary_header.innerText = "Update Itinerary";
+
+        var itinerary_form = document.getElementById('itineraryFormID');
+
+        var vacation_name = {{vacation_name | tojson}};
+        var vacation_upgraded = {{vacation_upgraded | tojson}};
+        itinerary_form.action = "/logged/vacations/planning/itinerary/"+selectedData['vac_id']+"/"+vacation_name+"/"+vacation_upgraded+"/Update/"+selectedData['day_no']+"/"+selectedData['itin_time']+"/";
+        
+        show('itineraryPopUp','itineraryTypeButton','Update');
+        
+        };
+        
+        };
+
+        var add_itinerary = function(){
+
+        //filling in data
+        var itinerary_category = document.getElementsByClassName('form-select')['itin_category'];
+        var itin_day_no = document.getElementById("add_itin_day_no");
+        var itin_time = document.getElementById("add_itin_time");
+        var itin_description = document.getElementById('add_itin_description');
+        var itin_location = document.getElementById('add_itin_location');
+        var itin_header = document.getElementById("itinerary_header");
+
+        itin_day_no.value = "";
+        itin_day_no.disabled = false;
+        //TODO check if this timing value assigning works
+        itin_time.value = "";
+        itin_time.disabled = false;
+        itin_description.value = "";
+        itin_location.value = "";
+        itinerary_header.innerText = "New Itinerary";
+
+        var vacation_id = {{ vac_id | tojson}};
+
+        var itinerary_form = document.getElementById('itineraryFormID');
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+
+        show('itineraryPopUp','itineraryTypeButton','Add');
+
+        itinerary_form.action = "/logged/vacations/planning/itinerary/"+vacation_id+"/"+vacation_name+"/"+vacation_upgraded+"/Add/None/None/";
+        
+        };
+
+        var delete_itinerary = function(){
+
+        console.log("deleting!");
+        var target_table = document.getElementById("itinerary_tbl");
+        var indexSelected = -1;
+
+        
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+             };
+        };
+
+
+        if (indexSelected==-1){
+             console.log("why not working");
+             var itinerary_form_body = document.getElementById('delete_itinerary_modal_body');
+             var itinerary_delete_button = document.getElementById('deleteitineraryButton');
+             itinerary_form_body.innerHTML = "No itinerary Selected";
+             itinerary_delete_button.disabled = true;
+
+        }else{
+
+          
+        var vacation_id = {{ vac_id | tojson}};
+
+        var vacation_itinerary = {{ vacation_itinerary | tojson}};
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+        var selectedData = vacation_itinerary[indexSelected - 1];
+        
+        var itinerary_delete_button = document.getElementById('deleteitineraryButton');
+        itinerary_delete_button.disabled = false;
+        var itinerary_form_body = document.getElementById('delete_itinerary_modal_body');
+        itinerary_form_body.innerHTML = "Are you sure you want to delete this itinerary? This cannot be undone!";
+        var itinerary_form = document.getElementById('deleteitinerary');
+        itinerary_form.action = "/logged/vacations/planning/itinerary/"+selectedData['vac_id']+"/"+vacation_name+
+        "/"+vacation_upgraded+"/Delete/"+selectedData['day_no']+"/"+selectedData["itin_time"]+"/";
+        
+        };
+
+        };
+</script>
+
+
+<div class="container overflow-auto" style="overflow-x:hidden; padding: 0%; margin: 0%; height: 100%;">
+    
+  <div class="modal fade" id="deleteItineraryModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Confirmation</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="delete_itinerary_modal_body">
+          Are you sure you want to delete this itinerary? This cannot be undone!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="deleteItineraryButton" class="btn btn-secondary" form="deleteItinerary">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+    
     <span>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Add Itinerary</button>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('itineraryPopUp')">Update Itinerary</button>
-        <button class="btn btn-outline-secondary" href="#">Delete Itinerary</button>
+      <form id="deleteItinerary" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
+        <button class="btn btn-outline-secondary" href="#" type="button" onclick="add_itinerary()">Add Itinerary</button>
+        <button class="btn btn-outline-secondary" href="#" type="button" onclick="update_row()">Update Itinerary</button>
+        <button class="btn btn-outline-secondary" href="#" type="button" onclick="delete_itinerary()" data-bs-toggle="modal" data-bs-target="#deleteItineraryModal">Delete Itinerary</button>
+      </form>
     </span>
     <div class="popup" id="itineraryPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
                   style="padding: 2%; overflow: auto;">
-            <h3>New Itinerary</h3>
+            <h3 id="itinerary_header">New Itinerary</h3>
             <br>
-            <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_day_no" placeholder="Day No" aria-label="Day No">
+            <input style="margin-top: 1%;" class="form-control me-2" id="add_itin_day_no" name="add_itin_day_no" placeholder="Day No" aria-label="Day No">
 
-            <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
+            <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_time" name="add_maps_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
 
-            <select class="form-select" name="maps_itin_category">
+            <select class="form-select" name="itin_category">
                 <option value="ATTRACTION">ATTRACTION</option>
                 <option value="FOOD">FOOD</option><option value="TOUR">TOUR</option>
                 <option value="SIGHTSEEING">SIGHTSEEING</option>
                 <option value="OTHERS">OTHERS</option>
             </select>
 
-            <input style="margin-top: 1%;" class="form-control me-2" name="add_maps_itin_description" placeholder="Description" aria-label="Description">
+            <input style="margin-top: 1%;" class="form-control me-2" id="add_itin_description" name="add_itin_description" placeholder="Description" aria-label="Description">
 
-            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_itin_location" placeholder="Enter Location" aria-label="Location">
+            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_location" name="add_itin_location" placeholder="Enter Location" aria-label="Location">
 
             <span>
                 <button class="btn btn-outline-secondary">Add</button>
@@ -31,6 +184,25 @@
         </form>
     </div>
 
+  {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+           {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+      <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
     <table class="table table-hover" style="margin-top: 1%;">
         <thead class="bg-dark text-white">
@@ -64,3 +236,8 @@
         </div>
         {% endif %}
 </div>
+
+<script>
+  highlight_row('itinerary_tbl')
+</script>
+

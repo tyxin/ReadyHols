@@ -1,37 +1,197 @@
-<div class="container overflow-auto" style="overflow: auto; margin: 0%; padding: 0%;">
-        <span>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('bookingPopUp')">Add Booking</button>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('bookingPopUp')">Update Booking</button>
-        <button class="btn btn-outline-secondary" href="#">Delete Booking</button>
+<script src="/static/javascript/popup.js"></script>
+
+<style>
+    .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+
+</style>
+
+<script>
+      var update_row = function(){
+        var target_table = document.getElementById("booking_tbl");
+        var indexSelected = -1;
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+            };
+        };
+        var vacation_booking = {{ vacation_booking | tojson}};
+        var selectedData = vacation_booking[indexSelected - 1];
+
+        if (indexSelected==-1){
+            console.log("not selected")
+        }else{
+        //filling in data
+        var booking_category = document.getElementsByClassName('form-select')['booking_category'];
+        var booking_ref_no = document.getElementById("add_booking_ref_no");
+        var booking_description = document.getElementById("add_booking_description");
+        var booking_header = document.getElementById("booking_header");
+
+        booking_category.value = selectedData['booking_type'];
+        booking_ref_no.value = selectedData['ref_no'];
+        booking_ref_no.disabled = true;
+        booking_description.value = selectedData['description']
+        booking_header.innerText = "Update Booking";
+
+        var booking_form = document.getElementById('bookingFormID');
+
+        var vacation_name = {{vacation_name | tojson}};
+        var vacation_upgraded = {{vacation_upgraded | tojson}};
+        booking_form.action = "/logged/vacations/planning/booking/"+selectedData['vac_id']+"/"+vacation_name+"/"+vacation_upgraded+"/Update/"+selectedData['ref_no']+"/";
+        
+        show('bookingPopUp','bookingTypeButton','Update');
+        
+        };
+        
+        };
+
+        var add_booking = function(){
+
+        //filling in data
+        var booking_category = document.getElementsByClassName('form-select')['booking_category'];
+        var booking_ref_no = document.getElementById("add_booking_ref_no");
+        var booking_description = document.getElementById("add_booking_description");
+        var booking_header = document.getElementById("booking_header");
+
+        booking_description.value = "";
+        booking_header.innerHTML = "New Booking";
+        booking_ref_no.value = "";
+        booking_ref_no.disabled = false;
+
+        var vacation_id = {{ vac_id | tojson}};
+
+        var booking_form = document.getElementById('bookingFormID');
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+
+        show('bookingPopUp','bookingTypeButton','Add');
+
+        booking_form.action = "/logged/vacations/planning/booking/"+vacation_id+"/"+vacation_name+"/"+vacation_upgraded+"/Add/None/";
+        
+        };
+
+        var delete_booking = function(){
+
+        console.log("deleting!");
+        var target_table = document.getElementById("booking_tbl");
+        var indexSelected = -1;
+
+        
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+             };
+        };
+
+
+        if (indexSelected==-1){
+             console.log("why not working");
+             var booking_form_body = document.getElementById('delete_booking_modal_body');
+             var booking_delete_button = document.getElementById('deleteBookingButton');
+             booking_form_body.innerHTML = "No Booking Selected";
+             booking_delete_button.disabled = true;
+
+        }else{
+
+          
+        var vacation_id = {{ vac_id | tojson}};
+
+        var vacation_booking = {{ vacation_booking | tojson}};
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+        var selectedData = vacation_booking[indexSelected - 1];
+        
+        var booking_delete_button = document.getElementById('deleteBookingButton');
+        booking_delete_button.disabled = false;
+        var booking_form_body = document.getElementById('delete_booking_modal_body');
+        booking_form_body.innerHTML = "Are you sure you want to delete this booking? This cannot be undone!";
+        var booking_form = document.getElementById('deleteBooking');
+        booking_form.action = "/logged/vacations/planning/booking/"+selectedData['vac_id']+"/"+vacation_name+
+        "/"+vacation_upgraded+"/Delete/"+selectedData['ref_no']+"/";
+        
+        };
+
+        };
+</script>
+
+
+<div class="container overflow-auto" style="margin: 0%; padding: 0%; height: 100%;">
+    
+  <div class="modal fade" id="deleteBookingModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Confirmation</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="delete_booking_modal_body">
+          Are you sure you want to delete this booking? This cannot be undone!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="deleteBookingButton" class="btn btn-secondary" form="deleteBooking">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+    <span>
+      <form id="deleteBooking" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_booking()">Add Booking</button>
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Booking</button>
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="delete_booking()" data-bs-toggle="modal" data-bs-target="#deleteBookingModal">Delete Booking</button>
+      </form>
     </span>
     <div class="popup" id="bookingPopUp">
-        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" style="padding:2%; overflow: auto;">
-            <h3>New Booking</h3>
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" id="bookingFormID" role="search" 
+        style="padding:2%; overflow: auto; overflow-x: hidden;" enctype="multipart/form-data">
+            <h3 id="booking_header">New Booking</h3>
             <br>
-            <select class="form-select" name="maps_itin_category">
-                <option value="ATTRACTION">ATTRACTION</option>
+            <select class="form-select" name="booking_category" id="booking_category">
+                <option value="TRANSPORT">TRANSPORT</option>
                 <option value="FOOD">FOOD</option>
-                <option value="TOUR">TOUR</option>
-                <option value="SIGHTSEEING">SIGHTSEEING</option>
+                <option value="ATTRACTION">ATTRACTION</option>
+                <option value="INSURANCE">INSURANCE</option>
                 <option value="OTHERS">OTHERS</option>
             </select>
-            <input style="margin-top: 1%;" class="form-control me-2" name="add_booking_ref_no" placeholder="Ref No." aria-label="Ref No.">
+            <input style="margin-top: 1%;" class="form-control me-2" id="add_booking_ref_no" name="add_booking_ref_no" placeholder="Ref No." aria-label="Ref No.">
 
-            <input style="margin-top: 1%;" class="form-control me-2" name="add_booking_description" placeholder="Description" aria-label="Description">
+            <input style="margin-top: 1%;" class="form-control me-2" id="add_booking_description" name="add_booking_description" placeholder="Description" aria-label="Description">
 
             <input type="file" accept="application/msword, application/pdf" style="margin-top: 1%; margin-bottom: 1%;"
                    class="form-control me-2" id="bookingAttachment" name="add_booking_attachment" placeholder="Booking File" aria-label="Booking File">
 
             <span>
-                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" id="bookingTypeButton" >Add</button>
                 <button class="btn btn-outline-secondary" type="button" onclick="hide('bookingPopUp')">Cancel</button>
             </span>
 
         </form>
     </div>
 
+  {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+           {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
-    <table class="table table-hover" style="margin-top: 1%;">
+  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+      <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+    <table aria-selected="true" aria-multiselectable="false" id="booking_tbl" class="table table-hover">
         <thead class="bg-dark text-white">
           <tr>
             <th scope="col">No.</th>
@@ -48,7 +208,7 @@
             <td>{{i['booking_type']}}</td>
             <td>{{i['ref_no']}}</td>
             <td>{{i['description']}}</td>
-            <td><a href=""></a>{{i['attachment']}}</td>
+            <td><a href="">attachment</a></td>
           </tr>
         {% endfor %}
         </tbody>
@@ -61,3 +221,7 @@
     </div>
     {% endif %}
 </div>
+
+<script>
+  highlight_row('booking_tbl')
+</script>

@@ -1,37 +1,206 @@
-<div class="container overflow-auto" style="margin: 0%; padding: 0%;">
+<script src="/static/javascript/popup.js"></script>
+
+<style>
+
+    .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+
+</style>
+
+<script>
+      var update_row = function(){
+        var target_table = document.getElementById("budget_tbl");
+        var indexSelected = -1;
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+            };
+        };
+        var vacation_budget = {{ vacation_budget | tojson}};
+        var selectedData = vacation_budget[indexSelected - 1];
+
+        console.log("selectedData")
+        console.log(selectedData)
+
+        if (indexSelected==-1){
+            console.log("not selected")
+        }else{
+        //filling in data
+        var budget_category = document.getElementsByClassName('form-select')['add_budget_category'];
+        var budget_expenditure = document.getElementById("add_budget_expenditure");
+        var budget_remarks = document.getElementById("add_budget_remarks");
+        var budget_header = document.getElementById("budget_header")
+
+        //will automatically add to destination if no such instance created
+
+        console.log("object category")
+        console.log(budget_category)
+
+        budget_category.value = selectedData['category'];
+        budget_expenditure.value = selectedData['expenditure'];
+        budget_remarks.value = selectedData['remarks']
+        budget_header.innerText = "Update Budget";
+
+        var budget_form = document.getElementById('budgetFormID');
+
+        var vacation_name = {{vacation_name | tojson}};
+        var vacation_upgraded = {{vacation_upgraded | tojson}};
+        budget_form.action = "/logged/vacations/planning/budget/"+selectedData['vac_id']+"/"+vacation_name+"/"+vacation_upgraded+"/Update/"+selectedData['budget_id']+"/";
+        
+        show('budgetPopUp','budgetTypeButton','Update');
+        };
+        
+        };
+
+        var add_budget = function(){
+
+        //filling in data
+        var budget_expenditure = document.getElementById("add_budget_expenditure");
+        var budget_remarks = document.getElementById("add_budget_remarks");
+        var budget_header = document.getElementById("budget_header")
+
+        budget_remarks.value = "";
+        budget_header.innerHTML = "New Budget";
+
+        var vacation_id = {{ vac_id | tojson}};
+        console.log("matching?")
+        console.log(vacation_id)
+
+        var budget_form = document.getElementById('budgetFormID');
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+
+        show('budgetPopUp','budgetTypeButton','Add');
+
+
+        budget_form.action = "/logged/vacations/planning/budget/"+vacation_id+"/"+vacation_name+"/"+vacation_upgraded+"/Add/None/";
+        
+
+        };
+
+        var delete_budget = function(){
+
+        console.log("deleting!");
+        var target_table = document.getElementById("budget_tbl");
+        var indexSelected = -1;
+
+        
+        for (var i = 0; i < target_table.rows.length;i++){
+            if (target_table.rows[i].classList.length>0){
+                indexSelected = i;
+             };
+        };
+
+
+        if (indexSelected==-1){
+             console.log("why not working");
+             var budget_form_body = document.getElementById('delete_modal_body');
+             var budget_delete_button = document.getElementById('deleteBudgetButton');
+             budget_form_body.innerHTML = "No Budget Selected";
+             budget_delete_button.disabled = true;
+
+        }else{
+
+          
+        var vacation_id = {{ vac_id | tojson}};
+        console.log("matching?")
+        console.log(vacation_id)
+
+        var vacation_budget = {{ vacation_budget | tojson}};
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+        var selectedData = vacation_budget[indexSelected - 1];
+        
+        var budget_delete_button = document.getElementById('deleteBudgetButton');
+        budget_delete_button.disabled = false;
+        var budget_form_body = document.getElementById('delete_modal_body');
+        budget_form_body.innerHTML = "Are you sure you want to delete this budget component? This cannot be undone!";
+        var budget_form = document.getElementById('deleteBudget');
+        budget_form.action = "/logged/vacations/planning/budget/"+selectedData['vac_id']+"/"+vacation_name+
+        "/"+vacation_upgraded+"/Delete/"+selectedData['budget_id']+"/";
+        
+        };
+
+        };
+      
+  
+
+</script>
+
+
+<div class="container overflow-auto" style="margin: 0%; padding: 0%; height: 100%;">
+      <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          <div class="modal-body" id="delete_modal_body">
+              Are you sure you want to delete this budget component? This cannot be undone!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" id="deleteBudgetButton" class="btn btn-secondary" form="deleteBudget">Confirm</button>
+          </div>
+        </div>
+        </div>
+      </div>
     <h4>Budget Limit: ${{vacation_summary['budget_limit']}}</h4>
     <h4>Total Spent: ${{vacation_summary['total_spend']}}</h4>
-    <br>
+    {% with successes = get_flashed_messages(category_filter=["success"]) %}
+      {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+         {{ message }}
+          {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+      {% if errors %}
+        <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <h4>Budget Breakdown</h4>
     <span>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('budgetPopUp')">Add Budget</button>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('budgetPopUp')">Update Budget</button>
-        <button class="btn btn-outline-secondary" href="#">Delete Budget</button>
-    </span>
+      <form id="deleteBudget" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_budget()">Add Budget</button>
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Budget</button>
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="delete_budget()" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">Delete Budget</button>
+      </form>
+        </span>
     <div class="popup" id="budgetPopUp">
-        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" id="budgetFormID"
                   style="padding: 2%; overflow: auto; overflow-x: hidden;">
 
-            <h3>New Budget Breakdown</h3>
+            <h3 id="budget_header" >New Budget Breakdown</h3>
             <p></p>
-            <select class="form-select" name="budget_category">
+            <select class="form-select" name="budget_category" id="add_budget_category">
                 <option value="ATTRACTION">ATTRACTION</option>
                 <option value="FOOD">FOOD</option><option value="TOUR">TOUR</option>
                 <option value="SIGHTSEEING">SIGHTSEEING</option>
                 <option value="OTHERS">OTHERS</option>
             </select>
 
-            <input type="number" style="margin-top: 1%;" class="form-control me-2" name="add_budget_expenditure" placeholder="Expenditure in $" aria-label="Expenditure">
+            <input type="number" style="margin-top: 1%;" class="form-control me-2" id="add_budget_expenditure" name="add_budget_expenditure" placeholder="Expenditure in $" aria-label="Expenditure">
 
-            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_budget_remarks" placeholder="Remarks" aria-label="Remarks">
+            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_budget_remarks" name="add_budget_remarks" placeholder="Remarks" aria-label="Remarks">
 
             <span>
-                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" id="budgetTypeButton" >Add</button>
                 <button class="btn btn-outline-secondary" type="button" onclick="hide('budgetPopUp')">Cancel</button>
             </span>
         </form>
     </div>
-    <table class="table table-striped table-hover">
+    <table aria-selected="true" aria-multiselectable="false" id="budget_tbl" class="table table-hover">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -59,3 +228,8 @@
     </div>
     {% endif %}
 </div>
+
+
+<script>
+  highlight_row('budget_tbl')
+</script>

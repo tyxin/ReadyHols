@@ -102,7 +102,7 @@
 
         if (indexSelected==-1){
              console.log("why not working");
-             var destination_form = document.getElementById('delete_modal_body');
+             var destination_form = document.getElementById('delete_destination_modal_body');
              var destination_delete_button = document.getElementById('deleteDestinationButton');
              destination_form.innerHTML = "No Destination Selected";
              destination_delete_button.disabled = true;
@@ -121,7 +121,7 @@
         
         var destination_delete_button = document.getElementById('deleteDestinationButton');
         destination_delete_button.disabled = false;
-        var destination_form_body = document.getElementById('delete_modal_body');
+        var destination_form_body = document.getElementById('delete_destination_modal_body');
         destination_form_body.innerHTML = "Are you sure you want to delete this destination? This cannot be undone!";
         var dstart_date_string = new Date(selectedData['dstart_date']).toISOString().split('T')[0];
         var destination_form = document.getElementById('deleteDestination');
@@ -166,14 +166,14 @@
     
         <div class="col-md-7 col-sm-12">
         
-              <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal fade" id="deleteDestinationModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
                         <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Confirmation</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-body" id="delete_modal_body">
+                      <div class="modal-body" id="delete_destination_modal_body">
                               Are you sure you want to delete this destination? This cannot be undone!
                       </div>
                       <div class="modal-footer">
@@ -193,9 +193,9 @@
             <h5>End Country: {{vacation_summary['last_state']}}, {{vacation_summary['last_country']}}</h5>
             <span>
               <form id="deleteDestination" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
-                <button class="btn btn-outline-secondary" href="#" onclick="add_destination()" type="button">Add Destination</button>
-                <button class="btn btn-outline-secondary" href="#" onclick="update_row()" type="button">Update Destination</button>
-                <button class="btn btn-outline-secondary" href="#" onclick="delete_destination()" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">Delete Destination</button>
+                <button class="btn btn-outline-secondary" href="#" type="button" onclick="add_destination()" type="button">Add Destination</button>
+                <button class="btn btn-outline-secondary" href="#" type="button" onclick="update_row()" type="button">Update Destination</button>
+                <button class="btn btn-outline-secondary" href="#" type="button" onclick="delete_destination()" data-bs-toggle="modal" data-bs-target="#deleteDestinationModal" type="button">Delete Destination</button>
               </form>
             </span>
             <div class="popup" id="destinationPopUp">

@@ -14,14 +14,17 @@ from datetime import *
 
 app = flask.Flask(__name__)
 
-UPLOAD_FOLDER = os.getcwd().replace("\\","/")+'/static/server-storage/pictures/'
-print(UPLOAD_FOLDER)
+UPLOAD_FOLDER_PHOTO = os.getcwd().replace("\\","/")+'/static/server-storage/pictures/'
+UPLOAD_FOLDER_BOOKING = os.getcwd().replace("\\","/")+'/static/server-storage/booking-attachment/'
+UPLOAD_FOLDER_MAP = os.getcwd().replace("\\","/")+'/static/server-storage/map-attachment/'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'admin'
 app.config['MYSQL_DB'] = 'readyhols'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER_PHOTO'] = UPLOAD_FOLDER_PHOTO
+app.config['UPLOAD_FOLDER_BOOKING'] = UPLOAD_FOLDER_BOOKING
+app.config['UPLOAD_FOLDER_MAP'] = UPLOAD_FOLDER_MAP
 
 mysql = MySQL(app)
 
@@ -385,7 +388,7 @@ def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
             uploaded_photo = request.files['image_file']
             if uploaded_photo.filename!='':
                 photo_filename = secure_filename(uploaded_photo.filename)
-                final_file_path = os.path.join(app.config['UPLOAD_FOLDER'],photo_filename)
+                final_file_path = os.path.join(app.config['UPLOAD_FOLDER_PHOTO'],photo_filename)
                 print("final")
                 print(final_file_path)
                 uploaded_photo.save(final_file_path)
@@ -514,7 +517,6 @@ def add_update_vacation(type_of_update, vac_id):
     return redirect(url_for('logged_vacations'))
 
 
-# TODO
 @app.route('/logged/vacations/summary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:dest_id>/<string:dstart_date>/<string:no_days>/', methods=['GET', 'POST'])
 def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgraded, dest_id, dstart_date, no_days):
     print(type_of_update)
@@ -620,6 +622,156 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
         print("error, should not occur")
 
     return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+
+
+@app.route('/logged/vacations/planning/booking/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:ref_no>/', methods=['GET', 'POST'])
+def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded, ref_no):
+    print(type_of_update)
+    if type_of_update == "Add":
+        if request.method == 'POST' and ('add_booking_ref_no' in request.form) \
+                and ('add_booking_description' in request.form) :
+            
+            print("checkpoitsf1")
+            booking_category = request.form.get('booking_category')
+            booking_ref_no = request.form['add_booking_ref_no']
+            booking_description = request.form['add_booking_description']
+            booking_attachment_path = ""
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+            if not re.match(r'[A-Za-z]+', booking_description):
+                flash('Remarks must contain only characters!', 'error')
+            else:
+                print("checionasdj12")
+                cursor.execute('SELECT * from booking where vac_id=%s',(vac_id,))
+                vacation_bookings = cursor.fetchall()
+                booking_ref_no_taken = False
+                for i in vacation_bookings:
+                    if i['ref_no']==booking_ref_no:
+                        booking_ref_no_taken = True
+                        break
+                if (booking_ref_no_taken):
+                    flash('This reference no is being taken and cannot be repeated!','error')
+                else:
+                    if 'add_booking_attachment' in request.files:
+                        uploaded_booking = request.files['add_booking_attachment']
+                        if uploaded_booking.filename!='':
+                            booking_filename = secure_filename(uploaded_booking.filename)
+                            final_file_path = os.path.join(app.config['UPLOAD_FOLDER_BOOKING'],booking_filename)
+                            uploaded_booking.save(final_file_path)
+                            booking_attachment_path = "/booking-attachment/"+booking_filename
+                    cursor.execute('INSERT into booking VALUES (%s,%s,%s,%s,%s)',(vac_id,booking_ref_no,booking_category,booking_description,booking_attachment_path,))
+                    mysql.connection.commit()
+                    flash('Congratulations, you have successfully added your new booking!','success')
+                    cursor.close()
+                    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+
+    if type_of_update == "Update":
+        if request.method == 'POST' \
+                and ('add_booking_description' in request.form) :
+            
+            print("kjf;aklfjd2241412")
+            
+            booking_category = request.form.get('booking_category')
+            booking_description = request.form['add_booking_description']
+            booking_attachment_path = ""
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+            print("43143134")
+
+            if not re.match(r'[A-Za-z]+', booking_description):
+                flash('Country must contain only characters!', 'error')
+            else:
+                print("134515509")
+                
+                if 'add_booking_attachment' in request.files:
+                    uploaded_booking = request.files['add_booking_attachment']
+                    if uploaded_booking.filename!='':
+                        booking_filename = secure_filename(uploaded_booking.filename)
+                        final_file_path = os.path.join(app.config['UPLOAD_FOLDER_BOOKING'],booking_filename)
+                        uploaded_booking.save(final_file_path)
+                        booking_attachment_path = "/booking-attachment/"+booking_filename
+                print("sql updating")
+                cursor.execute('UPDATE booking set description=%s,booking_type=%s,attachment=%s where vac_id=%s and ref_no=%s',
+                            (booking_description,booking_category,booking_attachment_path,vac_id,ref_no,))
+                mysql.connection.commit()
+                flash('Booking updated component updated successfully!', 'success')
+                cursor.close()
+                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+
+    elif type_of_update == "Delete":
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('DELETE from booking where vac_id=%s and ref_no=%s', (vac_id,ref_no,))
+        mysql.connection.commit()
+        flash('Booking deleted successfully!','success')
+        return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+    else:
+        print("error, should not occur")
+
+    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+
+@app.route('/logged/vacations/planning/budget/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:budget_id>/', methods=['GET', 'POST'])
+def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, budget_id):
+    print(type_of_update)
+    if type_of_update == "Add":
+        if request.method == 'POST' and (
+                'add_budget_expenditure' in request.form) \
+                and ('add_budget_remarks' in request.form) :
+            
+            budget_category = request.form.get('budget_category')
+            budget_expenditure = request.form['add_budget_expenditure']
+            budget_remarks = request.form['add_budget_remarks']
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+            if not re.match(r'[A-Za-z]+', budget_remarks):
+                flash('Remarks must contain only characters!', 'error')
+            else:
+                budget_count = cursor.execute('SELECT * from budget')
+                budget_id = generate_id(budget_count + 1, cursor, "budget", "budget_id")
+                cursor.execute('INSERT into budget VALUES (%s,%s,%s,%s,%s)',(vac_id,budget_id,budget_category,budget_expenditure,budget_remarks,))
+                mysql.connection.commit()
+                flash('Congratulations, you have successfully added your new budget component!','success')
+                cursor.close()
+                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+
+    elif type_of_update == "Update":
+        print("updating")
+        print(vac_id)
+        print(budget_id)
+        if request.method == 'POST' and (
+                'add_budget_expenditure' in request.form) \
+                and ('add_budget_remarks' in request.form) :
+            budget_category = request.form.get('budget_category')
+            budget_expenditure = request.form['add_budget_expenditure']
+            budget_remarks = request.form['add_budget_remarks']
+
+            print("budget_category")
+            print(budget_category)
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+            if not re.match(r'[A-Za-z]+', budget_remarks):
+                flash('Country must contain only characters!', 'error')
+            else:
+                cursor.execute('UPDATE budget set category=%s,expenditure=%s,remarks=%s where vac_id=%s and budget_id=%s',
+                               (budget_category,int(budget_expenditure),budget_remarks,vac_id,budget_id,))
+                mysql.connection.commit()
+                flash('Budget component updated successfully!', 'success')
+                cursor.close()
+                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+
+    elif type_of_update == "Delete":
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('DELETE from budget where vac_id=%s and budget_id=%s', (vac_id,budget_id,))
+        mysql.connection.commit()
+        flash('Budget component deleted successfully!','success')
+        return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+    else:
+        print("error, should not occur")
+
+    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
 
 
 def check_between_date(dstart_date, start_date, end_date, no_days):

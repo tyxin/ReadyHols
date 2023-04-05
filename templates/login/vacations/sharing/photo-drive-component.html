@@ -1,4 +1,4 @@
-<script src="/static/javascript/photo_process.js" defer></script>
+<script src="/static/javascript/file_handling.js"></script>
 
 <div class="container overflow-auto" style="height:100%; margin: 0%; padding: 0%;">
   <form action="{{url_for('logged_vacations_sharing',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" method="POST" id="photo_upload_form" enctype="multipart/form-data" >
@@ -45,3 +45,8 @@
 
   </div>
 </div>
+
+
+<script>
+  file_process('add_photo','upload_photo_form');
+</script>
