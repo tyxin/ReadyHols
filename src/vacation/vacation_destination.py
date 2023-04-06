@@ -12,8 +12,7 @@ from werkzeug.utils import secure_filename
 import datetime
 from datetime import *
 
-from app import generate_id
-
+from common.generate_id import generate_id
 
 def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgraded, dest_id, dstart_date, no_days, mysql):
     print(type_of_update)

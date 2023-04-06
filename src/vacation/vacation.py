@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 import datetime
 from datetime import *
 
-from app import generate_id
+from common.generate_id import generate_id
 
 def add_update_vacation(type_of_update, vac_id, mysql):
     print(type_of_update)

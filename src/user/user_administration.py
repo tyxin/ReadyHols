@@ -12,8 +12,7 @@ from werkzeug.utils import secure_filename
 import datetime
 from datetime import *
 
-
-from app import generate_id
+from common.generate_id import generate_id
 
 
 def login(mysql):

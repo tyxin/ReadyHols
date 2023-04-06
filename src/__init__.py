@@ -14,14 +14,16 @@ from datetime import *
 
 
 # import from other python files 
-import source_py.user_administration as user_administration
-import source_py.logged_in as logged_in
-import source_py.vacation as vacation
-import source_py.vacation_destination as vacation_destination
-import source_py.vacation_booking as vacation_booking
-import source_py.vacation_budget as vacation_budget
-import source_py.vacation_itinerary as vacation_itinerary
-import source_py.vacation_map as vacation_map
+import user.user_administration as user_administration
+import user.logged_in as logged_in
+import vacation.vacation as vacation
+import vacation.vacation_destination as vacation_destination
+import vacation.vacation_booking as vacation_booking
+import vacation.vacation_budget as vacation_budget
+import vacation.vacation_itinerary as vacation_itinerary
+import vacation.vacation_map as vacation_map
+
+from common.generate_id import generate_id
 
 app = flask.Flask(__name__)
 
@@ -74,19 +76,6 @@ def login():
 @app.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     return user_administration.sign_up(mysql)
-
-def generate_id(type_count, cursor, table_name, id_name):
-    valid_id = "{:09d}".format(type_count)
-    exist_entry = None
-    while exist_entry == None:
-        cursor.execute('SELECT * from ' + table_name + ' where ' + ' ' + id_name + '=%s', (valid_id,))
-        exist_entry = cursor.fetchone()
-        if exist_entry == None:
-            break
-        type_count += 1
-        valid_id = "{:09d}".format(type_count)
-    return valid_id
-
 
 def logout():
     session.clear()
