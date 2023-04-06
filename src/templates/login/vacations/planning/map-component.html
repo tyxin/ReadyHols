@@ -1,17 +1,42 @@
+<script>
+    var add_map = function(){
+
+    //filling in data
+    var map_category = document.getElementsByClassName('form-select')['maps_category'];
+    var map_name = document.getElementById("add_map_name");
+    var map_attachment = document.getElementById("add_map_attachment");
+
+    var vacation_id = {{ vac_id | tojson}};
+
+    var map_form = document.getElementById('mapFormID');
+    var vacation_name = {{ vacation_name | tojson}};
+    var vacation_upgraded = {{ vacation_upgraded | tojson}};
+
+    show('mapPopUp','mapTypeButton','Add');
+
+    map_form.action = "/logged/vacations/planning/map/"+vacation_id+"/"+vacation_name+"/"+vacation_upgraded+"/Add/";
+    
+    };
+
+
+</script>
+
+
+
 <div class="container overflow-auto" style="margin: 0%; padding: 0%; height: 100%;">
     <span>
-        <button class="btn btn-outline-secondary" href="#" onclick="show('mapPopUp')">Add Map</button>
+        <button class="btn btn-outline-secondary" href="#" onclick="add_map()">Add Map</button>
     </span>
 
     <div class="popup" id="mapPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
-              style="margin-top:auto; padding: 2%;">
+              style="margin-top:auto; padding: 2%;" id="mapFormID" enctype="multipart/form-data">
 
             <h3>New Map</h3>
             <br>
-            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" name="add_maps_map_name" placeholder="Map Name" aria-label="Map Name">
+            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_map_name" name="add_map_name" placeholder="Map Name" aria-label="Map Name">
 
-            <select class="form-select" name="maps_itin_category">
+            <select class="form-select" name="maps_category">
                 <option value="ATTRACTION">ATTRACTION</option>
                 <option value="FOOD">FOOD</option>
                 <option value="TOUR">TOUR</option>
@@ -20,16 +45,37 @@
             </select>
 
             <input type="file" accept="application/msword, application/pdf" style="margin-top: 1%; margin-bottom: 1%;"
-                   class="form-control me-2" id="mapAttachment" name="add_maps_map_attachment" placeholder="Map File" aria-label="Map File">
+                   class="form-control me-2" id="add_map_attachment" name="add_map_attachment" placeholder="Map File" aria-label="Map File">
             <span>
-                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" id="mapTypeButton">Add</button>
                 <button class="btn btn-outline-secondary" type="button" onclick="hide('mapPopUp')">Cancel</button>
             </span>
         </form>
     </div>
 
+      {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+           {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
-    <table class="table table-hover" style="margin-top: 1%;m">
+  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+      <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+
+
+    <table class="table table-hover" style="margin-top: 1%;">
         <thead class="bg-dark text-white">
           <tr>
             <th scope="col">No.</th>
@@ -44,7 +90,7 @@
             <th scope="row">{{loop.index}}</th>
             <td>{{i['name']}}</td>
             <td>{{i['category']}}</td>
-            <td>{{i['map_link']}}</td>
+            <td><a href="">attachment</a></td>
           </tr>
         {% endfor %}
         </tbody>

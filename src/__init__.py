@@ -27,9 +27,9 @@ from common.generate_id import generate_id
 
 app = flask.Flask(__name__)
 
-UPLOAD_FOLDER_PHOTO = os.getcwd().replace("\\","/")+'/static/server-storage/pictures/'
-UPLOAD_FOLDER_BOOKING = os.getcwd().replace("\\","/")+'/static/server-storage/booking-attachment/'
-UPLOAD_FOLDER_MAP = os.getcwd().replace("\\","/")+'/static/server-storage/map-attachment/'
+UPLOAD_FOLDER_PHOTO = os.getcwd().replace("\\","/")+'/src/static/server-storage/pictures/'
+UPLOAD_FOLDER_BOOKING = os.getcwd().replace("\\","/")+'/src/static/server-storage/booking-attachment/'
+UPLOAD_FOLDER_MAP = os.getcwd().replace("\\","/")+'/src/static/server-storage/map-attachment/'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -162,8 +162,10 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
     vacation_budget = cursor.fetchall()
     cursor.execute('SELECT * from booking where vac_id=%s', (vac_id,))
     vacation_booking = cursor.fetchall()
-    cursor.execute('SELECT * from itinerary where vac_id=%s', (vac_id,))
+    cursor.execute("SELECT vac_id, day_no, date_format(itin_time,%s) as itin_time, itin_type, description, location from itinerary where vac_id=%s", ('%T',vac_id,))
     vacation_itinerary = cursor.fetchall()
+    print("vacation_tiinerary")
+    print(vacation_itinerary)
     cursor.execute('SELECT * from vac_map')
     public_maps = cursor.fetchall()
     cursor.execute('SELECT vac_id, itin_time, day_no, map_link, description, name, category'
@@ -263,9 +265,14 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
 def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, budget_id):
     return vacation_budget.add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, budget_id, mysql)
     
-@app.route('/logged/vacations/planning/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:day_no>/<string:itin_time>', methods=['GET', 'POST'])
+@app.route('/logged/vacations/planning/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:day_no>/<string:itin_time>/', methods=['GET', 'POST'])
 def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time):
     return vacation_itinerary.add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time, mysql)
+
+@app.route('/logged/vacations/planning/map/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/', methods=['GET', 'POST'])
+def add_update_map(type_of_update, vac_id, vacation_name, vacation_upgraded):
+    return vacation_map.add_update_maps(type_of_update, vac_id, vacation_name, vacation_upgraded, mysql, app)
+
 
 if __name__ == '__main__':
     app.run()

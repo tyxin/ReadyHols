@@ -9,7 +9,7 @@
 </style>
 
 <script>
-      var update_row = function(){
+      var update_booking_row = function(){
         var target_table = document.getElementById("booking_tbl");
         var indexSelected = -1;
         for (var i = 0; i < target_table.rows.length;i++){
@@ -140,7 +140,7 @@
     <span>
       <form id="deleteBooking" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
         <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_booking()">Add Booking</button>
-        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Booking</button>
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_booking_row()">Update Booking</button>
         <button class="btn btn-outline-secondary" type="button" href="#" onclick="delete_booking()" data-bs-toggle="modal" data-bs-target="#deleteBookingModal">Delete Booking</button>
       </form>
     </span>

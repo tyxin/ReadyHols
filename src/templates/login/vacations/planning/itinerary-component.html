@@ -9,7 +9,7 @@
 </style>
 
 <script>
-      var update_row = function(){
+      var update_itinerary_row = function(){
         var target_table = document.getElementById("itinerary_tbl");
         var indexSelected = -1;
         for (var i = 0; i < target_table.rows.length;i++){
@@ -17,6 +17,7 @@
                 indexSelected = i;
             };
         };
+
         var vacation_itinerary = {{ vacation_itinerary | tojson}};
         var selectedData = vacation_itinerary[indexSelected - 1];
 
@@ -153,18 +154,18 @@
     <span>
       <form id="deleteItinerary" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
         <button class="btn btn-outline-secondary" href="#" type="button" onclick="add_itinerary()">Add Itinerary</button>
-        <button class="btn btn-outline-secondary" href="#" type="button" onclick="update_row()">Update Itinerary</button>
+        <button class="btn btn-outline-secondary" href="#" type="button" onclick="update_itinerary_row()">Update Itinerary</button>
         <button class="btn btn-outline-secondary" href="#" type="button" onclick="delete_itinerary()" data-bs-toggle="modal" data-bs-target="#deleteItineraryModal">Delete Itinerary</button>
       </form>
     </span>
     <div class="popup" id="itineraryPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
-                  style="padding: 2%; overflow: auto;">
+                  style="padding: 2%; overflow: auto; overflow-x: hidden;" id="itineraryFormID">
             <h3 id="itinerary_header">New Itinerary</h3>
             <br>
             <input style="margin-top: 1%;" class="form-control me-2" id="add_itin_day_no" name="add_itin_day_no" placeholder="Day No" aria-label="Day No">
 
-            <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_time" name="add_maps_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
+            <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_time" name="add_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
 
             <select class="form-select" name="itin_category">
                 <option value="ATTRACTION">ATTRACTION</option>
@@ -179,7 +180,7 @@
             <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_location" name="add_itin_location" placeholder="Enter Location" aria-label="Location">
 
             <span>
-                <button class="btn btn-outline-secondary">Add</button>
+                <button class="btn btn-outline-secondary" id="itineraryTypeButton">Add</button>
                 <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryPopUp')">Cancel</button>
             </span>
         </form>
@@ -205,7 +206,7 @@
     {% endif %}
   {% endwith %}
 
-    <table class="table table-hover" style="margin-top: 1%;">
+    <table aria-selected="true" aria-multiselectable="false" id="itinerary_tbl" class="table table-hover">
         <thead class="bg-dark text-white">
           <tr>
             <th scope="col">No.</th>
@@ -239,6 +240,7 @@
 </div>
 
 <script>
-  highlight_row('itinerary_tbl')
+  highlight_row('itinerary_tbl');
+  console.log("been here")
 </script>
 

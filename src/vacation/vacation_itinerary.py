@@ -17,14 +17,17 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
     print(type_of_update)
     if type_of_update == "Add":
         if request.method == 'POST' and ('add_itin_day_no' in request.form) \
-                and ('add_itin_time' in request.form) and ('add_itin_description' in request.form) \
+                and ('add_itin_description' in request.form) \
                 and ('add_itin_location' in request.form):
             
             itinerary_type = request.form.get('itin_category')
             itinerary_day_no = request.form['add_itin_day_no']
-            itinerary_time = request.form['add_itin_time']
+            itinerary_time = request.form.get('add_itin_time')
             itinerary_description = request.form['add_itin_description']
             itinerary_location = request.form['add_itin_location']
+
+            print("time")
+            print(itinerary_time)
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
@@ -32,6 +35,8 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
                 flash('Remarks must contain only characters!', 'error')
             elif not re.match(r'[A-Za-z]+', itinerary_location):
                 flash('Location must only contain characters!','error')
+            elif itinerary_time is None:
+                flash('Please input a timing!','error')
             else:
                 cursor.execute('SELECT * from itinerary where vac_id=%s',(vac_id,))
                 used_ids = cursor.fetchall()

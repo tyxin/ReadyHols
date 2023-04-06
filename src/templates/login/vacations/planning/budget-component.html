@@ -10,7 +10,7 @@
 </style>
 
 <script>
-      var update_row = function(){
+      var update_budget_row = function(){
         var target_table = document.getElementById("budget_tbl");
         var indexSelected = -1;
         for (var i = 0; i < target_table.rows.length;i++){
@@ -173,7 +173,7 @@
     <span>
       <form id="deleteBudget" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
         <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_budget()">Add Budget</button>
-        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Budget</button>
+        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_budget_row()">Update Budget</button>
         <button class="btn btn-outline-secondary" type="button" href="#" onclick="delete_budget()" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">Delete Budget</button>
       </form>
         </span>
