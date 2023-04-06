@@ -28,7 +28,6 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
             if not re.match(r'[A-Za-z]+', booking_description):
                 flash('Remarks must contain only characters!', 'error')
             else:
-                print("checionasdj12")
                 cursor.execute('SELECT * from booking where vac_id=%s',(vac_id,))
                 vacation_bookings = cursor.fetchall()
                 booking_ref_no_taken = False
@@ -60,7 +59,8 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
             
             booking_category = request.form.get('booking_category')
             booking_description = request.form['add_booking_description']
-            booking_attachment_path = ""
+            cursor.execute('SELECT attachment from booking where vac_id=%s and ref_no=%s',(vac_id,ref_no,))
+            booking_attachment_path = cursor.fetchone()['attachment']
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 

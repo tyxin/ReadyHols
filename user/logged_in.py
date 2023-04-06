@@ -82,9 +82,17 @@ def logged_settings(mysql):
         elif not check_password_hash(vacation_grp_details['vac_grp_pin'],vacation_group_pin):
             flash('Incorrect Vacation Group Pin!','error')
         else:
-            cursor.execute('INSERT INTO vac_user_in VALUES (%s,%s)', (vacation_group, session['user_id'],))
-            mysql.connection.commit()  # note that you need to commit the changes for INSERT,UPDATE and DELETE statements
-            flash('You have been added to the vacation group successfully!', 'success')
+            cursor.execute('SELECT grp_count,plan_type from user where user_id=%s',(session['user_id'],))
+            user_details = cursor.fetchone()
+            grp_count = user_details['grp_count']
+            print("grp_count")
+            print(grp_count)
+            if user_details['plan_type']=="Basic" and grp_count>=5:
+                flash('You have reached the maximum limit on vacation grps! To add more, upgrade your plan','error')
+            else:
+                cursor.execute('INSERT INTO vac_user_in VALUES (%s,%s)', (vacation_group, session['user_id'],))
+                mysql.connection.commit()  # note that you need to commit the changes for INSERT,UPDATE and DELETE statements
+                flash('You have been added to the vacation group successfully!', 'success')
 
     cursor.execute('SELECT vac_grp_tbl.vac_grp_id, grp_name, vac_grp_pin from '
                    '(SELECT vu2.vac_grp_id from vac_user_in vu2 where user_id=%s) as vac_user_tbl join'
