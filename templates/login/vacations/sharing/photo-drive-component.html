@@ -31,11 +31,13 @@
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
             {% for i in vacation_photo_drive %}
                 {% if loop.index %3 == j %}
-                    <img
-                        src="/static/server-storage/{{i['photolink']}}"
-                        class="w-100 shadow-1-strong rounded mb-4"
-                        alt="{{i['photo_id']}}"
-                    />
+                    <a>
+                      <img
+                      src="/static/server-storage/pictures/{{i['photolink']}}"
+                      class="w-100 shadow-1-strong rounded mb-4"
+                      alt="{{i['photolink']}}"
+                      />
+                    </a>
                 {% endif %}
 
             {% endfor %}

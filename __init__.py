@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, redirect, url_for, render_template, request, session, flash, Blueprint
+from flask import Flask, redirect, url_for, render_template, request, session, flash, Blueprint, send_from_directory
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
@@ -27,9 +27,9 @@ from common.generate_id import generate_id
 
 app = flask.Flask(__name__)
 
-UPLOAD_FOLDER_PHOTO = os.getcwd().replace("\\","/")+'/src/static/server-storage/pictures/'
-UPLOAD_FOLDER_BOOKING = os.getcwd().replace("\\","/")+'/src/static/server-storage/booking-attachment/'
-UPLOAD_FOLDER_MAP = os.getcwd().replace("\\","/")+'/src/static/server-storage/map-attachment/'
+UPLOAD_FOLDER_PHOTO = os.getcwd().replace("\\","/")+'/static/server-storage/pictures/'
+UPLOAD_FOLDER_BOOKING = os.getcwd().replace("\\","/")+'/static/server-storage/booking-attachment/'
+UPLOAD_FOLDER_MAP = os.getcwd().replace("\\","/")+'/static/server-storage/map-attachment/'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -220,7 +220,7 @@ def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 photo_count = cursor.execute('SELECT * from photo')
                 photo_id = generate_id(photo_count + 1, cursor, "photo", "photo_id")
-                cursor.execute('INSERT into photo VALUES (%s,%s,%s)',(photo_id,"/pictures/"+photo_filename,None,))
+                cursor.execute('INSERT into photo VALUES (%s,%s,%s)',(photo_id,photo_filename,None,))
                 mysql.connection.commit()
                 flash('Photo Uploaded Successfully!','success')
                 curr_tab = "photo_drive"
@@ -273,6 +273,18 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
 def add_update_map(type_of_update, vac_id, vacation_name, vacation_upgraded):
     return vacation_map.add_update_maps(type_of_update, vac_id, vacation_name, vacation_upgraded, mysql, app)
 
+
+@app.route('/download/<string:attachment_type>/<string:file_path>/')
+def download_file(attachment_type,file_path):
+    print("filenmae")
+    print(file_path)
+    if attachment_type=="MAP":
+        return send_from_directory(app.config['UPLOAD_FOLDER_MAP'],file_path)
+    elif attachment_type=="BOOKING":
+        return send_from_directory(app.config['UPLOAD_FOLDER_BOOKING'],file_path)
+    else:
+        print("something went wrong")
+        return send_from_directory(app.config['UPLOAD_FOLDER_PHOTO'],file_path)
 
 if __name__ == '__main__':
     app.run()

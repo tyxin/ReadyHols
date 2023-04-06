@@ -77,7 +77,7 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
                         booking_filename = secure_filename(uploaded_booking.filename)
                         final_file_path = os.path.join(app.config['UPLOAD_FOLDER_BOOKING'],booking_filename)
                         uploaded_booking.save(final_file_path)
-                        booking_attachment_path = "/booking-attachment/"+booking_filename
+                        booking_attachment_path = booking_filename
                 print("sql updating")
                 cursor.execute('UPDATE booking set description=%s,booking_type=%s,attachment=%s where vac_id=%s and ref_no=%s',
                             (booking_description,booking_category,booking_attachment_path,vac_id,ref_no,))
