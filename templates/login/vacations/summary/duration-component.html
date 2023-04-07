@@ -69,7 +69,7 @@
         destination_state.value = "";
         destination_country.value = "";
         destination_duration.value = "";
-        destination_header.innerHTML = "New Vacation";
+        destination_header.innerHTML = "New Destination";
 
         var vacation_id = {{ vac_id | tojson}};
         console.log("matching?")
@@ -199,23 +199,60 @@
               </form>
             </span>
             <div class="popup" id="destinationPopUp">
-                <form method="POST" id="destinationFormID" action="{{url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" style="padding:2%;">
+                <form method="POST" id="destinationFormID" action="{{url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" style="padding:2%; margin0-bottom: 8%; overflow: auto; height: 90%; overflow-x: hidden;" >
                     <h3 id="destination_header">New Destination</h3>
+                    <hr>
+
+                    <p></p>
+                    <div class="row">
+                        <div class="col" style="max-width: 50%">
+                            <label for="add_destination_state">State:</label>                           
+                        </div>
+                        <div class="col" style="max-width: 50%;">
+                            <label for="add_destination_country">Country:</label>                        
+                        </div>
+                    </div> 
                     
-                    <input type="text" style="margin-top: 1%;" class="form-control me-2" id="add_destination_country" name="add_destination_country" placeholder="Country" aria-label="Country">
+                    <div class="row">
+                        <div class="col" style="max-width: 50%">
+                          <input type="text" style="margin-top: 1%;" class="form-control me-2" id="add_destination_state" name="add_destination_state" placeholder="State" aria-label="State">
+                        </div>
+                        <div class="col" style="max-width: 50%;">
+                          <input type="text" style="margin-top: 1%;" class="form-control me-2" id="add_destination_country" name="add_destination_country" placeholder="Country" aria-label="Country">
+                        </div>
+                    </div> 
 
-                    <input type="text" style="margin-top: 1%;" class="form-control me-2" id="add_destination_state" name="add_destination_state" placeholder="State" aria-label="State">
-
-                    <input type="date" style="margin-top: 1%;" class="form-control me-2" id="add_destination_start_date" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
-
-                    <input type="number" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_destination_duration" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
-
-                    <span>
-                        <button class="btn btn-outline-secondary" id="destinationTypeButton">Add</button>
-                        <button class="btn btn-outline-secondary" type="button" onclick="hide('destinationPopUp')">Cancel</button>
-                    </span>
+                    <p></p>
+                    <div class="row">
+                        <div class="col" style="max-width: 50%">
+                            <label for="add_destination_start_date">Start Date:</label>                           
+                        </div>
+                        <div class="col" style="max-width: 50%;">
+                            <label for="add_destination_duration">No. of Days::</label>                        
+                        </div>
+                    </div> 
+                    
+                    <div class="row">
+                        <div class="col" style="max-width: 50%">
+                          <input type="date" style="margin-top: 1%;" class="form-control me-2" id="add_destination_start_date" name="add_destination_start_date" placeholder="Start Date" aria-label="Start Date">
+                        </div>
+                        <div class="col" style="max-width: 50%;">
+                          <input type="number" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_destination_duration" name="add_destination_duration" placeholder="No. Days" aria-label="No. Days">
+                        </div>
+                    </div> 
 
                 </form>
+
+                <div class="footer">
+                  <div class="row" style="width:100%;">
+                    <div class="col" style="max-width: 50%">
+                      <button class="btn btn-outline-secondary" style="width:100%;" id="destinationTypeButton" form="destinationFormID">Add</button>
+                    </div>
+                    <div class="col" style="max-width: 50%;">
+                      <button class="btn btn-outline-secondary" style="width: 100%;" type="button" onclick="hide('destinationPopUp')">Cancel</button>
+                    </div>
+                  </div>
+                </div>
             </div>
 
                {% with successes = get_flashed_messages(category_filter=["success"]) %}

@@ -153,6 +153,17 @@ header .current-date{
   background: #FFF;
   border-radius: 25px;
   z-index: 20;
+  border-radius: 10px;
+}
+
+.footer{
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 2%;
+  width: 100%;
+  padding-left: 2%;
+  padding-right: 2%;
+
 }
 
 
@@ -165,6 +176,7 @@ header .current-date{
   right: 0;
   background: rgba(0,0,0,0.5);
   z-index: -2;
+  border-radius: 10px;
 }
 
 .popup::after {
@@ -176,4 +188,5 @@ header .current-date{
   right: 0;
   background: #FFF;
   z-index: -1;
+  border-radius: 10px;
 }

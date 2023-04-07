@@ -138,9 +138,13 @@
     </span>
     <div class="popup" id="bookingPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" id="bookingFormID" role="search" 
-        style="padding:2%; overflow: auto; overflow-x: hidden;" enctype="multipart/form-data">
+        style="padding:2%; height: 90%; margin-bottom: 10%; overflow: auto; overflow-x: hidden;" enctype="multipart/form-data">
             <h3 id="booking_header">New Booking</h3>
-            <br>
+            <hr>
+            <p></p>
+            <label for="booking_category">Booking Category:</label>                           
+
+            <p></p>
             <select class="form-select" name="booking_category" id="booking_category">
                 <option value="TRANSPORT">TRANSPORT</option>
                 <option value="FOOD">FOOD</option>
@@ -148,19 +152,51 @@
                 <option value="INSURANCE">INSURANCE</option>
                 <option value="OTHERS">OTHERS</option>
             </select>
-            <input style="margin-top: 1%;" class="form-control me-2" id="add_booking_ref_no" name="add_booking_ref_no" placeholder="Ref No." aria-label="Ref No.">
 
+            <p></p>
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                    <label for="add_booking_ref_no">Booking Ref No:</label>                           
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                  <input style="margin-top: 1%;" class="form-control me-2" id="add_booking_ref_no" name="add_booking_ref_no" placeholder="Ref No." aria-label="Ref No.">
+                </div>
+            </div> 
+
+
+            <p></p>
+            <label for="add_booking_description">Description:</label>                        
             <input style="margin-top: 1%;" class="form-control me-2" id="add_booking_description" name="add_booking_description" placeholder="Description" aria-label="Description">
 
-            <input type="file" accept="application/msword, application/pdf" style="margin-top: 1%; margin-bottom: 1%;"
-                   class="form-control me-2" id="bookingAttachment" name="add_booking_attachment" placeholder="Booking File" aria-label="Booking File">
-
-            <span>
-                <button class="btn btn-outline-secondary" id="bookingTypeButton" >Add</button>
-                <button class="btn btn-outline-secondary" type="button" onclick="hide('bookingPopUp')">Cancel</button>
-            </span>
-
+            <p></p>
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                    <label for="add_budget_expenditure">Expenditure (in $):</label>                           
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                  <input type="file" accept="application/msword, application/pdf" style="margin-top: 1%; margin-bottom: 1%;"
+                  class="form-control me-2" id="bookingAttachment" name="add_booking_attachment" placeholder="Booking File" aria-label="Booking File">
+                </div>
+            </div> 
         </form>
+
+
+        <div class="footer">
+          <div class="row" style="width:100%;">
+            <div class="col" style="max-width: 50%">
+              <button class="btn btn-outline-secondary" id="bookingTypeButton" form="bookingFormID" style="width:100%">Add</button>
+            </div>
+            <div class="col" style="max-width: 50%;">
+              <button class="btn btn-outline-secondary" type="button" onclick="hide('bookingPopUp')" style="width:100%" >Cancel</button>
+            </div>
+          </div>
+        </div>
     </div>
 
   {% with successes = get_flashed_messages(category_filter=["success"]) %}

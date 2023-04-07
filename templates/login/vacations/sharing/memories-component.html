@@ -8,11 +8,11 @@ var display_album = function(album_id){
 
 </script>
 
-<div class="container overflow-auto" style="margin: 0%; padding: 0%;">
+<div class="container overflow-auto" style="margin: 0%; padding: 0%; overflow-y: hidden;">
     <div class="row" style="height:100%; ">
         {% for i in vacation_albums %}
         <div class="col-md-3 col-sm-6">
-            <div class="card text-center" id="{{i['alb_id']}}" style="height:100%;" onclick="display_album(this.id)">
+            <div class="card text-center" id="{{i['alb_id']}}" style="height:95%; margin-top: 2.5%" onclick="display_album(this.id)">
                 <div class="card-image">
                     {% if loop.index%4== 1%}
                     <img
@@ -50,7 +50,7 @@ var display_album = function(album_id){
                 <div class="card-text">
                     <span class="date">{{i['alb_date']}}</span>
                     <h3>{{i['alb_name']}}</h3>
-                    <p>Some Short description</p>
+                    <p></p>
                 </div>
             </div>
         </div>

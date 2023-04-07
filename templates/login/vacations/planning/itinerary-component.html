@@ -149,30 +149,68 @@
     </span>
     <div class="popup" id="itineraryPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
-                  style="padding: 2%; overflow: auto; overflow-x: hidden;" id="itineraryFormID">
+                  style="padding: 2%; height: 90%; margin-bottom: 10%; overflow: auto; overflow-x: hidden;" id="itineraryFormID">
             <h3 id="itinerary_header">New Itinerary</h3>
-            <br>
-            <input style="margin-top: 1%;" class="form-control me-2" id="add_itin_day_no" name="add_itin_day_no" placeholder="Day No" aria-label="Day No">
+            <hr>
 
-            <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_time" name="add_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
+            <p></p>
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                    <label for="add_itin_day_no">Day No:</label>                           
+                </div>
+                <div class="col" style="max-width: 50%;">
+                    <label for="add_itin_time">Time:</label>                        
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                  <input style="margin-top: 1%;" class="form-control me-2" id="add_itin_day_no" name="add_itin_day_no" placeholder="Day No" aria-label="Day No">
+                </div>
+                <div class="col" style="max-width: 50%;">
+                  <input type="time" style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_time" name="add_itin_time" placeholder=" Time in HH:mm:ss" aria-label="Time">
+                </div>
+            </div> 
 
+            <p></p>
+            <label for="itin_category">Itinerary Category:</label>                           
+            <p></p>
             <select class="form-select" name="itin_category">
-                <option value="ATTRACTION">ATTRACTION</option>
-                <option value="FOOD">FOOD</option>
-                <option value="TOUR">TOUR</option>
-                <option value="SIGHTSEEING">SIGHTSEEING</option>
-                <option value="OTHERS">OTHERS</option>
+              <option value="ATTRACTION">ATTRACTION</option>
+              <option value="FOOD">FOOD</option>
+              <option value="TOUR">TOUR</option>
+              <option value="SIGHTSEEING">SIGHTSEEING</option>
+              <option value="OTHERS">OTHERS</option>
             </select>
 
+            <p></p>
+            <label for="add_itin_description">Description:</label>                        
             <input style="margin-top: 1%;" class="form-control me-2" id="add_itin_description" name="add_itin_description" placeholder="Description" aria-label="Description">
-
-            <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_location" name="add_itin_location" placeholder="Enter Location" aria-label="Location">
-
-            <span>
-                <button class="btn btn-outline-secondary" id="itineraryTypeButton">Add</button>
-                <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryPopUp')">Cancel</button>
-            </span>
+          
+            <p></p>
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                    <label for="add_itin_location">Location:</label>                           
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                  <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_itin_location" name="add_itin_location" placeholder="Enter Location" aria-label="Location">
+                </div>
+            </div> 
         </form>
+
+        <div class="footer">
+          <div class="row" style="width:100%;">
+            <div class="col" style="max-width: 50%">
+              <button class="btn btn-outline-secondary" id="itineraryTypeButton" form="itineraryFormID" style="width:100%">Add</button>
+            </div>
+            <div class="col" style="max-width: 50%;">
+              <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryPopUp')" style="width:100%" >Cancel</button>
+            </div>
+          </div>
+        </div>
     </div>
 
   {% with successes = get_flashed_messages(category_filter=["success"]) %}

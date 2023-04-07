@@ -171,9 +171,13 @@
         </span>
     <div class="popup" id="budgetPopUp">
         <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search" id="budgetFormID"
-                  style="padding: 2%; overflow: auto; overflow-x: hidden;">
+                  style="padding: 2%; height: 90%; margin-bottom: 10%; overflow: auto; overflow-x: hidden;">
 
             <h3 id="budget_header" >New Budget Breakdown</h3>
+            <hr>
+            
+            <p></p>
+            <label for="add_budget_category">Budget Category:</label>                           
             <p></p>
             <select class="form-select" name="budget_category" id="add_budget_category">
                 <option value="ATTRACTION">ATTRACTION</option>
@@ -182,15 +186,35 @@
                 <option value="OTHERS">OTHERS</option>
             </select>
 
-            <input type="number" style="margin-top: 1%;" class="form-control me-2" id="add_budget_expenditure" name="add_budget_expenditure" placeholder="Expenditure in $" aria-label="Expenditure">
+            <p></p>
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                    <label for="add_budget_expenditure">Expenditure (in $):</label>                           
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col" style="max-width: 50%">
+                  <input type="number" style="margin-top: 1%;" class="form-control me-2" id="add_budget_expenditure" name="add_budget_expenditure" placeholder="Expenditure in $" aria-label="Expenditure">
+                </div>
+            </div> 
 
+            <p></p>
+            <label for="add_budget_remarks">Remarks:</label>                        
             <input style="margin-top: 1%; margin-bottom: 1%;" class="form-control me-2" id="add_budget_remarks" name="add_budget_remarks" placeholder="Remarks" aria-label="Remarks">
 
-            <span>
-                <button class="btn btn-outline-secondary" id="budgetTypeButton" >Add</button>
-                <button class="btn btn-outline-secondary" type="button" onclick="hide('budgetPopUp')">Cancel</button>
-            </span>
         </form>
+
+        <div class="footer">
+          <div class="row" style="width:100%;">
+            <div class="col" style="max-width: 50%">
+              <button class="btn btn-outline-secondary" id="budgetTypeButton" form="budgetFormID" style="width:100%">Add</button>
+            </div>
+            <div class="col" style="max-width: 50%;">
+              <button class="btn btn-outline-secondary" type="button" onclick="hide('budgetPopUp')" style="width:100%" >Cancel</button>
+            </div>
+          </div>
+        </div>
     </div>
     <table aria-selected="true" aria-multiselectable="false" id="budget_tbl" class="table table-hover">
       <thead>
