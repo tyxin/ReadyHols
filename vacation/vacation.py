@@ -30,41 +30,47 @@ def add_update_vacation(type_of_update, vac_id, mysql):
             upgradeVacation = False
             upg_user_id = None
 
-            print(vacation_grp)
+            cursor.execute('SELECT plan_type,upg_count from user where user_id=%s',(session['user_id'],))
+            user_details = cursor.fetchone()
 
-            print(vacation_description)
             if 'vacationUpgrade' in request.form:
                 upgradeVacation = True
-                upg_user_id = session['user_id']
-
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT vacation_grp.vac_grp_id,vac_grp_pin from vacation_grp,vac_user_in'
-                           ' where (vac_user_in.vac_grp_id = vacation_grp.vac_grp_id) and vacation_grp.vac_grp_id=%s and user_id=%s',
-                           (vacation_grp, session['user_id'],))
-            vacation_grp_details = cursor.fetchone()
-            print(vacation_grp_details)
-            if vacation_grp_details == None:
-                flash('You can only create vacations for groups you are in!', 'error')
-            else:
-                if check_password_hash(vacation_grp_details['vac_grp_pin'], vacation_grp_pin):
-                    vacation_count = cursor.execute('SELECT * from vacation')
-
-                    if not re.match(r'[A-Za-z0-9]+', vacation_description):
-                        flash('Description must contain only characters and numbers!', 'error')
-                    else:
-                        vacation_id = generate_id(vacation_count + 1, cursor, "vacation", "vac_id")
-                        cursor.execute('INSERT INTO vacation VALUES(%s,%s,%s,%s,%s,%s,%s)',
-                                       (vacation_id, vacation_description, vacation_grp, upg_user_id,
-                                        vacation_start_date,
-                                        vacation_end_date, vacation_budget_limit,))
-                        mysql.connection.commit()
-                        flash('Congratulations, you have successfully added a new vacation!', 'success')
-                        cursor.close()
-                        return redirect(url_for('logged_vacations'))
-                    cursor.close()
-
+                if (user_details['plan_type']=="Premium" and user_details['upg_count']>=5):
+                    flash('You have reached your upgrade limit. To upgrade more vacations, upgrade your plan','error')
                 else:
-                    flash('Incorrect Vacation Group PIN!', 'error')
+                    upg_user_id = session['user_id']
+
+            if upgradeVacation and (upg_user_id is None):
+                print("cannot upgrade :(")
+            else:
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('SELECT vacation_grp.vac_grp_id,vac_grp_pin from vacation_grp,vac_user_in'
+                            ' where (vac_user_in.vac_grp_id = vacation_grp.vac_grp_id) and vacation_grp.vac_grp_id=%s and user_id=%s',
+                            (vacation_grp, session['user_id'],))
+                vacation_grp_details = cursor.fetchone()
+                print(vacation_grp_details)
+                if vacation_grp_details == None:
+                    flash('You can only create vacations for groups you are in!', 'error')
+                else:
+                    if check_password_hash(vacation_grp_details['vac_grp_pin'], vacation_grp_pin):
+                        vacation_count = cursor.execute('SELECT * from vacation')
+
+                        if not re.match(r'[A-Za-z0-9]+', vacation_description):
+                            flash('Description must contain only characters and numbers!', 'error')
+                        else:
+                            vacation_id = generate_id(vacation_count + 1, cursor, "vacation", "vac_id")
+                            cursor.execute('INSERT INTO vacation VALUES(%s,%s,%s,%s,%s,%s,%s)',
+                                        (vacation_id, vacation_description, vacation_grp, upg_user_id,
+                                            vacation_start_date,
+                                            vacation_end_date, vacation_budget_limit,))
+                            mysql.connection.commit()
+                            flash('Congratulations, you have successfully added a new vacation!', 'success')
+                            cursor.close()
+                            return redirect(url_for('logged_vacations'))
+                        cursor.close()
+
+                    else:
+                        flash('Incorrect Vacation Group PIN!', 'error')
     elif type_of_update == "Update":
         if request.method == 'POST' and ('add_vacation_description' in request.form) \
                 and ('add_vacation_start_date' in request.form) and \
@@ -76,23 +82,32 @@ def add_update_vacation(type_of_update, vac_id, mysql):
             upgradeVacation = False
             upg_user_id = None
 
-            if 'vacationUpgrade' in request.form:
-                upgradeVacation = True
-                upg_user_id = session['user_id']
-
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z0-9]+', vacation_description):
-                flash('Description must contain only characters and numbers!', 'error')
+            cursor.execute('SELECT plan_type,upg_count from user where user_id=%s',(session['user_id'],))
+            user_details = cursor.fetchone()
+
+            if 'vacationUpgrade' in request.form:
+                upgradeVacation = True
+                if (user_details['plan_type']=="Premium" and user_details['upg_count']>=5):
+                    flash('You have reached your upgrade limit. To upgrade more vacations, upgrade your plan','error')
+                else:
+                    upg_user_id = session['user_id']
+
+            if upgradeVacation and (upg_user_id is None):
+                print("cannot upgrade :(")
             else:
-                cursor.execute(
-                    'UPDATE vacation set description=%s,upg_user_id=%s,start_date=%s,end_date=%s,budget_limit=%s where vac_id=%s',
-                    (vacation_description, upg_user_id, vacation_start_date, vacation_end_date, vacation_budget_limit,
-                     vac_id,))
-                mysql.connection.commit()
-                flash('Congratulations, you have successfully updated your vacation!', 'success')
-                cursor.close()
-                return redirect(url_for('logged_vacations'))
+                if not re.match(r'[A-Za-z0-9]+', vacation_description):
+                    flash('Description must contain only characters and numbers!', 'error')
+                else:
+                    cursor.execute(
+                        'UPDATE vacation set description=%s,upg_user_id=%s,start_date=%s,end_date=%s,budget_limit=%s where vac_id=%s',
+                        (vacation_description, upg_user_id, vacation_start_date, vacation_end_date, vacation_budget_limit,
+                        vac_id,))
+                    mysql.connection.commit()
+                    flash('Congratulations, you have successfully updated your vacation!', 'success')
+                    cursor.close()
+                    return redirect(url_for('logged_vacations'))
 
     elif type_of_update == "Delete":
         print("helloooooo deleting?")

@@ -164,8 +164,6 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
     vacation_booking = cursor.fetchall()
     cursor.execute("SELECT vac_id, day_no, date_format(itin_time,%s) as itin_time, itin_type, description, location from itinerary where vac_id=%s", ('%T',vac_id,))
     vacation_itinerary = cursor.fetchall()
-    print("vacation_tiinerary")
-    print(vacation_itinerary)
     cursor.execute('SELECT * from vac_map')
     public_maps = cursor.fetchall()
     cursor.execute('SELECT vac_id, itin_time, day_no, map_link, description, name, category'

@@ -74,6 +74,16 @@
             vacation_upgraded.checked = false;
         }else{
             vacation_upgraded.checked = true;};
+
+        var plan = {{plan | tojson }};
+        console.log("plan")
+        console.log(plan)
+
+        if (plan=="Basic"){
+            vacation_upgraded.disabled = true;
+        }else{
+            vacation_upgraded.disabled = false;
+        }
         
         vacation_description.value = selectedData['description'];
         vacation_grp_id.value = selectedData['vac_grp_id'];
@@ -107,6 +117,16 @@
 
 
         vacation_upgraded.checked = false;
+
+        var plan = {{plan | tojson }};
+        console.log("plan")
+        console.log(plan)
+
+        if (plan=="Basic"){
+            vacation_upgraded.disabled = true;
+        }else{
+            vacation_upgraded.disabled = false;
+        }
         
         vacation_description.value = "";
         vacation_grp_id.value = "";

@@ -22,6 +22,9 @@ def logged_vacations(mysql):
     true_all_vacations_user = cursor.fetchall()
     vacations_user = true_all_vacations_user
 
+    cursor.execute('SELECT plan_type from user where user_id=%s',(session['user_id'],))
+    plan = cursor.fetchone()['plan_type']
+
     if request.method == 'POST':
         category = request.form.get('category')
         if category in fields:
@@ -39,7 +42,7 @@ def logged_vacations(mysql):
 
     cursor.close()
     return render_template('/login/vacations/vacations.html', vacations_user=vacations_user,
-                           recent_vacations_user=vacations_user[:4], fields=fields)
+                           recent_vacations_user=vacations_user[:4], fields=fields,plan=plan)
 
 
 def logged_user(mysql):
