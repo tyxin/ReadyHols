@@ -52,7 +52,6 @@
 }
 
 
-
 .nav_bar_container {
     margin: 0;
     font-family: var(--bs-font-sans-serif);
@@ -78,5 +77,3 @@
 .nav-pills .nav-link:hover:not(.active){
     color: #219EBC;
 }
-
-

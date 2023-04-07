@@ -11,45 +11,46 @@
     {% endblock %}
 </head>
 
-<link rel="stylesheet" href="/static/css/vacation-collapse-bar.css">
-<nav class="navbar navbar-dark bg-dark fixed-top justify-content-end">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+<link rel="stylesheet" href="/static/css/collapse-bar.css">
 
-        <a type="button" href="{{url_for('home')}}" class="btn btn-dark">
-            <i class="bi bi-box-arrow-left"></i>&nbsp;Sign Out
-        </a>
-
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{session['username']}}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body bg-dark">
-            <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
-                <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_vacations') }} " href="{{url_for('logged_vacations')}}">
-                         <i class="bi bi-airplane"></i>&nbsp;Vacations
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{'active' if request.path== url_for('logged_user') }} " href="{{url_for('logged_user')}}">
-                        <i class="bi bi-person"></i>&nbsp;User
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link  {{'active' if request.path== url_for('logged_settings') }} " href="{{url_for('logged_settings')}}">
-                        <i class="bi bi-gear"></i>&nbsp;Settings
-                    </a>
-                </li>
-            </ul>
-        </div>
-      </div>
+<div class="row" style="height:100%;">
+  <div class="col text-white bg-dark" style="height:100%; max-width: 18%; padding: 2%; margin: 0%;">
+    <div class="nav_bar_container bg-dark">
+      <a class="text-white text-decoration-none">
+        <img src="/static/assets/logo_transparent.png" style="width:45px;">
+        <span class="fs-5" style="margin: 10px;">{{session['username']}}</span>
+      </a>
+      <hr style="color:grey;">
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a class="nav-link {{'active' if request.path== url_for('logged_vacations') }} " href="{{url_for('logged_vacations')}}" style="margin: 1% 1%; padding: 3%;">
+               <i class="bi bi-airplane"></i>&nbsp;Vacations
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{'active' if request.path== url_for('logged_user') }} " href="{{url_for('logged_user')}}" style="margin: 1% 1%; padding: 3%;">
+              <i class="bi bi-person"></i>&nbsp;User
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{'active' if request.path== url_for('logged_settings') }} " href="{{url_for('logged_settings')}}" style="margin: 1% 1%; padding: 3%;">
+              <i class="bi bi-gear"></i>&nbsp;Settings
+          </a>
+        </li>
+      </ul>
+      <hr style="color:grey;">
+      <a type="button" href="{{url_for('home')}}" class="btn btn-dark" style="margin: 1% 1%; padding: 3%;">
+          <i class="bi bi-box-arrow-left"></i>&nbsp;Sign Out
+      </a>
     </div>
-  </nav>
+    
+  </div>
 
-{% block content %}{% endblock %}
+  <div class="col" style="max-width:81%; height:100%; margin: 0%; padding: 0%; overflow:auto;">
+    {% block content %}{% endblock %}
+  </div>
+  
+</div>
+
 
 </html>

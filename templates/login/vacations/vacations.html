@@ -7,8 +7,20 @@
 
 
 <style>
-    .top-container{ margin: 5% 2% 5% 2%; }
-    .bottom-container{margin-top: 2%;}
+    .top-container{ 
+        padding: 2%; 
+        background-color: white;
+        border-radius: 10px;
+        margin: 1%;
+        box-shadow: 0px 0px 10px rgb(55, 55, 55) ;
+    }
+    .bottom-container{
+        padding: 2%; 
+        background-color: white;
+        border-radius: 10px;
+        margin: 1%;
+        box-shadow: 0px 0px 10px rgb(55, 55, 55) ;
+    }
     .col{padding-top: 1%;}
 
     .image { position: relative; width: 100%; }
@@ -16,6 +28,7 @@
     html, body {
     max-width: 100%;
     overflow-x: hidden;
+    background-color: #C2D8E2;
     }
 
     .vacation-card{
@@ -38,7 +51,7 @@
         background-color:#c8cef3;
         font-weight: bold;
     }
-    
+
 
 </style>
 <body>
@@ -188,14 +201,14 @@
 
     <div class="top-container align-items-start">
 
-        <h2>{% if session['username']%} Welcome Back, {{session['username']}}! {% endif %}</h2>
-        <h4>Upcoming Vacations</h4>
+        <h4>{% if session['username']%} Welcome Back, {{session['username']}}! {% endif %}</h3>
+        <h6>Upcoming Vacations</h6>
         <div class="row">
             {%for i in recent_vacations_user%}
                 <div class="col" style="max-width: 25%;">
                     <div class="vacation-card" style="height: 100%; max-width: 100%;">
                         <div class="card-body">
-                            <h5 class="card-title">{{i['description']}}</h5>
+                            <h6 class="card-title">{{i['description']}}</h5>
                             <span class="d-inline-block text-truncate" style="max-width: 100%;">
                                 <div class="card-text">
                                     Start Date: {{i['start_date']}}<br>
@@ -210,37 +223,39 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    </div>    
 
-            <div class="bottom-container justify-content-center">
-                <h4>All my vacations</h4>
-                <span>
-                    <form id="deleteVacation" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
-                        <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_vacation()">Add Vacation</button>
-                        <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Vacation</button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="delete_vacation()" data-bs-toggle="modal" data-bs-target="#deleteModal"> Delete Vacation </button>
+    <div class="bottom-container justify-content-center">
+        <h4>All my vacations</h4>
+        <span>
+            <form id="deleteVacation" method="POST" action="" role="search" style="padding-top: 1%; padding-bottom: 1%; margin: 0%;">
+                <button class="btn btn-outline-secondary" type="button" href="#" onclick="add_vacation()">Add Vacation</button>
+                <button class="btn btn-outline-secondary" type="button" href="#" onclick="update_row()">Update Vacation</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="delete_vacation()" data-bs-toggle="modal" data-bs-target="#deleteModal"> Delete Vacation </button>
 
-                    </form>
-                </span>
+            </form>
+        </span>
 
-                {% with successes = get_flashed_messages(category_filter=["success"]) %}
-                {% if successes %}
-                <div class="alert alert-success" role="alert">
-                    {% for message in successes %}
-                    {{ message }}
-                    {% endfor %}
-                </div>
-                {% endif %}
-                {% endwith %}
+        {% with successes = get_flashed_messages(category_filter=["success"]) %}
+        {% if successes %}
+        <div class="alert alert-success" role="alert">
+            {% for message in successes %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
 
-                {% with errors = get_flashed_messages(category_filter=["error"]) %}
-                {% if errors %}
-                <div class="alert alert-danger" role="alert">
-                    {% for message in errors %}
-                    {{ message }}
-                    {% endfor %}
-                </div>
-                {% endif %}
-                {% endwith %}
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for message in errors %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
 
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
@@ -369,10 +384,7 @@
 
                     </tbody>
                   </table>
-              </div>
-
         </div>
-    </div>
 
     <script>
         highlight_row('vacation_tbl');

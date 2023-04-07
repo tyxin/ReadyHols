@@ -1,21 +1,25 @@
 .settings-container{
-    margin: 0% 5% 2% 4%;
+    padding: 2%; 
+    background-color: white;
+    border-radius: 10px;
+    margin: 1% 1% 0% 0%;
+    box-shadow: 0px 0px 5px rgb(55, 55, 55);
 }
 
 .vacation-group-container{
-    margin: 0% 5% 2% 4%;
+    padding: 2%; 
+    background-color: white;
+    border-radius: 10px;
+    margin: 1% 1% 1% 1%;
+    box-shadow: 0px 0px 5px rgb(55, 55, 55) ;
 }
 
-.accordion-button{
-    background:#E4E6EB;
-}
-
-.accordion-button:visited, .accordion-button:visited, .accordion-button:hover, .accordion-button:active{
-    background-color: #B0B3B8;
-    color:black;
-}
-
-.accordion-button:not(.collapsed){
-    background-color: #B0B3B8;
+.accordion-button, .accordion-button.collapsed, .accordion-button:not(.visited){
+    background:#e8e8e8;
     color: black;
+}
+
+.accordion-button:visited, .accordion-button:hover, .accordion-button:active{
+    background-color: #a6a6a6;
+    color:black;
 }
