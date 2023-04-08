@@ -17,9 +17,11 @@
 <div class="row" style="height:100%;">
     <div class="col text-white bg-dark" style="height:100%; max-width: 18%; padding: 2%; margin: 0%;">
       <div class="nav_bar_container bg-dark">
-        <a class="text-white text-decoration-none">
-          <span class="fs-5" style="margin: 10px;">{{vacation_name}}</span>
-        </a>
+        <div class="container" style="margin:0%; padding: 2%;">
+            <a class="text-white text-decoration-none">
+                <span class="fs-5" style="margin:0%; padding: 0%;">{{vacation_name}}</span>
+              </a>
+        </div>
         
         {% if vacation_upgraded=='False' %}
             <a style="margin: 1% 1%; padding: 3%;">Non-Upgraded</a>
@@ -30,33 +32,33 @@
         <hr style="color:grey;">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a class="nav-link {{'active' if request.path== url_for('logged_home') }} " href="{{url_for('logged_home')}}" style="margin: 1% 1%; padding: 3%;">
+                <a class="nav-link {{'active' if request.path== url_for('logged_home') }} " href="{{url_for('logged_home')}}" style="margin: 1% 1%; padding: 0% 2%;">
                     <i class="bi bi-arrow-left"></i>&nbsp;Home
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='summary')}} " href="{{url_for('logged_vacations_template',vac_id=vac_id,page='summary')}}" style="margin: 1% 1%; padding: 3%;">
+                <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='summary')}} " href="{{url_for('logged_vacations_template',vac_id=vac_id,page='summary')}}" style="margin: 1% 1%; padding: 0% 2%;">
                     <i class="bi bi-journal-check"></i>&nbsp;Summary
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='itinerary') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='itinerary')}}" style="margin: 1% 1%; padding: 3%;">
-                    <i class="bi bi-geo-alt"></i>&nbsp;Itinerary
+                <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='itinerary') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='itinerary')}}" style="margin: 1% 1%; padding: 0% 2%;">
+                    <i class="bi bi-geo-alt"></i>&nbsp;Timeline
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='planning') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='planning')}}" style="margin: 1% 1%; padding: 3%;">
+                <a class="nav-link {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='planning') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='planning')}}" style="margin: 1% 1%; padding: 0% 2%;">
                     <i class="bi bi-ui-checks"></i>&nbsp;Planning
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{'disabled' if vacation_upgraded=='False'}} {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='sharing') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='sharing')}}" style="margin: 1% 1%; padding: 3%;">
+                <a class="nav-link {{'disabled' if vacation_upgraded=='False'}} {{'active' if request.path== url_for('logged_vacations_template',vac_id=vac_id,page='sharing') }}" href="{{url_for('logged_vacations_template',vac_id=vac_id,page='sharing')}}" style="margin: 1% 1%; padding: 0% 2%;">
                     <i class="bi bi-images"></i>&nbsp;Sharing
                 </a>
             </li>
         </ul>
         <hr style="color:grey;">
-        <a type="button" href="{{url_for('home')}}" class="btn btn-dark" style="margin: 1% 1%; padding: 3%;">
+        <a type="button" href="{{url_for('home')}}" class="btn btn-dark" style="margin: 1% 1%; padding: 0% 2%;">
             <i class="bi bi-box-arrow-left"></i>&nbsp;Sign Out
         </a>
       </div>

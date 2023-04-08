@@ -211,8 +211,8 @@
                             <h6 class="card-title">{{i['description']}}</h5>
                             <span class="d-inline-block text-truncate" style="max-width: 100%;">
                                 <div class="card-text">
-                                    Start Date: {{i['start_date']}}<br>
-                                    End Date: {{i['end_date']}}<br>
+                                    <a>Start: {{i['start_date']}}</a><br>
+                                    <a>End: {{i['end_date']}}</a><br>
                                 <a href="{{url_for('logged_vacations_template',vac_id=i['vac_id'],page='summary')}}">
                                     Explore
                                     <i class="bi bi-arrow-right"></i>
@@ -348,10 +348,13 @@
                     
                 </div>
                 <form method="POST" class="row" action="{{url_for('logged_vacations')}}" role="search" style="margin-top:1%; margin-bottom: 1%;">
-                  <div class="col-6 col-md-8">
+                  <div class="col-6 col-md-7">
                       <input class="form-control me-2" name="search" type="search" placeholder="Search by pressing enter" aria-label="Search">
                   </div>
-                  <div class="col-6 col-md-4">
+                  <div class="col-6 col-md-2">
+                    <button type="submit" class="btn btn-outline-secondary" style="margin-right: 1%; margin-left: 1%;" id="searchSubmitButton">Search</button>
+                  </div>
+                  <div class="col-6 col-md-3">
                       <select class="form-select" name="category">
                         {% for i in fields%}
                           <option value="{{i}}">Search by {{i}}</option>

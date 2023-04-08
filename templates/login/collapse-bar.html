@@ -33,6 +33,11 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {{'active' if request.path== url_for('logged_tutorial') }} " href="{{url_for('logged_tutorial')}}" style="margin: 1% 1%; padding: 3%;">
+              <i class="bi bi-journal-text"></i>&nbsp;Tutorial
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {{'active' if request.path== url_for('logged_settings') }} " href="{{url_for('logged_settings')}}" style="margin: 1% 1%; padding: 3%;">
               <i class="bi bi-gear"></i>&nbsp;Settings
           </a>

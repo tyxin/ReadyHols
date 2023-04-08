@@ -1,25 +1,38 @@
+<style>
+    .rowbox {
+        display: flex;
+        justify-content:  space-between;
+        flex-wrap: wrap;
+     }
+     .row-item {
+        margin: 10px auto;
+     }
+</style>    
+
 <div class="maps-container" style="margin: 0%; padding: 0%; overflow: auto; overflow-x: hidden;">
     <form method="POST" class="row" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
           style="margin-top:auto; margin-bottom: auto; padding-left:1%;">
         <div class="row gx-2">
-            <div class="col col-md-7">
+            <a>This tab includes all itineraries with reference maps attached! This can be viewed easily from the timeline tab. To modify itineraries (or view your entire list of itineraries), please proceed to the itinerary tab.</a>
+        </div>
+        <div class="rowbox">
+            <div class="row-item" style="max-width:50%; width: 50%;">
                 <input class="form-control me-2" name="maps_itin_search" type="search" placeholder="Search by pressing enter" aria-label="Search">
             </div>
-            <div class="col col-md-2">
+            <div class="row-item">
                 <select class="form-select" name="maps_itin_category">
                     {% for i in maps_itin_fields%}
                         <option value="{{i}}">Search by {{i}}</option>
                     {% endfor %}
                 </select>
             </div>
-
-            <div class="col col-md-1">
+            <div class="row-item">
                 <button class="btn btn-outline-secondary" type="submit">Add&nbspMap</button>
             </div>
-
-            <div class="col col-md-1">
+            <div class="row-item">
                 <button class="btn btn-outline-secondary" type="submit">Remove&nbspMap</button>
             </div>
+
         </div>
 
     </form>
@@ -32,7 +45,6 @@
             <th scope="col">Day No.</th>
             <th scope="col">Description</th>
             <th scope="col">Map Name</th>
-            <th scope="col">Map Category</th>
             <th scope="col">Attachment</th>
         </tr>
         </thead>
@@ -44,7 +56,6 @@
             <td>{{i['day_no']}}</td>
             <td>{{i['description']}}</td>
             <td>{{i['name']}}</td>
-            <td>{{i['category']}}</td>
             <td><a href="/download/MAP/{{i['map_link']}}/">view attachment</a></td>
         </tr>
         {% endfor %}

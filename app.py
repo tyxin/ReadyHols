@@ -100,6 +100,10 @@ def logged_user():
 def logged_settings():
     return logged_in.logged_settings(mysql)
 
+@app.route('/logged/tutorial/')
+def logged_tutorial():
+    return render_template('/login/tutorial/tutorial.html')
+
 @app.route('/logged/vacations/home/<string:page>/<string:vac_id>/')
 def logged_vacations_template(vac_id, page):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -165,7 +169,7 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
     vacation_itinerary = cursor.fetchall()
     cursor.execute('SELECT * from vac_map')
     public_maps = cursor.fetchall()
-    cursor.execute('SELECT vac_id, itin_time, day_no, map_link, description, name, category'
+    cursor.execute('SELECT vac_id, itin_time, day_no, map_id, map_link, description, name, category'
                    ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
     maps_itin_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
     vacation_itin_map = cursor.fetchall()
