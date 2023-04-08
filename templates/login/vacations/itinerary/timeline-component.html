@@ -15,7 +15,9 @@
             {% for j in vacation_maps_itinerary %}
                 {% if (j['itin_time'] == i['itin_time']) and (j['day_no'] == i['day_no']) %}
                     <span>
-                        <button style="border-radius: 10px; margin-top: 1%;">View Map</button>
+                        <a href="/download/MAP/{{j['map_link']}}" target="_blank" rel="noopener noreferrer">
+                            <button style="border-radius: 10px; margin-top: 1%;">View Map</button>
+                        </a>
                     </span>
                 {% endif %}
             {% endfor %}

@@ -1,36 +1,29 @@
 .container{ 
-    padding-top: 5%; 
-    margin-left: 0%;
+  margin: 1%;
 }
+
 .col{padding-top: 1%}
 .btn{padding: 5px 5px 5px 5px; margin-right: 5px;}
 
 .image { position: relative; width: 100%; }
-     
-.custom-container{ 
-    position: absolute; 
-    top: 80%; 
-    left: 10%; 
-    width: 100%; 
-}
 
 html, body {
 max-width: 100%;
 overflow-x: hidden;
-background-image:url("/static/assets/background-plain.jpeg");
+background-color:#C2D8E2;
 background-size: cover;
 }
 
 .nav-pills{
-    margin-left:2%;
+    margin:1%;
 }
 
 .tab-custom-container{
   background-color: #F7F9F9;
-  height: 80%;
-  width: 100%;
+  height: 85%;
+  width: 95%;
   padding: 2%;
-  margin: 0% 2%;
+  margin: 0% 1%;
   border-radius: 10px;
 }
 .nav-link:hover{
@@ -45,7 +38,7 @@ background-size: cover;
 
 .nav-pills>li.nav-item>button.nav-link:not(.active){
   background-color:transparent;
-  color:white;
+  color:black;
 }
 
 .popup {

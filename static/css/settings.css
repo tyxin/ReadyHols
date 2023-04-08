@@ -1,25 +1,48 @@
+html,body{
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color:#C2D8E2;
+    background-size: cover;
+}
+
 .settings-container{
-    padding: 2%; 
+    padding: 5%; 
     background-color: white;
-    border-radius: 10px;
-    margin: 1% 1% 0% 0%;
-    box-shadow: 0px 0px 5px rgb(55, 55, 55);
+    border-radius: 5px;
+    margin: 4% 1% 0% 2%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .vacation-group-container{
-    padding: 2%; 
+    padding: 5%; 
     background-color: white;
-    border-radius: 10px;
-    margin: 1% 1% 1% 1%;
-    box-shadow: 0px 0px 5px rgb(55, 55, 55) ;
+    border-radius: 5px;
+    margin: 4% 4% 0% 1%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.accordion-button, .accordion-button.collapsed, .accordion-button:not(.visited){
-    background:#e8e8e8;
+
+ .accordion-body{
+    color:black;
+}
+
+.accordion-button{
+    background: white;
+}
+
+.accordion-button:visited, .accordion-button:visited, .accordion-button:active{
+    background-color:white;
+    color:black;
+    font-weight:bold;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: white;
     color: black;
+    font-weight: bold;
 }
 
-.accordion-button:visited, .accordion-button:hover, .accordion-button:active{
-    background-color: #a6a6a6;
+.accordion-button:hover{
+    background-color:#F2F2F2;
     color:black;
 }

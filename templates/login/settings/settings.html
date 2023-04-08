@@ -17,7 +17,7 @@
                     <fieldset disabled>
                       <legend>Settings</legend>
                       <div class="mb-3">
-                        <label class="form-label">Plan Type</label>
+                        <label class="form-label">Select Plan</label>
                         <select class="form-select" aria-label="plan_select_example">
                             {% if session['plan_type'] == 'Basic' %}
                                 <option value="Basic" selected >Basic</option>
@@ -45,12 +45,12 @@
                             {% else %}
                                 <input class="form-check-input" type="checkbox" role="switch" id="photoDriveUnchecked">
                             {% endif %}
-                            <label class="form-check-label">Allow Sharing of Photo Drive</label>
+                            <label class="form-check-label">Share Photo Drive</label>
                         </div>
                       </div>
                       
                     </fieldset>
-                    <button type="submit" class="btn btn-secondary" disabled>Update</button>
+                    <button type="submit" class="btn btn-secondary" style="background-color: #219EBC; border-color: none;" disabled>Update</button>
             
                 </form>
             </div>
@@ -60,10 +60,12 @@
             <div class="vacation-group-container">
                 <legend>My Vacation Groups</legend>
                 <form class="d-flex" method="POST" id="add_vacation_grp" action="{{url_for('logged_settings')}}" role="search" style="margin-top:auto; margin-bottom: 2%;">
-                  <input type="number" id="vacation_grp_id" name="vacation_grp_id" class="form-control" placeholder="Input Vacation Group ID" style="margin-right:2%">
-                  <input type="number" id="vacation_id_pin" name="vacation_id_pin" class="form-control" placeholder="Input Vacation Group ID Pin" style="margin-right:2%">
-                  <button class="btn btn-outline-secondary" type="submit">Add</button>
+                  <input type="number" id="vacation_grp_id" name="vacation_grp_id" class="form-control" placeholder="Group ID" style="margin-right:2%">
+                  <input type="number" id="vacation_id_pin" name="vacation_id_pin" class="form-control" placeholder="Group Pin" style="margin-right:2%">
+                  <button class="btn btn-secondary" style="background-color: #219EBC; border-color:transparent;" type="submit">Add</button>
                 </form>
+
+                <p></p>
 
                 {% with errors = get_flashed_messages(category_filter=["error"]) %}
                   {% if errors %}
@@ -86,7 +88,7 @@
                 {% endwith %}
   
                 
-                <div class="accordion overflow:auto; overflow-x: hidden;" id="accordionVacationGroup">
+                <div class="accordion" id="accordionVacationGroup">
                     {% for i in user_vacgrp_details %}
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="heading{{loop.index}}">
@@ -96,13 +98,11 @@
                       </h2>
                       <div id="collapse{{loop.index}}" class="accordion-collapse collapse" aria-labelledby="heading{{loop.index}}" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <ul class="list-group">
-                                {% for j in same_vacgrp_users %}
-                                    {% if j['vac_grp_id']==i['vac_grp_id'] %}
-                                    <li class="list-group-item">{{j['username']}}</li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                            {% for j in same_vacgrp_users %}
+                                {% if j['vac_grp_id']==i['vac_grp_id'] %}
+                                    <li>Member: {{j['username']}}</li>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                       </div>
                     </div>
