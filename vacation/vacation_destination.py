@@ -25,12 +25,10 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             destination_start_date = request.form['add_destination_start_date']
             destination_duration = request.form['add_destination_duration']
 
-            destination_start_date_datetype = date.fromisoformat(destination_start_date)
-
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute('SELECT start_date,end_date from vacation where vac_id=%s',(vac_id,))
             vacation_duration = cursor.fetchone()
-            betweenDate,errorMessage = check_between_date(destination_start_date_datetype,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
+            betweenDate,errorMessage = check_between_date(destination_start_date,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
             
             print("betweenDate")
             print(betweenDate)
@@ -122,11 +120,17 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
 
 def check_between_date(dstart_date, start_date, end_date, no_days):
     error_message = ""
-    end_date_destination = dstart_date + timedelta(days=int(no_days))
-    if dstart_date < start_date:
-        error_message = "Start Date of Destination cannot be before Start Date of Trip!"
+    year_dstart_date = dstart_date.split("-")[0]
+    if (len(year_dstart_date)!=4):
+        error_message = "Date is in incorrect format!"
         return False, error_message
-    elif end_date_destination > end_date:
-        error_message = "Destination cannot last beyond the End Date of the Trip!"
-        return False, error_message
+    else:
+        dstart_date_obj = date.fromisoformat(dstart_date)
+        end_date_destination = dstart_date_obj + timedelta(days=int(no_days))
+        if dstart_date_obj < start_date:
+            error_message = "Start Date of Destination cannot be before Start Date of Trip!"
+            return False, error_message
+        elif end_date_destination > end_date:
+            error_message = "Destination cannot last beyond the End Date of the Trip!"
+            return False, error_message
     return True, error_message

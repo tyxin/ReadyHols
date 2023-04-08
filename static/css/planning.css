@@ -32,7 +32,7 @@ background-size: cover;
 
 
 .nav-pills>li.nav-item>button.nav-link:active,.nav-pills>li.nav-item>button.nav-link:visited,.nav-pills>li.nav-item>button.nav-link:focus,.nav-pills>li.nav-item>button.nav-link{
-  background-color: #fdddb6;
+  background-color: #ffffffb8;
   color:black;
 }
 
@@ -88,4 +88,14 @@ background-size: cover;
   padding-left: 2%;
   padding-right: 2%;
 
+}
+
+.btn.btn-outline-secondary{
+  background-color: #219EBC;
+  color: white;
+  border-color:transparent;
+}
+
+.btn.btn-outline-secondary:hover{
+  background-color: #117993;
 }

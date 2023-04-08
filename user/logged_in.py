@@ -18,7 +18,7 @@ def logged_vacations(mysql):
         'SELECT vacation.vac_id,vacation.vac_grp_id, description,start_date,end_date,budget_limit, upg_user_id from vac_user_has,vacation'
         ' where vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s '
         'order by start_date,end_date', (session['user_id'],))
-    fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
+    fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][2:]
     true_all_vacations_user = cursor.fetchall()
     vacations_user = true_all_vacations_user
 
@@ -34,11 +34,12 @@ def logged_vacations(mysql):
                     ' like %s and vacation.vac_id = vac_user_has.vac_id and vac_user_has.user_id =%s order by start_date,end_date'
             print(query)
             cursor.execute(query, (search, session['user_id'],))
-            vacations_user = cursor.fetchall()  # fetch all records
+            vacations_user = cursor.fetchall() 
             cursor.close()
+            print("plannnn")
+            print(plan)
             return render_template('/login/vacations/vacations.html', vacations_user=vacations_user,
-                                   recent_vacations_user=true_all_vacations_user[:4],
-                                   fields=fields)  # pass books data to search.html
+                           recent_vacations_user=vacations_user[:4], fields=fields,plan=plan) 
 
     cursor.close()
     return render_template('/login/vacations/vacations.html', vacations_user=vacations_user,
@@ -88,8 +89,6 @@ def logged_settings(mysql):
             cursor.execute('SELECT grp_count,plan_type from user where user_id=%s',(session['user_id'],))
             user_details = cursor.fetchone()
             grp_count = user_details['grp_count']
-            print("grp_count")
-            print(grp_count)
             if user_details['plan_type']=="Basic" and grp_count>=5:
                 flash('You have reached the maximum limit on vacation grps! To add more, upgrade your plan','error')
             else:
@@ -108,7 +107,7 @@ def logged_settings(mysql):
     cursor.execute('SELECT vac_grp_id, user.user_id, username from vac_user_in, user '
                    'where user.user_id = vac_user_in.user_id and '
                    '(vac_grp_id in (select vu2.vac_grp_id from vac_user_in vu2 where user_id=%s))'
-                   'and user.user_id<>%s', (session['user_id'], session['user_id'],))
+                   , (session['user_id'],))
     same_vacgrp_users = cursor.fetchall()
 
     return render_template('/login/settings/settings.html', user_vacgrp_details=user_vacgrp_details,

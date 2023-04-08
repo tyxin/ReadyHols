@@ -146,7 +146,6 @@ def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
     vacation_timeline = cursor.fetchall()
     cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
     vacation_maps_itinerary = cursor.fetchall()
-
     cursor.close()
     return render_template('/login/vacations/itinerary/itinerary.html', vacation_timeline=vacation_timeline,
                            vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)

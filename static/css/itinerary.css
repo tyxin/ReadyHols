@@ -65,3 +65,13 @@ background-size: cover;
 .timeline-object{
   padding: 0% 0%;
 }
+
+.btn.btn-outline-secondary{
+  background-color: #219EBC;
+  color: white;
+  border-color:transparent;
+}
+
+.btn.btn-outline-secondary:hover{
+  background-color: #117993;
+}

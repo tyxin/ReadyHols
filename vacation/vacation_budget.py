@@ -29,6 +29,8 @@ def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, 
 
             if not re.match(r'[A-Za-z]+', budget_remarks):
                 flash('Remarks must contain only characters!', 'error')
+            elif int(budget_expenditure)<0:
+                flash('You cannot have negative expenditure!','error')
             else:
                 budget_count = cursor.execute('SELECT * from budget')
                 budget_id = generate_id(budget_count + 1, cursor, "budget", "budget_id")
@@ -50,6 +52,8 @@ def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, 
 
             if not re.match(r'[A-Za-z]+', budget_remarks):
                 flash('Country must contain only characters!', 'error')
+            elif int(budget_expenditure)<0:
+                flash('Your expenditure cannot be negative!','error')
             else:
                 cursor.execute('UPDATE budget set category=%s,expenditure=%s,remarks=%s where vac_id=%s and budget_id=%s',
                                (budget_category,int(budget_expenditure),budget_remarks,vac_id,budget_id,))

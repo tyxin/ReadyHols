@@ -30,8 +30,14 @@ def add_update_vacation(type_of_update, vac_id, mysql):
             upgradeVacation = False
             upg_user_id = None
 
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
             cursor.execute('SELECT plan_type,upg_count from user where user_id=%s',(session['user_id'],))
             user_details = cursor.fetchone()
+
+            year_start_date = vacation_start_date.split("-")[0]
+            year_end_date = vacation_end_date.split("-")[0]
+
 
             if 'vacationUpgrade' in request.form:
                 upgradeVacation = True
@@ -41,9 +47,14 @@ def add_update_vacation(type_of_update, vac_id, mysql):
                     upg_user_id = session['user_id']
 
             if upgradeVacation and (upg_user_id is None):
-                print("cannot upgrade :(")
+                print("cannot upgrade :(") 
+            elif len(year_start_date)!=4 and len(year_end_date)!=4:
+                flash('Date in incorrect format!','error')
+            elif not (date.fromisoformat(vacation_start_date) < date.fromisoformat(vacation_end_date)):
+                flash('End date cannot be before start date!','error')
+            elif int(vacation_budget_limit)<0:
+                flash('You cannot have a negative budget limit!','error')
             else:
-                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('SELECT vacation_grp.vac_grp_id,vac_grp_pin from vacation_grp,vac_user_in'
                             ' where (vac_user_in.vac_grp_id = vacation_grp.vac_grp_id) and vacation_grp.vac_grp_id=%s and user_id=%s',
                             (vacation_grp, session['user_id'],))
@@ -82,6 +93,9 @@ def add_update_vacation(type_of_update, vac_id, mysql):
             upgradeVacation = False
             upg_user_id = None
 
+            year_start_date = vacation_start_date.split("-")[0]
+            year_end_date = vacation_end_date.split("-")[0]
+
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
             cursor.execute('SELECT plan_type,upg_count from user where user_id=%s',(session['user_id'],))
@@ -96,6 +110,12 @@ def add_update_vacation(type_of_update, vac_id, mysql):
 
             if upgradeVacation and (upg_user_id is None):
                 print("cannot upgrade :(")
+            elif len(year_start_date)!=4 and len(year_end_date)!=4:
+                flash('Date in incorrect format!','error')
+            elif not (date.fromisoformat(vacation_start_date) < date.fromisoformat(vacation_end_date)):
+                flash('End date cannot be before start date!','error')
+            elif int(vacation_budget_limit)<0:
+                flash('You cannot have a negative budget limit!','error')
             else:
                 if not re.match(r'[A-Za-z0-9]+', vacation_description):
                     flash('Description must contain only characters and numbers!', 'error')

@@ -62,7 +62,7 @@
                 <form class="d-flex" method="POST" id="add_vacation_grp" action="{{url_for('logged_settings')}}" role="search" style="margin-top:auto; margin-bottom: 2%;">
                   <input type="number" id="vacation_grp_id" name="vacation_grp_id" class="form-control" placeholder="Group ID" style="margin-right:2%">
                   <input type="number" id="vacation_id_pin" name="vacation_id_pin" class="form-control" placeholder="Group Pin" style="margin-right:2%">
-                  <button class="btn btn-secondary" style="background-color: #219EBC; border-color:transparent;" type="submit">Add</button>
+                  <button class="btn btn-secondary" style="background-color: #219EBC; border-color:transparent;" type="submit">Join</button>
                 </form>
 
                 <p></p>
@@ -98,9 +98,10 @@
                       </h2>
                       <div id="collapse{{loop.index}}" class="accordion-collapse collapse" aria-labelledby="heading{{loop.index}}" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
+                            Members:
                             {% for j in same_vacgrp_users %}
                                 {% if j['vac_grp_id']==i['vac_grp_id'] %}
-                                    <li>Member: {{j['username']}}</li>
+                                    <li>{{j['username']}}</li>
                                 {% endif %}
                             {% endfor %}
                         </div>

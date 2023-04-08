@@ -18,8 +18,15 @@
     <div class="col text-white bg-dark" style="height:100%; max-width: 18%; padding: 2%; margin: 0%;">
       <div class="nav_bar_container bg-dark">
         <a class="text-white text-decoration-none">
-          <span class="fs-6" style="margin: 10px;">{{vacation_name}}</span>
+          <span class="fs-5" style="margin: 10px;">{{vacation_name}}</span>
         </a>
+        
+        {% if vacation_upgraded=='False' %}
+            <a style="margin: 1% 1%; padding: 3%;">Non-Upgraded</a>
+        {% endif %}
+        {% if vacation_upgraded=='True' %}
+            <a style="margin: 1% 1%; padding: 3%;">Upgraded</a>
+        {% endif %}
         <hr style="color:grey;">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">

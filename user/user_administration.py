@@ -83,9 +83,9 @@ def sign_up(mysql):
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             flash('Invalid Email Address', 'error')
         elif not re.match(r'[A-Za-z0-9]+', username):
-            flash('Username must contain only characters and numbers!', 'error')
+            flash('Username must contain only letters and numbers!', 'error')
         elif not ((len(password) >= 8) and (len(password) <= 20) and (re.match(r'[A-Za-z0-9]+', password))):
-            flash('Password must be 8-20 characters long, contain letters and numbers,'
+            flash('Password must be 8-20 letters long, contain letters and numbers,'
                   ' and must not contain spaces, special characters, or emoji.')
         else:
             user_count = cursor.execute('SELECT * from user')
