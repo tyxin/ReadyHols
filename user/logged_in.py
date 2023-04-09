@@ -62,6 +62,7 @@ def logged_user(mysql):
             flash('Password must be 8-20 characters long, contain letters and numbers,'
                   ' and must not contain spaces, special characters, or emoji.', 'error')
         else:
+            session['sub_mail'] = subEmail
             cursor.execute('UPDATE user set email=%s, password=%s, sub_mail=%s WHERE user_id = %s ',
                            (user_email, generate_password_hash(user_password), subEmail, session['user_id'],))
             mysql.connection.commit()  # note that you need to commit the changes for INSERT,UPDATE and DELETE statements

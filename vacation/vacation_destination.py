@@ -69,11 +69,9 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            destination_start_date_datetype = date.fromisoformat(destination_start_date)
-
             cursor.execute('SELECT start_date,end_date from vacation where vac_id=%s',(vac_id,))
             vacation_duration = cursor.fetchone()
-            betweenDate,errorMessage = check_between_date(destination_start_date_datetype,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
+            betweenDate,errorMessage = check_between_date(destination_start_date,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
             
             if not re.match(r'[A-Za-z]+', destination_country):
                 flash('Country must contain only characters!', 'error')
@@ -99,7 +97,7 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
                 cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s',
                                (vac_id,dest_id,dstart_date,no_days))
                 mysql.connection.commit()
-                cursor.execute('INSERT into has_destination VALUES(%s,%s,%s,%s)',(vac_id,to_ref_dest_id,destination_duration,destination_start_date_datetype,))
+                cursor.execute('INSERT into has_destination VALUES(%s,%s,%s,%s)',(vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
                 mysql.connection.commit()
                 flash('Destination updated successfully!', 'success')
                 cursor.close()
@@ -108,7 +106,7 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
     elif type_of_update == "Delete":
         print("helloooooo deleting?")
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s', (vac_id,dest_id,destination_start_date_datetype,no_days))
+        cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s', (vac_id,dest_id,destination_start_date,no_days))
         mysql.connection.commit()
         flash('Destination deleted successfully!')
         return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
@@ -124,9 +122,12 @@ def check_between_date(dstart_date, start_date, end_date, no_days):
     if (len(year_dstart_date)!=4):
         error_message = "Date is in incorrect format!"
         return False, error_message
+    elif int(no_days)-1<0:
+        error_message = "Number of days cannot be less than 1!"
+        return False, error_message
     else:
         dstart_date_obj = date.fromisoformat(dstart_date)
-        end_date_destination = dstart_date_obj + timedelta(days=int(no_days))
+        end_date_destination = dstart_date_obj + timedelta(days=int(no_days)-1)
         if dstart_date_obj < start_date:
             error_message = "Start Date of Destination cannot be before Start Date of Trip!"
             return False, error_message

@@ -1,9 +1,9 @@
 # ReadyHols [in progress]
 
 ## Instructions for installation
-Run the jupyter notebook `data_scripting.ipynb` before running `__init__.py`
+Run the jupyter notebook `ProjectFinalReport.ipynb` before running `app.py`
 
-Download the project and run `__init__.py`.
+Download the project and run `app.py`.
 
 Note: Do not modify the file structure. 
 
@@ -37,4 +37,4 @@ Note: Do not modify the file structure.
 - (000000009,254533453435)
 - (000000010,352534534534)
 
-Note: Only First 10 Vacations (Vacations with Vacation IDs 000000001 to 000000010) are Populated with Data
+Note: Only First 5 Vacations (Vacations with Vacation IDs 000000001 to 000000010) are fully populated, First 10 Vacations are partially populated with Data.
