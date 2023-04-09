@@ -137,7 +137,7 @@
       </form>
     </span>
     <div class="popup" id="bookingPopUp">
-        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" id="bookingFormID" role="search" 
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='booking')}}" id="bookingFormID" role="search" 
         style="padding:2%; height: 90%; margin-bottom: 10%; overflow: auto; overflow-x: hidden;" enctype="multipart/form-data">
             <h3 id="booking_header">New Booking</h3>
             <hr>

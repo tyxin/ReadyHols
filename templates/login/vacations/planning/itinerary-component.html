@@ -148,7 +148,7 @@
       </form>
     </span>
     <div class="popup" id="itineraryPopUp">
-        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" role="search"
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='itinerary')}}" role="search"
                   style="padding: 2%; height: 90%; margin-bottom: 10%; overflow: auto; overflow-x: hidden;" id="itineraryFormID">
             <h3 id="itinerary_header">New Itinerary</h3>
             <hr>

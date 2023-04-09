@@ -62,7 +62,7 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
                     mysql.connection.commit()
                     flash('Congratulations, you have successfully added your new itinerary!','success')
                     cursor.close()
-                    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+                    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='itinerary'))
 
     elif type_of_update == "Update":
         print("updating")
@@ -97,15 +97,15 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
                 mysql.connection.commit()
                 flash('Itinerary updated successfully!', 'success')
                 cursor.close()
-                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='itinerary'))
 
     elif type_of_update == "Delete":
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE from itinerary where vac_id=%s and day_no=%s and itin_time=%s', (vac_id,day_no,itin_time,))
         mysql.connection.commit()
         flash('Itinerary deleted successfully!','success')
-        return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+        return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='itinerary'))
     else:
         print("error, should not occur")
 
-    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='itinerary'))

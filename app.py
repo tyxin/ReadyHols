@@ -141,7 +141,7 @@ def logged_vacations_template(vac_id, page):
         return redirect(
             url_for('logged_vacations_itinerary', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
     elif page == 'planning':
-        return redirect(url_for('logged_vacations_planning', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+        return redirect(url_for('logged_vacations_planning', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab="budget"))
     elif page == 'sharing':
         return redirect(url_for('logged_vacations_sharing', vac_id=vac_id, vacation_name=vacation_name, vacation_upgraded=vacation_upgraded))
     else:
@@ -178,8 +178,8 @@ def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
                            vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)
 
 
-@app.route('/logged/vacations/planning/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/', methods=['GET', 'POST'])
-def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
+@app.route('/logged/vacations/<string:curr_tab>/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/', methods=['GET', 'POST'])
+def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded, curr_tab):
     if 'user_id' not in session:
         return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -198,7 +198,6 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
                    ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
     maps_itin_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
     vacation_itin_map = cursor.fetchall()
-    curr_tab = "budget"
 
     if request.method == 'POST':
         if request.form['maps_itin_search'] != None:
@@ -212,7 +211,6 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
                 print(query)
                 cursor.execute(query, (search, vac_id,))
                 vacation_itin_map = cursor.fetchall()  # fetch all records
-                print(curr_tab)
                 return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
                                        vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map,
                                        vac_id=vac_id, vacation_summary=vacation_summary,

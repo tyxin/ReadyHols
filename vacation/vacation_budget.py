@@ -38,7 +38,7 @@ def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, 
                 mysql.connection.commit()
                 flash('Congratulations, you have successfully added your new budget component!','success')
                 cursor.close()
-                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='budget'))
 
     elif type_of_update == "Update":
         if request.method == 'POST' and (
@@ -60,15 +60,15 @@ def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, 
                 mysql.connection.commit()
                 flash('Budget component updated successfully!', 'success')
                 cursor.close()
-                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='budget'))
 
     elif type_of_update == "Delete":
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE from budget where vac_id=%s and budget_id=%s', (vac_id,budget_id,))
         mysql.connection.commit()
         flash('Budget component deleted successfully!','success')
-        return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+        return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='budget'))
     else:
         print("error, should not occur")
 
-    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+    return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='budget'))
