@@ -12,7 +12,9 @@ from werkzeug.utils import secure_filename
 import datetime
 from datetime import *
 
-def logged_vacations(mysql):
+from common.generate_id import generate_id
+
+def logged_vacations(mysql):    
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(
         'SELECT vacation.vac_id,vacation.vac_grp_id, description,start_date,end_date,budget_limit, upg_user_id from vac_user_has,vacation'
@@ -113,3 +115,47 @@ def logged_settings(mysql):
 
     return render_template('/login/settings/settings.html', user_vacgrp_details=user_vacgrp_details,
                            same_vacgrp_users=same_vacgrp_users)
+
+def create_vac_grp(mysql):
+
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    if request.method == 'POST' and ('vacation_grp_name' in request.form) and ('vacation_id_pin' in request.form):
+        
+        vacation_group = request.form['vacation_grp_name']
+        vacation_group_pin = request.form['vacation_id_pin']
+
+        print("create")
+        print(vacation_group)
+        print(vacation_group_pin)
+
+        if not re.match(r'[A-Za-z0-9]+', vacation_group):
+            flash('Vacation Group Name can only contain numbers and letters!','error')
+        elif not len(vacation_group) <= 50:
+            flash('Vacation Group Name cannot contain more than 50 characters!')
+        else:
+            vacation_grp_count = cursor.execute('SELECT * from vacation_grp')
+            vacation_grp_id = generate_id(vacation_grp_count + 1, cursor, "vacation_grp", "vac_grp_id")
+            cursor.execute('INSERT INTO vacation_grp VALUES(%s,%s,%s)',
+                (vacation_grp_id,vacation_group, generate_password_hash(vacation_group_pin),))
+            mysql.connection.commit()
+            cursor.execute('INSERT INTO vac_user_in VALUES(%s,%s)',(vacation_grp_id,session['user_id'],))
+            mysql.connection.commit()
+            flash('You have been created the vacation group successfully!', 'success')
+
+    cursor.execute('SELECT vac_grp_tbl.vac_grp_id, grp_name, vac_grp_pin from '
+                   '(SELECT vu2.vac_grp_id from vac_user_in vu2 where user_id=%s) as vac_user_tbl join'
+                   ' (SELECT * from vacation_grp) as vac_grp_tbl'
+                   ' on vac_grp_tbl.vac_grp_id = vac_user_tbl.vac_grp_id'
+                   ' order by vac_grp_tbl.vac_grp_id',
+                   (session['user_id'],))
+    user_vacgrp_details = cursor.fetchall()
+    print(user_vacgrp_details)
+    cursor.execute('SELECT vac_grp_id, user.user_id, username from vac_user_in, user '
+                   'where user.user_id = vac_user_in.user_id and '
+                   '(vac_grp_id in (select vu2.vac_grp_id from vac_user_in vu2 where user_id=%s))'
+                   , (session['user_id'],))
+    same_vacgrp_users = cursor.fetchall()
+
+    return redirect(url_for('logged_settings'))
+

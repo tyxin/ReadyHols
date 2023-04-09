@@ -27,7 +27,7 @@ def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, 
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z]+', budget_remarks):
+            if not re.match(r'[A-Za-z]*', budget_remarks):
                 flash('Remarks must contain only characters!', 'error')
             elif int(budget_expenditure)<0:
                 flash('You cannot have negative expenditure!','error')
@@ -50,7 +50,7 @@ def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, 
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z]+', budget_remarks):
+            if not re.match(r'[A-Za-z]*', budget_remarks):
                 flash('Country must contain only characters!', 'error')
             elif int(budget_expenditure)<0:
                 flash('Your expenditure cannot be negative!','error')

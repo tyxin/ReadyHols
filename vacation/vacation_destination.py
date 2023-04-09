@@ -34,8 +34,12 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             print(betweenDate)
             if not re.match(r'[A-Za-z]+', destination_country):
                 flash('Country must contain only characters!', 'error')
+            elif not len(destination_country) <=50:
+                flash('Country cannot contain more than 50 characters!','error')
             if not re.match(r'[A-Za-z]+', destination_state):
                 flash('State must contain only characters!', 'error')
+            elif not len(destination_state) <=50:
+                flash('State cannot contain more than 50 characters','error')
             elif not betweenDate:
                 flash(errorMessage,'error')
             else:
@@ -75,8 +79,12 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             
             if not re.match(r'[A-Za-z]+', destination_country):
                 flash('Country must contain only characters!', 'error')
+            elif not len(destination_country) <=50:
+                flash('Country cannot contain more than 50 characters!','error')
             if not re.match(r'[A-Za-z]+', destination_state):
                 flash('State must contain only characters!', 'error')
+            elif not len(destination_state) <=50:
+                flash('State cannot contain more than 50 characters!','error')
             elif not betweenDate:
                 flash(errorMessage,'error')
             else:
@@ -106,7 +114,7 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
     elif type_of_update == "Delete":
         print("helloooooo deleting?")
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s', (vac_id,dest_id,destination_start_date,no_days))
+        cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s', (vac_id,dest_id,dstart_date,no_days))
         mysql.connection.commit()
         flash('Destination deleted successfully!')
         return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))

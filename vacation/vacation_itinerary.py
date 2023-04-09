@@ -31,12 +31,23 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z]+', itinerary_description):
+            cursor.execute('SELECT start_date, end_date from vacation where vac_id=%s',(vac_id,))
+            date_details = cursor.fetchone()
+
+            no_days = date_details['end_date'] - date_details['start_date']
+
+            if not re.match(r'[A-Za-z0-9]*', itinerary_description):
                 flash('Remarks must contain only characters!', 'error')
-            elif not re.match(r'[A-Za-z]+', itinerary_location):
+            elif not len(itinerary_description) <=100:
+                flash('Itinerary description cannot contain more than 100 characters','error')   
+            elif not re.match(r'[A-Za-z0-9]*', itinerary_location):
                 flash('Location must only contain characters!','error')
+            elif not len(itinerary_location) <=50:
+                flash('Itinerary location cannot contain more than 50 characters','error')
             elif itinerary_time is None:
                 flash('Please input a timing!','error')
+            elif int(itinerary_day_no) > no_days.days:
+                flash('Day No cannot be beyond number of days of vacation!','error')
             else:
                 cursor.execute('SELECT * from itinerary where vac_id=%s',(vac_id,))
                 used_ids = cursor.fetchall()
@@ -65,10 +76,21 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z]+', itinerary_description):
+            cursor.execute('SELECT start_date, end_date from vacation where vac_id=%s',(vac_id,))
+            date_details = cursor.fetchone()
+
+            no_days = date_details['end_date'] - date_details['start_date']
+
+            if not re.match(r'[A-Za-z0-9]*', itinerary_description):
                 flash('Country must contain only characters!', 'error')
-            elif not re.match(r'[A-Za-z]+', itinerary_location):
+            elif not len(itinerary_description) <=100:
+                flash('Itinerary description cannot contain more than 100 characters','error')
+            elif not re.match(r'[A-Za-z0-9]*', itinerary_location):
                 flash('Location must only contain characters!','error')
+            elif not len(itinerary_location) <=50:
+                flash('Itinerary location cannot contain more than 50 characters','error')
+            elif int(day_no) > no_days.days:
+                flash('Day No cannot be beyond number of days of vacation!','error')
             else:
                 cursor.execute('UPDATE itinerary set itin_type=%s,description=%s,location=%s where vac_id=%s and day_no=%s and itin_time=%s',
                                (itinerary_type,itinerary_description,itinerary_location,vac_id,day_no,itin_time,))

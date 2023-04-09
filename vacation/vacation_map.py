@@ -25,8 +25,10 @@ def add_update_maps(type_of_update, vac_id, vacation_name, vacation_upgraded, my
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z]+', map_name):
-                flash('Map name must contain only characters!', 'error')
+            if not re.match(r'[A-Za-z0-9]+', map_name):
+                flash('Map name must contain only letters and numbers!', 'error')
+            elif not len(map_name) <=50:
+                flash('Map name cannot be more than 50 characters!','error')
             else:
                 map_count = cursor.execute('SELECT * from vac_map')
                 map_id = generate_id(map_count + 1, cursor, "vac_map", "map_id")

@@ -25,8 +25,12 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z]+', booking_description):
-                flash('Remarks must contain only characters!', 'error')
+            if not re.match(r'[A-Za-z0-9]*', booking_description):
+                flash('Remarks must contain only letters and numbers!', 'error')
+            elif not re.match(r'[A-Za-z0-9]+', booking_ref_no):
+                flash('Reference number must contain only letters and numbers!','error')
+            elif not len(booking_ref_no) <= 30:
+                flash('Reference number cannot contain more than 30 characters!','error')
             else:
                 cursor.execute('SELECT * from booking where vac_id=%s',(vac_id,))
                 vacation_bookings = cursor.fetchall()
@@ -55,22 +59,16 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
         if request.method == 'POST' \
                 and ('add_booking_description' in request.form) :
             
-            print("kjf;aklfjd2241412")
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             
             booking_category = request.form.get('booking_category')
             booking_description = request.form['add_booking_description']
             cursor.execute('SELECT attachment from booking where vac_id=%s and ref_no=%s',(vac_id,ref_no,))
             booking_attachment_path = cursor.fetchone()['attachment']
 
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-
-            print("43143134")
-
             if not re.match(r'[A-Za-z]+', booking_description):
                 flash('Country must contain only characters!', 'error')
             else:
-                print("134515509")
-                
                 if 'add_booking_attachment' in request.files:
                     uploaded_booking = request.files['add_booking_attachment']
                     if uploaded_booking.filename!='':

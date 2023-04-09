@@ -48,10 +48,41 @@
                             <label class="form-check-label">Share Photo Drive</label>
                         </div>
                       </div>
-                      
+                      <div class="mb-3">
+                        <a>Settings cannot be updated in this version of Ready!Hols</a>
+                      </div>  
                     </fieldset>
                     <button type="submit" class="btn btn-secondary" style="background-color: #219EBC; border-color: none;" disabled>Update</button>
             
+                </form>
+            </div>
+
+            <div class="add-vacation-groups-container">
+                  <legend>Create Vacation Group</legend>
+                  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                  {% if errors %}
+                  <div class="alert alert-danger" role="alert">
+                  {% for message in errors %}
+                    {{ message }}
+                  {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% endwith %}
+
+                  {% with successes = get_flashed_messages(category_filter=["success"]) %}
+                  {% if successes %}
+                  <div class="alert alert-success" role="alert">
+                      {% for message in successes %}
+                      {{ message }}
+                      {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% endwith %}
+  
+                <form class="d-flex" method="POST" id="create_vacation_grp" action="{{url_for('create_vac_grp')}}" role="search" style="margin-top:auto; margin-bottom: 2%;">
+                    <input type="text" id="vacation_grp_name" name="vacation_grp_name" class="form-control" placeholder="Group Name" style="margin-right:2%;">
+                    <input type="number" id="vacation_id_pin" name="vacation_id_pin" class="form-control" placeholder="Group Pin" style="margin-right:2%;">
+                    <button class="btn btn-secondary" style="background-color: #219EBC; border-color:transparent;" type="submit">Create</button>
                 </form>
             </div>
         </div>

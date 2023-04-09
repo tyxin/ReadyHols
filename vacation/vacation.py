@@ -50,7 +50,7 @@ def add_update_vacation(type_of_update, vac_id, mysql):
                 print("cannot upgrade :(") 
             elif len(year_start_date)!=4 and len(year_end_date)!=4:
                 flash('Date in incorrect format!','error')
-            elif not (date.fromisoformat(vacation_start_date) < date.fromisoformat(vacation_end_date)):
+            elif not (date.fromisoformat(vacation_start_date) <= date.fromisoformat(vacation_end_date)):
                 flash('End date cannot be before start date!','error')
             elif int(vacation_budget_limit)<0:
                 flash('You cannot have a negative budget limit!','error')
@@ -68,6 +68,8 @@ def add_update_vacation(type_of_update, vac_id, mysql):
 
                         if not re.match(r'[A-Za-z0-9]+', vacation_description):
                             flash('Description must contain only characters and numbers!', 'error')
+                        elif not len(vacation_description) <=50:
+                            flash('Description cannot be more than 50 characters','error')
                         else:
                             vacation_id = generate_id(vacation_count + 1, cursor, "vacation", "vac_id")
                             cursor.execute('INSERT INTO vacation VALUES(%s,%s,%s,%s,%s,%s,%s)',
@@ -119,6 +121,8 @@ def add_update_vacation(type_of_update, vac_id, mysql):
             else:
                 if not re.match(r'[A-Za-z0-9]+', vacation_description):
                     flash('Description must contain only characters and numbers!', 'error')
+                elif not len(vacation_description) <=50:
+                    flash('Description cannot be more than 50 characters','error')
                 else:
                     cursor.execute(
                         'UPDATE vacation set description=%s,upg_user_id=%s,start_date=%s,end_date=%s,budget_limit=%s where vac_id=%s',

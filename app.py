@@ -77,6 +77,7 @@ def login():
 def sign_up():
     return user_administration.sign_up(mysql)
 
+@app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('home'))
@@ -85,27 +86,45 @@ def logout():
 
 @app.route('/logged/home/')
 def logged_home():
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return redirect(url_for('logged_vacations'))
 
 
 @app.route('/logged/vacations/', methods=['GET', 'POST'])
 def logged_vacations():
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return logged_in.logged_vacations(mysql)
 
 @app.route('/logged/user/', methods=['GET', 'POST'])
 def logged_user():
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return logged_in.logged_user(mysql)
 
 @app.route('/logged/settings/',methods=['GET','POST'])
 def logged_settings():
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return logged_in.logged_settings(mysql)
+
+@app.route('/logged/settings/create',methods=['GET','POST'])
+def create_vac_grp():
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
+    return logged_in.create_vac_grp(mysql)
 
 @app.route('/logged/tutorial/')
 def logged_tutorial():
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return render_template('/login/tutorial/tutorial.html')
 
 @app.route('/logged/vacations/home/<string:page>/<string:vac_id>/')
 def logged_vacations_template(vac_id, page):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT description, upg_user_id from vacation where vac_id=%s', (vac_id,))
     vacation_details = cursor.fetchone()
@@ -131,6 +150,8 @@ def logged_vacations_template(vac_id, page):
 
 @app.route('/logged/vacations/summary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>')
 def logged_vacations_summary(vac_id, vacation_name,vacation_upgraded):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
     vacation_summary = cursor.fetchone()
@@ -145,6 +166,8 @@ def logged_vacations_summary(vac_id, vacation_name,vacation_upgraded):
 
 @app.route('/logged/vacations/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>')
 def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * from vacation_itinerary where vac_id=%s order by itin_date, itin_time', (vac_id,))
     vacation_timeline = cursor.fetchall()
@@ -157,6 +180,8 @@ def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
 
 @app.route('/logged/vacations/planning/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/', methods=['GET', 'POST'])
 def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT vac_id, budget_limit, total_spend, remaining_budget from vacation_summary where vac_id=%s',
                    (vac_id,))
@@ -205,6 +230,8 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded):
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/', methods=['GET','POST'])
 def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     if vacation_upgraded=="False":
         return render_template('/login/vacations/sharing/not-upgraded-component.html')
     else:
@@ -238,6 +265,8 @@ def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
 
 @app.route('/logged/vacations/sharing/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:album_id>/')
 def logged_vacations_album(vac_id, vacation_name, vacation_upgraded, album_id):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     print("enter")
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT alb_name,alb_date from album where alb_id=%s',(album_id,))
@@ -252,31 +281,45 @@ def logged_vacations_album(vac_id, vacation_name, vacation_upgraded, album_id):
 
 @app.route('/logged/vacations/<string:type_of_update>/<string:vac_id>/', methods=['GET', 'POST'])
 def add_update_vacation(type_of_update, vac_id):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return vacation.add_update_vacation(type_of_update,vac_id,mysql)
 
 @app.route('/logged/vacations/summary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:dest_id>/<string:dstart_date>/<string:no_days>/', methods=['GET', 'POST'])
 def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgraded, dest_id, dstart_date, no_days):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))    
     return vacation_destination.add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgraded, dest_id, dstart_date, no_days, mysql)
 
 @app.route('/logged/vacations/planning/booking/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:ref_no>/', methods=['GET', 'POST'])
 def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded, ref_no):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return vacation_booking.add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded, ref_no, mysql, app)
     
 @app.route('/logged/vacations/planning/budget/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:budget_id>/', methods=['GET', 'POST'])
 def add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, budget_id):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return vacation_budget.add_update_budget(type_of_update, vac_id, vacation_name, vacation_upgraded, budget_id, mysql)
     
 @app.route('/logged/vacations/planning/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:day_no>/<string:itin_time>/', methods=['GET', 'POST'])
 def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return vacation_itinerary.add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time, mysql)
 
 @app.route('/logged/vacations/planning/map/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/', methods=['GET', 'POST'])
 def add_update_map(type_of_update, vac_id, vacation_name, vacation_upgraded):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     return vacation_map.add_update_maps(type_of_update, vac_id, vacation_name, vacation_upgraded, mysql, app)
 
 
 @app.route('/download/<string:attachment_type>/<string:file_path>/')
 def download_file(attachment_type,file_path):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
     print("filenmae")
     print(file_path)
     if attachment_type=="MAP":
