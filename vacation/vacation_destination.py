@@ -26,6 +26,7 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             destination_duration = request.form['add_destination_duration']
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
             cursor.execute('SELECT start_date,end_date from vacation where vac_id=%s',(vac_id,))
             vacation_duration = cursor.fetchone()
             betweenDate,errorMessage = check_between_date(destination_start_date,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
@@ -56,12 +57,17 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
                 else:    
                     to_ref_dest_id = has_such_destination['dest_id']
                 print(to_ref_dest_id)
-                cursor.execute('INSERT into has_destination VALUES (%s,%s,%s,%s)',(vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
-                mysql.connection.commit()
-                flash('Congratulations, you have successfully added your new destination!','success')
-                cursor.close()
+                cursor.execute('SELECT * from has_destination where vac_id=%s and dest_id=%s and no_days=%s and dstart_date=%s',(vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
+                has_destination_entry = cursor.fetchone()
+                if has_destination_entry is not None:
+                    flash('Duplicate destination entry cannot be inserted!','error')
+                else:
+                    cursor.execute('INSERT into has_destination VALUES (%s,%s,%s,%s)',(vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
+                    mysql.connection.commit()
+                    flash('Congratulations, you have successfully added your new destination!','success')
+                    cursor.close()
                 return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
-
+            cursor.close()
     elif type_of_update == "Update":
         if request.method == 'POST' and ('add_destination_country' in request.form) \
                 and ('add_destination_state' in request.form) and \
@@ -101,25 +107,34 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
                 else:
                     to_ref_dest_id = has_such_destination['dest_id']
                 
-                # delete and add as primary key cannot be modified 
-                cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s',
-                               (vac_id,dest_id,dstart_date,no_days))
-                mysql.connection.commit()
-                cursor.execute('INSERT into has_destination VALUES(%s,%s,%s,%s)',(vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
-                mysql.connection.commit()
-                flash('Destination updated successfully!', 'success')
-                cursor.close()
-                return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+                cursor.execute('SELECT * from has_destination where vac_id=%s and dest_id=%s and no_days=%s and dstart_date=%s',
+                               (vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
+                has_destination_entry = cursor.fetchone()
 
+                if has_destination_entry is not None:
+                    flash('Duplicate destination entry cannot be inserted!','error')
+                else:
+                    # delete and add as primary key cannot be modified 
+                    cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s',
+                               (vac_id,dest_id,dstart_date,no_days))
+                    mysql.connection.commit()
+                    cursor.execute('INSERT into has_destination VALUES(%s,%s,%s,%s)',(vac_id,to_ref_dest_id,destination_duration,destination_start_date,))
+                    mysql.connection.commit()
+                    flash('Destination updated successfully!', 'success')
+                    cursor.close()
+                return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+            cursor.close()
     elif type_of_update == "Delete":
         print("helloooooo deleting?")
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s', (vac_id,dest_id,dstart_date,no_days))
         mysql.connection.commit()
         flash('Destination deleted successfully!')
+        cursor.close()
         return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
     else:
         print("error, should not occur")
+    
 
     return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
 

@@ -1,3 +1,82 @@
+<script src="/static/javascript/popup.js"></script>
+
+<style>
+
+     .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+
+</style>  
+
+<script>
+    var vacation_itin_map = {{ vacation_timeline | tojson}};
+    var public_maps = {{ public_maps | tojson}};
+    var indexItinerary = -1;
+
+    var open_pop_up = function(index) {
+
+        indexItinerary = index;
+
+        show('itineraryMapPopUp','itineraryMapTypeButton','Add');
+
+        var add_itin_map_button = document.getElementById('itineraryMapTypeButton');
+        add_itin_map_button.addEventListener("click", submit_form);
+        
+        function submit_form(){
+            var indexMap = -1;
+
+            var target_table_map = document.getElementById("maps_itin_tbl");
+            console.log(target_table_map)
+
+            for (var i = 0; i < target_table_map.rows.length;i++){
+                if (target_table_map.rows[i].classList.length>0){
+                    indexMap = i;
+                };
+            };
+
+            console.log("indexing")
+            console.log(indexMap)
+            console.log(indexItinerary)
+
+            if (indexMap==-1){
+                console.log("map not selected");
+            }else{
+                if(indexItinerary==-1){
+                console.log("itinerary not selected");
+                }else{
+            
+                var selectedDataMap = public_maps[indexMap - 1];
+
+                var add_map_button = document.getElementById('addMapButton');
+                var selectedDataItin = vacation_itin_map[indexItinerary - 1];
+
+                if (indexMap==-1){
+                    console.log("not selected");
+                }else{
+                    var map_id_selected = selectedDataMap['map_id'];
+                    var itin_time = selectedDataItin['itin_time'];
+                    var day_no = selectedDataItin['day_no'];
+                    var map_itin_form = document.getElementById('mapItineraryFormID');
+                    var map_itin_header = document.getElementById('itinerary_maps_header');
+
+                    var vacation_name = {{ vacation_name | tojson}};
+                    var vacation_upgraded = {{ vacation_upgraded | tojson }};
+                    var vacation_id = {{ vac_id | tojson }};
+                    map_itin_header.innerText = "Add Map to Itinerary";
+
+                    map_itin_form.action = "/logged/vacations/planning/itinerary-map/"+vacation_id+"/"+vacation_name+"/"+vacation_upgraded+"/"+"/Add/"+itin_time+"/"+day_no+"/"+map_id_selected+"/";
+                    map_itin_form.submit();
+                };
+                };    
+            
+            };
+        };    
+
+    };  
+
+</script>
+
 <div class="container" style="margin:0%; padding: 0%;">
     {% for i in vacation_timeline %}
 
@@ -21,6 +100,11 @@
                     </span>
                 {% endif %}
             {% endfor %}
+            <span>
+                    <button class="btn btn-outline-secondary" style="border-radius: 10px; margin-top: 1%;" type="button" onclick="open_pop_up({{loop.index}})" id="addMapButton{{loop.index}}">
+                        <i class="bi bi-plus-circle"></i>Add Map
+                    </button>
+            </span>
         </div>
     </div>
     {% endfor %}
@@ -31,4 +115,53 @@
         <img src="/static/assets/no_data_1.svg" style="height: 40%;">
     </div>
     {% endif %}
+
+    <div class="popup" id="itineraryMapPopUp">
+        <form method="POST" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='maps_itin')}}" role="search"
+                  style="padding: 2%; height: 90%; margin-bottom: 10%; overflow: auto; overflow-x: hidden;" id="mapItineraryFormID">
+            <h3 id="itinerary_maps_header">Add Maps to Itinerary</h3>
+            <hr>
+
+            <p></p>
+
+            <table class="table table-hover" style="margin-top: 1%;" id="maps_itin_tbl">
+                <thead class="bg-dark text-white">
+                  <tr style="pointer-events: none;">
+                    <th scope="col">No.</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Map</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for i in public_maps%}
+                  <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{i['name']}}</td>
+                    <td>{{i['category']}}</td>
+                    <td><a href="/download/MAP/{{i['map_link']}}/" target="_blank" rel="noopener noreferrer">view attachment</a></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        
+        </form>
+
+        <div class="footer">
+          <div class="row" style="width:100%;">
+            <div class="col" style="max-width: 50%">
+              <button class="btn btn-outline-secondary" id="itineraryMapTypeButton" type="button" style="width:100%">Add</button>
+            </div>
+            <div class="col" style="max-width: 50%;">
+              <button class="btn btn-outline-secondary" type="button" onclick="hide('itineraryMapPopUp')" style="width:100%" >Cancel</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
 </div>
+
+<script>
+    highlight_row('maps_itin_tbl');
+</script>  
+

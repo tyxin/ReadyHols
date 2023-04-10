@@ -1,15 +1,81 @@
+<script src="/static/javascript/popup.js"></script>
+
 <style>
     .rowbox {
         display: flex;
         justify-content:  space-between;
         flex-wrap: wrap;
+        width: 100%;
      }
      .row-item {
         margin: 10px auto;
      }
-</style>    
 
-<div class="maps-container" style="margin: 0%; padding: 0%; overflow: auto; overflow-x: hidden;">
+     .selected{
+        background-color:#c8cef3;
+        font-weight: bold;
+    }
+
+</style>  
+
+<script>
+
+    var delete_map_itinerary = function(){
+
+        console.log("deleting!");
+
+        var target_table_itin = document.getElementById("itinerary_display_tbl");
+        var indexSelectedItin = -1;
+
+        for (var i = 0; i < target_table_itin.rows.length;i++){
+            if (target_table_itin.rows[i].classList.length>0){
+                indexSelectedItin = i;
+             };
+        };
+
+        if (indexSelectedItin==-1){
+             console.log("why not working");
+
+        }else{
+
+        var vacation_itin_map = {{ vacation_itin_map | tojson }};
+        var selectedDataItin = vacation_itin_map[indexSelectedItin - 1];
+        
+        var vacation_id = {{ vac_id | tojson}};
+
+        var vacation_name = {{ vacation_name | tojson}};
+        var vacation_upgraded = {{ vacation_upgraded | tojson}};
+        var itin_time = selectedDataItin['itin_time'];
+        var day_no = selectedDataItin['day_no'];
+        var map_id_selected = selectedDataItin['map_id'];
+        
+        var itin_map_delete_button = document.getElementById('deleteButton');
+        itin_map_delete_button.disabled = false;
+        itin_map_delete_button.form = 'deleteMapItinerary';
+        var itinerary_map_form_body = document.getElementById('delete_modal_body');
+        itinerary_map_form_body.innerHTML = "Are you sure you want to remove this map from itinerary? This cannot be undone!";
+        var itinerary_map_form = document.getElementById('deleteMapItinerary');
+        console.log(itinerary_map_form);
+        itinerary_map_form.action = "/logged/vacations/planning/itinerary-map/"+vacation_id+"/"+vacation_name+"/"+
+                                vacation_upgraded+"/"+"/Delete/"+itin_time+"/"+day_no+"/"+map_id_selected+"/";
+    
+        itin_map_delete_button.addEventListener("click", submit_delete_map_itinerary);
+
+        function submit_delete_map_itinerary(){
+          console.log("entered");
+          itinerary_map_form.submit();
+        };
+
+        };
+
+    };
+
+
+</script>
+
+<div class="container overflow-auto" style="margin: 0%; padding: 0%; height: 100%;">
+
+
     <form method="POST" class="row" action="{{url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='maps_itin')}}" role="search"
           style="margin-top:auto; margin-bottom: auto; padding-left:1%;">
         <div class="row gx-2">
@@ -26,18 +92,47 @@
                     {% endfor %}
                 </select>
             </div>
+
             <div class="row-item">
-                <button class="btn btn-outline-secondary" type="submit">Add&nbspMap</button>
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
             </div>
+
             <div class="row-item">
-                <button class="btn btn-outline-secondary" type="submit">Remove&nbspMap</button>
+                <button class="btn btn-outline-secondary" type="button" form="deleteMapItinerary" onclick="delete_map_itinerary()" data-bs-toggle="modal" data-bs-target="#deleteModal">Remove&nbspMap</button>
             </div>
 
         </div>
 
     </form>
+
+    <form id="deleteMapItinerary" method="POST" action="" role="search">
+    </form>
+
+
+    {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+           {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+      <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  
+    
     <p></p>
-    <table class="table table-hover">
+    <table class="table table-hover" id="itinerary_display_tbl">
         <thead class="bg-dark text-white">
         <tr>
             <th scope="col">No.</th>
@@ -71,4 +166,9 @@
 
     {% endif %}
 </div>
+
+
+<script>
+    highlight_row('itinerary_display_tbl');
+</script>  
 

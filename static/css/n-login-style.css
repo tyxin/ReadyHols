@@ -44,23 +44,32 @@ Red
     background: #E4E6EB;
 } */
 
+
 .accordion-body{
     color:black;
 }
 
 .accordion-button{
-    background:#E4E6EB;
+    background: white;
 }
 
-.accordion-button:visited, .accordion-button:visited, .accordion-button:hover, .accordion-button:active{
-    background-color: #B0B3B8;
+.accordion-button:visited, .accordion-button:visited, .accordion-button:active{
+    background-color:white;
     color:black;
+    font-weight:bold;
 }
 
 .accordion-button:not(.collapsed){
-    background-color: #B0B3B8;
+    background-color: white;
     color: black;
+    font-weight: bold;
 }
+
+.accordion-button:hover{
+    background-color:#F2F2F2;
+    color:black;
+}
+
 
 .contact-us-container{
     text-align: center;

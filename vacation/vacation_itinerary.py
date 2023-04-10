@@ -31,11 +31,16 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
+            cursor.execute('SELECT * from itinerary where vac_id=%s and day_no=%s and itin_time=%s',(vac_id,itinerary_day_no,itinerary_time,))
+            existsItinerary = cursor.fetchone()
+
             cursor.execute('SELECT start_date, end_date from vacation where vac_id=%s',(vac_id,))
             date_details = cursor.fetchone()
 
             no_days = date_details['end_date'] - date_details['start_date']
 
+            if existsItinerary is not None:
+                flash('Itinerary with the same date and time is taken! You cannot have multiple itineraries set for the same time','error')
             if not re.match(r'[A-Za-z0-9]*', itinerary_description):
                 flash('Remarks must contain only characters!', 'error')
             elif not len(itinerary_description) <=100:

@@ -25,7 +25,15 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-            if not re.match(r'[A-Za-z0-9]*', booking_description):
+            cursor.execute('SELECT * from booking where vac_id=%s and ref_no=%s',(vac_id,booking_ref_no,))
+            existsBooking = cursor.fetchone()
+
+            print("existsBooking")
+            print(existsBooking)
+            
+            if existsBooking is not None:
+                flash('Reference number is taken! Use another reference number.','error')
+            elif not re.match(r'[A-Za-z0-9]*', booking_description):
                 flash('Remarks must contain only letters and numbers!', 'error')
             elif not re.match(r'[A-Za-z0-9]+', booking_ref_no):
                 flash('Reference number must contain only letters and numbers!','error')
@@ -48,7 +56,7 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
                             booking_filename = secure_filename(uploaded_booking.filename)
                             final_file_path = os.path.join(app.config['UPLOAD_FOLDER_BOOKING'],booking_filename)
                             uploaded_booking.save(final_file_path)
-                            booking_attachment_path = "/booking-attachment/"+booking_filename
+                            booking_attachment_path = booking_filename
                     cursor.execute('INSERT into booking VALUES (%s,%s,%s,%s,%s)',(vac_id,booking_ref_no,booking_category,booking_description,booking_attachment_path,))
                     mysql.connection.commit()
                     flash('Congratulations, you have successfully added your new booking!','success')

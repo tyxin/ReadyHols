@@ -22,6 +22,7 @@ import vacation.vacation_booking as vacation_booking
 import vacation.vacation_budget as vacation_budget
 import vacation.vacation_itinerary as vacation_itinerary
 import vacation.vacation_map as vacation_map
+import vacation.vacation_map_itin as vacation_map_itin
 
 from common.generate_id import generate_id
 
@@ -148,7 +149,7 @@ def logged_vacations_template(vac_id, page):
         return redirect(url_for('logged_vacations'))
 
 
-@app.route('/logged/vacations/summary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>')
+@app.route('/logged/vacations/summary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/')
 def logged_vacations_summary(vac_id, vacation_name,vacation_upgraded):
     if 'user_id' not in session:
         return redirect(url_for('home'))
@@ -164,18 +165,21 @@ def logged_vacations_summary(vac_id, vacation_name,vacation_upgraded):
                            vacation_destinations=vacation_destinations, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)
 
 
-@app.route('/logged/vacations/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>')
+@app.route('/logged/vacations/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/')
 def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
     if 'user_id' not in session:
         return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * from vacation_itinerary where vac_id=%s order by itin_date, itin_time', (vac_id,))
+    cursor.execute('SELECT vac_id, itin_date, date_format(itin_time,%s) as itin_time, itin_type, description, location, country, state, day_no from vacation_itinerary where vac_id=%s order by itin_date, itin_time', ('%T',vac_id,))
     vacation_timeline = cursor.fetchall()
-    cursor.execute('SELECT * from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
+    cursor.execute('SELECT vac_id, date_format(itin_time,%s) as itin_time, day_no, map_id, map_link, name, category, itin_date, itin_type, description, location, country, state from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', ('%T',vac_id,))
     vacation_maps_itinerary = cursor.fetchall()
+    cursor.execute('SELECT * from vac_map')
+    public_maps = cursor.fetchall()
     cursor.close()
     return render_template('/login/vacations/itinerary/itinerary.html', vacation_timeline=vacation_timeline,
-                           vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)
+                           vac_id=vac_id, vacation_maps_itinerary=vacation_maps_itinerary, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded, 
+                           public_maps=public_maps)
 
 
 @app.route('/logged/vacations/<string:curr_tab>/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/', methods=['GET', 'POST'])
@@ -194,8 +198,8 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded, curr_tab)
     vacation_itinerary = cursor.fetchall()
     cursor.execute('SELECT * from vac_map')
     public_maps = cursor.fetchall()
-    cursor.execute('SELECT vac_id, itin_time, day_no, map_id, map_link, description, name, category'
-                   ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', (vac_id,))
+    cursor.execute('SELECT vac_id, date_format(itin_time,%s) as itin_time, day_no, map_id, map_link, description, name, category'
+                   ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', ('%T',vac_id,))
     maps_itin_fields = [(str(i[0]).replace("_", " ")) for i in cursor.description][1:]
     vacation_itin_map = cursor.fetchall()
 
@@ -306,6 +310,13 @@ def add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgrade
     if 'user_id' not in session:
         return redirect(url_for('home'))
     return vacation_itinerary.add_update_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time, mysql)
+
+@app.route("/logged/vacations/planning/itinerary-map/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/<string:itin_time>/<string:day_no>/<string:map_id>/", methods=['GET','POST'])
+def add_delete_map_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time, map_id):
+    if 'user_id' not in session:
+        return redirect(url_for('home'))
+    return vacation_map_itin.add_delete_map_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time, map_id, mysql)
+
 
 @app.route('/logged/vacations/planning/map/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/<string:type_of_update>/', methods=['GET', 'POST'])
 def add_update_map(type_of_update, vac_id, vacation_name, vacation_upgraded):
