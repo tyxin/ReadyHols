@@ -28,7 +28,7 @@ def add_delete_map_itinerary(type_of_update, vac_id, vacation_name, vacation_upg
                 mysql.connection.commit()
                 flash('Congratulations, you have successfully added the map to your itinerary!','success')
                 cursor.close()
-                return redirect(url_for('logged_vacations_itinerary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+                return redirect(url_for('logged_vacations_timeline',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
 
     elif type_of_update == "Delete":
         print("deleting!")
