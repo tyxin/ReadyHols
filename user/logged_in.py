@@ -134,7 +134,13 @@ def create_vac_grp(mysql):
         print(vacation_group)
         print(vacation_group_pin)
 
-        if not re.match(r'[A-Za-z0-9]+', vacation_group):
+        cursor.execute('SELECT * from user where user_id=%s',(session['user_id'],))
+        user_details = cursor.fetchone()
+        plan_type = user_details['plan_type']
+
+        if plan_type=="Basic" and user_details['grp_count'] >=5:
+            flash('You have reached your vacation group limit, unable to create vacation group','error')
+        elif not re.match(r'[A-Za-z0-9]+', vacation_group):
             flash('Vacation Group Name can only contain numbers and letters!','error')
         elif not len(vacation_group) <= 50:
             flash('Vacation Group Name cannot contain more than 50 characters!','error')
