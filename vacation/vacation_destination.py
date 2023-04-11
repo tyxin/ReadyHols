@@ -30,9 +30,7 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             cursor.execute('SELECT start_date,end_date from vacation where vac_id=%s',(vac_id,))
             vacation_duration = cursor.fetchone()
             betweenDate,errorMessage = check_between_date(destination_start_date,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
-            
-            print("betweenDate")
-            print(betweenDate)
+
             if not re.match(r'[A-Za-z0-9]+', destination_country):
                 flash('Country must contain only letters and numbers (and cannot be empty)!', 'error')
             elif not len(destination_country) <=50:
@@ -129,7 +127,7 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE from has_destination where vac_id=%s and dest_id=%s and dstart_date=%s and no_days=%s', (vac_id,dest_id,dstart_date,no_days))
         mysql.connection.commit()
-        flash('Destination deleted successfully!')
+        flash('Destination deleted successfully!','success')
         cursor.close()
         return redirect(url_for('logged_vacations_summary',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
     else:

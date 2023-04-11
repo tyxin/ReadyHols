@@ -138,9 +138,9 @@ def logged_vacations_template(vac_id, page):
 
     if page == 'summary':
         return redirect(url_for('logged_vacations_summary', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
-    elif page == 'itinerary':
+    elif page == 'timeline':
         return redirect(
-            url_for('logged_vacations_itinerary', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
+            url_for('logged_vacations_timeline', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded))
     elif page == 'planning':
         return redirect(url_for('logged_vacations_planning', vac_id=vac_id, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab="budget"))
     elif page == 'sharing':
@@ -158,15 +158,15 @@ def logged_vacations_summary(vac_id, vacation_name,vacation_upgraded):
     vacation_summary = cursor.fetchone()
     cursor.execute(
         'SELECT vac_id, destination.dest_id, no_days, dstart_date, country, state  from (has_destination join destination on has_destination.dest_id = destination.dest_id)'
-        'where vac_id =%s order by destination.dest_id', (vac_id,))
+        'where vac_id =%s order by dstart_date', (vac_id,))
     vacation_destinations = cursor.fetchall()
     cursor.close()
     return render_template('/login/vacations/summary/summary.html', vacation_summary=vacation_summary, vac_id=vac_id,
                            vacation_destinations=vacation_destinations, vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)
 
 
-@app.route('/logged/vacations/itinerary/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/')
-def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
+@app.route('/logged/vacations/timeline/<string:vac_id>/<string:vacation_name>/<string:vacation_upgraded>/')
+def logged_vacations_timeline(vac_id, vacation_name,vacation_upgraded):
     if 'user_id' not in session:
         return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)

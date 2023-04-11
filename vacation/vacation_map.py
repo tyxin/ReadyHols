@@ -47,7 +47,7 @@ def add_update_maps(type_of_update, vac_id, vacation_name, vacation_upgraded, my
                     else:
                         flash('No map attached or map filename is empty!','error')
                 cursor.close()
-                return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='public_maps'))
+            return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='public_maps'))
     else:
         print("error, should not occur")
         return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='public_maps'))

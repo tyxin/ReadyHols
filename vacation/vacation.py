@@ -134,10 +134,10 @@ def add_update_vacation(type_of_update, vac_id, mysql):
                     return redirect(url_for('logged_vacations'))
 
     elif type_of_update == "Delete":
-        print("helloooooo deleting?")
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE from vacation where vac_id=%s', (vac_id,))
         mysql.connection.commit()
+        flash('You have deleted your vacation successfully!','success')
         return redirect(url_for('logged_vacations'))
     else:
         print("error, should not occur")

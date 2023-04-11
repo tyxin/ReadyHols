@@ -6,10 +6,10 @@
                    class="form-control me-2" id="add_photo" name="add_photo" placeholder="Image File" aria-label="Image File" value="None">
     <label for="album_category" style="margin-bottom: 1%;">Album for uploaded photo:</label>   
     <select class="form-select" name="album_category">
+        <option value="NONE">None</option>
         {% for i in vacation_albums%}
           <option value="{{i['alb_id']}}">{{i['alb_name']}}</option>
         {% endfor %}
-        <option value="NONE">None</option>
     </select>
     <button type="submit" class="btn btn-outline-secondary" style="margin-top: 1%;">Add</button>
   </form>

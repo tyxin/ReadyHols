@@ -6,6 +6,7 @@ Run the jupyter notebook `ProjectFinalReport.ipynb` before running `app.py`
 Download the project and run `app.py`.
 
 Note: Do not modify the file structure. 
+Note: The website requires wifi to load some of the icons. 
 
 ## Test Credentials for Easy Referencing
 ### Login Credentials - (username, password, plan_type)

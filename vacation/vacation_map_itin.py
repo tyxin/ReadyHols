@@ -14,7 +14,6 @@ from datetime import *
 
 def add_delete_map_itinerary(type_of_update, vac_id, vacation_name, vacation_upgraded, day_no, itin_time, map_id, mysql):
     if type_of_update == "Add":
-        print("addingggdslafj;sflkjsd")
         if request.method == 'POST':
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)

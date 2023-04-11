@@ -101,13 +101,12 @@
 
         if (indexSelected==-1){
              console.log("why not working");
-             var itinerary_form_body = document.getElementById('delete_itinerary_modal_body');
-             var itinerary_delete_button = document.getElementById('deleteitineraryButton');
+             var itinerary_form_body = document.getElementById('delete_modal_body');
+             var itinerary_delete_button = document.getElementById('deleteButton');
              itinerary_form_body.innerHTML = "No itinerary Selected";
              itinerary_delete_button.disabled = true;
 
         }else{
-
           
         var vacation_id = {{ vac_id | tojson}};
 

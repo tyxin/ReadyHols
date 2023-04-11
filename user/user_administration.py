@@ -23,7 +23,6 @@ def login(mysql):
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * from user where username=%s', (username,))
         account = cursor.fetchone()
-        print(account)
 
         if account:
             if check_password_hash(account['password'], password):

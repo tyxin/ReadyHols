@@ -137,9 +137,9 @@ def create_vac_grp(mysql):
         if not re.match(r'[A-Za-z0-9]+', vacation_group):
             flash('Vacation Group Name can only contain numbers and letters!','error')
         elif not len(vacation_group) <= 50:
-            flash('Vacation Group Name cannot contain more than 50 characters!')
+            flash('Vacation Group Name cannot contain more than 50 characters!','error')
         elif not (len(vacation_group_pin) > 0 and len(vacation_group_pin) <= 50):
-            flash('Vacation Group Pin must be between 1 and 50 characters!')
+            flash('Vacation Group Pin must be between 1 and 50 characters!','error')
         else:
             vacation_grp_count = cursor.execute('SELECT * from vacation_grp')
             vacation_grp_id = generate_id(vacation_grp_count + 1, cursor, "vacation_grp", "vac_grp_id")
