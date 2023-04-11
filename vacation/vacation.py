@@ -41,7 +41,7 @@ def add_update_vacation(type_of_update, vac_id, mysql):
 
             if 'vacationUpgrade' in request.form:
                 upgradeVacation = True
-                if (user_details['plan_type']=="Premium" and user_details['upg_count']>=5):
+                if (user_details['plan_type']=="Plus" and user_details['upg_count']>=5):
                     flash('You have reached your upgrade limit. To upgrade more vacations, upgrade your plan','error')
                 else:
                     upg_user_id = session['user_id']
