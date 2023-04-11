@@ -38,3 +38,10 @@ Note: Do not modify the file structure.
 - (000000010,352534534534)
 
 Note: Only First 5 Vacations (Vacations with Vacation IDs 000000001 to 000000010) are fully populated, First 10 Vacations are partially populated with Data.
+
+The list of populated vacations are:
+- Trip to Malaysia
+- Trip to Japan
+- Trip to Germany
+- Trip to USA
+- Trip to Switzerland

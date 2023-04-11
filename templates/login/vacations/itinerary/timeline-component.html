@@ -78,6 +78,27 @@
 </script>
 
 <div class="container" style="margin:0%; padding: 0%;">
+
+      {% with successes = get_flashed_messages(category_filter=["success"]) %}
+    {% if successes %}
+      <div class="alert alert-success" role="alert">
+        {% for message in successes %}
+           {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% with errors = get_flashed_messages(category_filter=["error"]) %}
+    {% if errors %}
+      <div class="alert alert-danger" role="alert">
+         {% for message in errors %}
+          {{ message }}
+            {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
     {% for i in vacation_timeline %}
 
     <div class="timeline-object" style="border-left: 3px solid #b0b0b0; height: auto; padding-bottom: 1%;">
@@ -101,7 +122,7 @@
                 {% endif %}
             {% endfor %}
             <span>
-                    <button class="btn btn-outline-secondary" style="border-radius: 10px; margin-top: 1%;" type="button" onclick="open_pop_up({{loop.index}})" id="addMapButton{{loop.index}}">
+                    <button class="btn" style="border-radius: 50px; margin-top: 1%; background-color:transparent; color:#b0b0b0; padding-left: 1%; padding-right:1%; border-color:#b0b0b0; " type="button" onclick="open_pop_up({{loop.index}})" id="addMapButton{{loop.index}}">
                         <i class="bi bi-plus-circle"></i>Add Map
                     </button>
             </span>
