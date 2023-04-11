@@ -33,12 +33,12 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             
             print("betweenDate")
             print(betweenDate)
-            if not re.match(r'[A-Za-z]+', destination_country):
-                flash('Country must contain only characters!', 'error')
+            if not re.match(r'[A-Za-z0-9]+', destination_country):
+                flash('Country must contain only letters and numbers (and cannot be empty)!', 'error')
             elif not len(destination_country) <=50:
                 flash('Country cannot contain more than 50 characters!','error')
-            if not re.match(r'[A-Za-z]+', destination_state):
-                flash('State must contain only characters!', 'error')
+            if not re.match(r'[A-Za-z0-9]+', destination_state):
+                flash('State must contain only letters and numbers (and cannot be empty)!', 'error')
             elif not len(destination_state) <=50:
                 flash('State cannot contain more than 50 characters','error')
             elif not betweenDate:
@@ -83,12 +83,12 @@ def add_update_destination(type_of_update, vac_id, vacation_name, vacation_upgra
             vacation_duration = cursor.fetchone()
             betweenDate,errorMessage = check_between_date(destination_start_date,vacation_duration['start_date'],vacation_duration['end_date'],destination_duration)
             
-            if not re.match(r'[A-Za-z]+', destination_country):
-                flash('Country must contain only characters!', 'error')
+            if not re.match(r'[A-Za-z0-9]+', destination_country):
+                flash('Country must contain only letters and numbers! (and cannot be empty)', 'error')
             elif not len(destination_country) <=50:
                 flash('Country cannot contain more than 50 characters!','error')
-            if not re.match(r'[A-Za-z]+', destination_state):
-                flash('State must contain only characters!', 'error')
+            if not re.match(r'[A-Za-z0-9]+', destination_state):
+                flash('State must contain only characters and numbers (and cannot be empty)!', 'error')
             elif not len(destination_state) <=50:
                 flash('State cannot contain more than 50 characters!','error')
             elif not betweenDate:

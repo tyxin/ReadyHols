@@ -261,6 +261,9 @@ def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
                 mysql.connection.commit()
                 flash('Photo Uploaded Successfully!','success')
                 curr_tab = "photo_drive"
+            else:
+                flash('No photo selected!','error')
+                curr_tab = "photo_drive"
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * from album where vac_id=%s order by alb_id', (vac_id,))
         vacation_albums = cursor.fetchall()

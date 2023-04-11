@@ -108,7 +108,12 @@
         <span style="margin-left: 2%;">
             <a>
                 <i class="bi bi-geo-alt-fill"></i>
+                {% if i['state'] is none %}
+                Location: {{i['location']}}
+                {% endif %}
+                {% if i['state'] is not none %}
                 Location: {{i['location']}} ({{i['state']}}, {{i['country']}})
+                {% endif %}
             </a>
         </span>
         <div class="maps-container" style="margin-left: 2%;">

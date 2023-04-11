@@ -16,7 +16,7 @@
         {%for j in range(3)%}
             <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
             {% for i in vacation_photo_in_album %}
-                {% if loop.index%3==j %}
+                {% if (loop.index-1)%3==j %}
                     <a>
                         <img
                         src="/static/server-storage/pictures/{{i['photolink']}}"
