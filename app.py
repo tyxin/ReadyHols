@@ -154,11 +154,11 @@ def logged_vacations_summary(vac_id, vacation_name,vacation_upgraded):
     if 'user_id' not in session:
         return redirect(url_for('home'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * from vacation_summary where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT * from vacation_summary where vac_id=%s order by vac_id', (vac_id,))
     vacation_summary = cursor.fetchone()
     cursor.execute(
         'SELECT vac_id, destination.dest_id, no_days, dstart_date, country, state  from (has_destination join destination on has_destination.dest_id = destination.dest_id)'
-        'where vac_id =%s', (vac_id,))
+        'where vac_id =%s order by destination.dest_id', (vac_id,))
     vacation_destinations = cursor.fetchall()
     cursor.close()
     return render_template('/login/vacations/summary/summary.html', vacation_summary=vacation_summary, vac_id=vac_id,
@@ -174,7 +174,7 @@ def logged_vacations_itinerary(vac_id, vacation_name,vacation_upgraded):
     vacation_timeline = cursor.fetchall()
     cursor.execute('SELECT vac_id, date_format(itin_time,%s) as itin_time, day_no, map_id, map_link, name, category, itin_date, itin_type, description, location, country, state from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', ('%T',vac_id,))
     vacation_maps_itinerary = cursor.fetchall()
-    cursor.execute('SELECT * from vac_map')
+    cursor.execute('SELECT * from vac_map order by map_id')
     public_maps = cursor.fetchall()
     cursor.close()
     return render_template('/login/vacations/itinerary/itinerary.html', vacation_timeline=vacation_timeline,
@@ -190,13 +190,13 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded, curr_tab)
     cursor.execute('SELECT vac_id, budget_limit, total_spend, remaining_budget from vacation_summary where vac_id=%s',
                    (vac_id,))
     vacation_summary = cursor.fetchone()
-    cursor.execute('SELECT * from budget where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT * from budget where vac_id=%s order by budget_id', (vac_id,))
     vacation_budget = cursor.fetchall()
-    cursor.execute('SELECT * from booking where vac_id=%s', (vac_id,))
+    cursor.execute('SELECT * from booking where vac_id=%s order by ref_no', (vac_id,))
     vacation_booking = cursor.fetchall()
-    cursor.execute("SELECT vac_id, day_no, date_format(itin_time,%s) as itin_time, itin_type, description, location from itinerary where vac_id=%s", ('%T',vac_id,))
+    cursor.execute("SELECT vac_id, day_no, date_format(itin_time,%s) as itin_time, itin_type, description, location from itinerary where vac_id=%s order by day_no, itin_time", ('%T',vac_id,))
     vacation_itinerary = cursor.fetchall()
-    cursor.execute('SELECT * from vac_map')
+    cursor.execute('SELECT * from vac_map order by map_id')
     public_maps = cursor.fetchall()
     cursor.execute('SELECT vac_id, date_format(itin_time,%s) as itin_time, day_no, map_id, map_link, description, name, category'
                    ' from maps_itinerary_tbl where vac_id=%s order by day_no, itin_time', ('%T',vac_id,))
@@ -209,11 +209,11 @@ def logged_vacations_planning(vac_id, vacation_name,vacation_upgraded, curr_tab)
             category = request.form.get('maps_itin_category')
             if category in maps_itin_fields:
                 search = '%' + request.form['maps_itin_search'] + '%'
-                query = 'SELECT vac_id, itin_time, day_no, map_link, description, name, category from maps_itinerary_tbl where ' + \
+                query = 'SELECT vac_id, date_format(itin_time,%s) as itin_time, day_no, map_link, description, name, category from maps_itinerary_tbl where ' + \
                         category.replace(" ", "_") + \
                         ' like %s and vac_id =%s order by day_no, itin_time'
                 print(query)
-                cursor.execute(query, (search, vac_id,))
+                cursor.execute(query, ('%T',search, vac_id,))
                 vacation_itin_map = cursor.fetchall()  # fetch all records
                 return render_template('/login/vacations/planning/planning.html', vacation_budget=vacation_budget,
                                        vacation_booking=vacation_booking, vacation_itin_map=vacation_itin_map,
@@ -255,9 +255,9 @@ def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
                 flash('Photo Uploaded Successfully!','success')
                 curr_tab = "photo_drive"
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * from album where vac_id=%s', (vac_id,))
+        cursor.execute('SELECT * from album where vac_id=%s order by alb_id', (vac_id,))
         vacation_albums = cursor.fetchall()
-        cursor.execute('SELECT * from photo')
+        cursor.execute('SELECT * from photo order by photo_id')
         vacation_photo_drive = cursor.fetchall()
         # to process blob into strings first before parsing 
         cursor.close()       
@@ -273,7 +273,7 @@ def logged_vacations_album(vac_id, vacation_name, vacation_upgraded, album_id):
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT alb_name,alb_date from album where alb_id=%s',(album_id,))
     album_details = cursor.fetchone()
-    cursor.execute('SELECT distinct alb_id, photo.photo_id, photolink from (user_photos join photo on photo.photo_id = user_photos.photo_id) where vac_id=%s and alb_id=%s',(vac_id,album_id,))
+    cursor.execute('SELECT distinct alb_id, photo.photo_id, photolink from (user_photos join photo on photo.photo_id = user_photos.photo_id) where vac_id=%s and alb_id=%s order by alb_id,photo.photo_id',(vac_id,album_id,))
     vacation_photo_in_album = cursor.fetchall()
     print(vacation_photo_in_album)
     cursor.close()

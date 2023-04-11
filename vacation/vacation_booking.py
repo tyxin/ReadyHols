@@ -40,7 +40,7 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
             elif not len(booking_ref_no) <= 30:
                 flash('Reference number cannot contain more than 30 characters!','error')
             else:
-                cursor.execute('SELECT * from booking where vac_id=%s',(vac_id,))
+                cursor.execute('SELECT * from booking where vac_id=%s order by ref_no',(vac_id,))
                 vacation_bookings = cursor.fetchall()
                 booking_ref_no_taken = False
                 for i in vacation_bookings:

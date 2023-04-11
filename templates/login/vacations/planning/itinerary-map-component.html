@@ -35,6 +35,10 @@
 
         if (indexSelectedItin==-1){
              console.log("why not working");
+             var itinerary_map_form_body = document.getElementById('delete_modal_body');
+             var itin_map_delete_button = document.getElementById('deleteButton');
+             itinerary_map_form_body.innerHTML = "No Itinerary Selected";
+             itin_map_delete_button.disabled = true;
 
         }else{
 

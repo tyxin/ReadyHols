@@ -13,7 +13,7 @@
         <h3>{{album_details['alb_name']}}</h3>
         <h5>Date Created: {{album_details['alb_date']}} </h5>
         <div class="row">
-        {%for j in range(1,4)%}
+        {%for j in range(3)%}
             <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
             {% for i in vacation_photo_in_album %}
                 {% if loop.index%3==j %}
@@ -29,10 +29,8 @@
 
             {% endfor %}
             </div>
-        {% endfor %}
-           
+        {% endfor %}          
     </div>
-     
 </body>
 
 {% endblock %}
