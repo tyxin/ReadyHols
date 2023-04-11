@@ -243,14 +243,21 @@ def logged_vacations_sharing(vac_id, vacation_name,vacation_upgraded):
                 flash('No File Selected!','error')
                 return redirect(request.url)
             uploaded_photo = request.files['image_file']
+            album_category = request.form.get('album_category')
+            print("album_category")
+            print(album_category)
             if uploaded_photo.filename!='':
+                if album_category=="NONE":
+                    photo_album = None
+                else:
+                    photo_album = album_category
                 photo_filename = secure_filename(uploaded_photo.filename)
                 final_file_path = os.path.join(app.config['UPLOAD_FOLDER_PHOTO'],photo_filename)
                 uploaded_photo.save(final_file_path)
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 photo_count = cursor.execute('SELECT * from photo')
                 photo_id = generate_id(photo_count + 1, cursor, "photo", "photo_id")
-                cursor.execute('INSERT into photo VALUES (%s,%s,%s)',(photo_id,photo_filename,None,))
+                cursor.execute('INSERT into photo VALUES (%s,%s,%s)',(photo_id,photo_filename,photo_album,))
                 mysql.connection.commit()
                 flash('Photo Uploaded Successfully!','success')
                 curr_tab = "photo_drive"

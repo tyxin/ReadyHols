@@ -53,7 +53,7 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
                     if 'add_booking_attachment' in request.files:
                         uploaded_booking = request.files['add_booking_attachment']
                         if uploaded_booking.filename!='':
-                            booking_filename = secure_filename(uploaded_booking.filename)
+                            booking_filename = secure_filename(booking_ref_no)
                             final_file_path = os.path.join(app.config['UPLOAD_FOLDER_BOOKING'],booking_filename)
                             uploaded_booking.save(final_file_path)
                             booking_attachment_path = booking_filename

@@ -4,7 +4,14 @@
   <form action="{{url_for('logged_vacations_sharing',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded)}}" method="POST" id="photo_upload_form" enctype="multipart/form-data" >
     <input type="file" name="image_file" accept="image/*" style="margin-top: 1%; margin-bottom: 1%;"
                    class="form-control me-2" id="add_photo" name="add_photo" placeholder="Image File" aria-label="Image File" value="None">
-    <button type="submit" class="btn btn-outline-secondary">Add</button>
+    <label for="album_category" style="margin-bottom: 1%;">Album for uploaded photo:</label>   
+    <select class="form-select" name="album_category">
+        {% for i in vacation_albums%}
+          <option value="{{i['alb_id']}}">{{i['alb_name']}}</option>
+        {% endfor %}
+        <option value="NONE">None</option>
+    </select>
+    <button type="submit" class="btn btn-outline-secondary" style="margin-top: 1%;">Add</button>
   </form>
 
   {% with successes = get_flashed_messages(category_filter=["success"]) %}
