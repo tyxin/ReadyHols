@@ -236,7 +236,12 @@
             <td>{{i['booking_type']}}</td>
             <td>{{i['ref_no']}}</td>
             <td>{{i['description']}}</td>
+            {% if i['attachment'] is none %}
+            <td>no attachment</td>
+            {% endif %}
+            {% if i['attachment'] is not none %}
             <td><a href="/download/BOOKING/{{i['attachment']}}/" target="_blank" rel="noopener noreferrer">view attachment</a></td>
+            {% endif %}
           </tr>
         {% endfor %}
         </tbody>

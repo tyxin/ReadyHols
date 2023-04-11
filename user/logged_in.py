@@ -84,10 +84,15 @@ def logged_settings(mysql):
         cursor.execute('SELECT vac_grp_id, vac_grp_pin from vacation_grp where vac_grp_id=%s',(vacation_group,))
         vacation_grp_details = cursor.fetchone()
 
+        cursor.execute('SELECT * from vac_user_in where vac_grp_id=%s and user_id=%s',(vacation_group,session['user_id'],))
+        is_alr_in_group = cursor.fetchone()
+
         if vacation_grp_details is None:
             flash('There is no such vacation group!','error')
         elif not check_password_hash(vacation_grp_details['vac_grp_pin'],vacation_group_pin):
             flash('Incorrect Vacation Group Pin!','error')
+        elif not is_alr_in_group is None:
+            flash('You are already in this vacation group!','error')
         else:
             cursor.execute('SELECT grp_count,plan_type from user where user_id=%s',(session['user_id'],))
             user_details = cursor.fetchone()
@@ -142,20 +147,6 @@ def create_vac_grp(mysql):
             cursor.execute('INSERT INTO vac_user_in VALUES(%s,%s)',(vacation_grp_id,session['user_id'],))
             mysql.connection.commit()
             flash('You have been created the vacation group successfully!', 'success')
-
-    cursor.execute('SELECT vac_grp_tbl.vac_grp_id, grp_name, vac_grp_pin from '
-                   '(SELECT vu2.vac_grp_id from vac_user_in vu2 where user_id=%s) as vac_user_tbl join'
-                   ' (SELECT * from vacation_grp) as vac_grp_tbl'
-                   ' on vac_grp_tbl.vac_grp_id = vac_user_tbl.vac_grp_id'
-                   ' order by vac_grp_tbl.vac_grp_id',
-                   (session['user_id'],))
-    user_vacgrp_details = cursor.fetchall()
-    print(user_vacgrp_details)
-    cursor.execute('SELECT vac_grp_id, user.user_id, username from vac_user_in, user '
-                   'where user.user_id = vac_user_in.user_id and '
-                   '(vac_grp_id in (select vu2.vac_grp_id from vac_user_in vu2 where user_id=%s))'
-                   , (session['user_id'],))
-    same_vacgrp_users = cursor.fetchall()
 
     return redirect(url_for('logged_settings'))
 

@@ -21,7 +21,7 @@ def add_update_booking(type_of_update, vac_id, vacation_name, vacation_upgraded,
             booking_category = request.form.get('booking_category')
             booking_ref_no = request.form['add_booking_ref_no']
             booking_description = request.form['add_booking_description']
-            booking_attachment_path = ""
+            booking_attachment_path = None
 
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 

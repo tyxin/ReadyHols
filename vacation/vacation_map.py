@@ -41,9 +41,11 @@ def add_update_maps(type_of_update, vac_id, vacation_name, vacation_upgraded, my
                         print(final_file_path)
                         uploaded_map.save(final_file_path)
                         map_attachment_path = map_filename
-                cursor.execute('INSERT into vac_map VALUES (%s,%s,%s,%s)',(map_id,map_attachment_path,map_name,map_category,))
-                mysql.connection.commit()
-                flash('Congratulations, you have successfully added a new map to the drive!','success')
+                        cursor.execute('INSERT into vac_map VALUES (%s,%s,%s,%s)',(map_id,map_attachment_path,map_name,map_category,))
+                        mysql.connection.commit()
+                        flash('Congratulations, you have successfully added a new map to the drive!','success')
+                    else:
+                        flash('No map attached or map filename is empty!','error')
                 cursor.close()
                 return redirect(url_for('logged_vacations_planning',vac_id=vac_id,vacation_name=vacation_name,vacation_upgraded=vacation_upgraded,curr_tab='public_maps'))
     else:
