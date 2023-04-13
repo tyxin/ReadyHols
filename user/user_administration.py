@@ -85,7 +85,7 @@ def sign_up(mysql):
             flash('Username must contain only letters and numbers!', 'error')
         elif not ((len(password) >= 8) and (len(password) <= 20) and (re.match(r'[A-Za-z0-9]+', password))):
             flash('Password must be 8-20 letters long, contain letters and numbers,'
-                  ' and must not contain spaces, special characters, or emoji.')
+                  ' and must not contain spaces, special characters, or emoji.','error')
         else:
             user_count = cursor.execute('SELECT * from user')
             user_id = generate_id(user_count + 1, cursor, "user", "user_id")

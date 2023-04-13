@@ -45,6 +45,9 @@ def add_update_vacation(type_of_update, vac_id, mysql):
                     flash('You have reached your upgrade limit. To upgrade more vacations, upgrade your plan','error')
                 else:
                     upg_user_id = session['user_id']
+            
+            if vacation_budget_limit=="":
+                vacation_budget_limit="0"
 
             if upgradeVacation and (upg_user_id is None):
                 print("cannot upgrade :(") 
