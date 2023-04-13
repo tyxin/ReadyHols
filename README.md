@@ -1,7 +1,7 @@
 # ReadyHols [in progress]
 
 ## Instructions for installation
-Run the jupyter notebook `ProjectFinalReport_TeohYuXin.ipynb` before running `app.py`
+Run the jupyter notebook `data scripting.ipynb` before running `app.py`
 
 Download the project and run `app.py`.
 
