@@ -1,4 +1,4 @@
-# ReadyHols [in progress]
+# ReadyHols
 
 ## Instructions for installation
 Run the jupyter notebook `data scripting.ipynb` before running `app.py`
